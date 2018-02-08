@@ -12,6 +12,7 @@
 
 	<modules>
 		<module>lightconf-core</module>
+		<module>lightconf-common</module>
 		<module>lightconf-admin</module>
 		<module>lightconf-sample</module>
 	</modules>

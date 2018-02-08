@@ -22,6 +22,7 @@
 			<version>${netty.version}</version>
 		</dependency>
 
+		<!--fastjson-->
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
