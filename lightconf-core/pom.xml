@@ -10,10 +10,23 @@
 	<packaging>jar</packaging>
 
 	<name>${project.artifactId}</name>
-	<description>A lightweight distributed configuration management platform.</description>
-	<url>http://www.xuxueli.com/</url>
+	<description>A lightweight distributed configuration management platform，implement by netty.</description>
+	<url>https://github.com/haifeiWu/</url>
 
 	<dependencies>
+
+		<!--netty-->
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>${netty.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>${fastjson.version}</version>
+		</dependency>
 
 		<!-- zookeeper -->
 		<dependency>
