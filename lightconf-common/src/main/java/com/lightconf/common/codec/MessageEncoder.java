@@ -1,4 +1,4 @@
-package com.lightconf.core.codec;
+package com.whf.common.netty.codec;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
