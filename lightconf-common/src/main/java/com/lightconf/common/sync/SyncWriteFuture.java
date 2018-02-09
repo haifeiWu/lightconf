@@ -1,7 +1,7 @@
 package com.lightconf.common.sync;
 
 
-import com.lightconf.common.util.BaseMsg;
+import com.lightconf.common.model.BaseMsg;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;

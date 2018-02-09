@@ -1,4 +1,4 @@
-package com.lightconf.common.common;
+package com.lightconf.common.util;
 
 /**
  * 通用常量.
