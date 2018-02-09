@@ -7,10 +7,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @author whfstudio@163.com
- * @date 2017/11/20
+ * @author wuhf
+ * @date 2018/02/09
  */
 public class NettyChannelMap {
+
     private static Map<String, SocketChannel> map = new ConcurrentHashMap<String, SocketChannel>();
 
     public static void add(String clientId, SocketChannel socketChannel) {
@@ -21,12 +22,30 @@ public class NettyChannelMap {
         return map.get(clientId);
     }
 
-    public static void remove(SocketChannel socketChannel) {
+    public static String remove(SocketChannel socketChannel) {
+        String key = null;
         for (Map.Entry entry : map.entrySet()) {
             if (entry.getValue() == socketChannel) {
-                map.remove(entry.getKey());
+                key = (String) entry.getKey();
+                map.remove(key);
             }
         }
+        return key;
+    }
+
+    /**
+     * 根据channel获取connectorName.
+     * @param socketChannel socketChannel.
+     * @return connectorName.
+     */
+    public static String getClientId(SocketChannel socketChannel) {
+        String key = null;
+        for (Map.Entry entry : map.entrySet()) {
+            if (entry.getValue() == socketChannel) {
+                key = (String) entry.getKey();
+            }
+        }
+        return key;
     }
 
 }

@@ -1,8 +1,8 @@
 package com.lightconf.common.sync;
 
-import com.lightconf.common.util.AskMsg;
-import com.lightconf.common.util.BaseMsg;
-import com.lightconf.common.util.ReplyMsg;
+import com.lightconf.common.model.AskMsg;
+import com.lightconf.common.model.BaseMsg;
+import com.lightconf.common.model.ReplyMsg;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;

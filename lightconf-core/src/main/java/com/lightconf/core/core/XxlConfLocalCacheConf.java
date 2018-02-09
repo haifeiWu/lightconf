@@ -26,12 +26,13 @@ public class XxlConfLocalCacheConf {
     private static Cache<String, CacheNode> xxlConfLocalCache = null;
     static {
         // cacheManager
-        cacheManager = CacheManagerBuilder.newCacheManagerBuilder().build(true);		// default use ehcche.xml under src
+        cacheManager = CacheManagerBuilder.newCacheManagerBuilder().build(true);
 
+        // default use ehcche.xml under src
         // xxlConfLocalCache
-        xxlConfLocalCache = cacheManager.createCache("xxlConfLocalCache",
-                CacheConfigurationBuilder
-                        .newCacheConfigurationBuilder(String.class, CacheNode.class, ResourcePoolsBuilder.heap(1000))	// .withExpiry、.withEvictionAdvisor （default lru）
+        // .withExpiry、.withEvictionAdvisor （default lru）
+        xxlConfLocalCache = cacheManager.createCache("xxlConfLocalCache", CacheConfigurationBuilder
+                        .newCacheConfigurationBuilder(String.class, CacheNode.class, ResourcePoolsBuilder.heap(1000))
         );
 
         logger.info(">>>>>>>>>> xxl-conf, XxlConfLocalCacheConf init success.");
@@ -49,7 +50,7 @@ public class XxlConfLocalCacheConf {
     /**
      * refresh conf (watch + refresh)
      */
-    public static void reloadAll(){
+    public static void reloadAll() {
         Set<String> keySet = new HashSet<>();
         Iterator<Cache.Entry<String, CacheNode>> iterator = xxlConfLocalCache.iterator();
         while (iterator.hasNext()) {
@@ -124,7 +125,7 @@ public class XxlConfLocalCacheConf {
     /**
      * local cache node
      */
-    public static class CacheNode{
+    public static class CacheNode {
         private String value;
 
         public CacheNode() {

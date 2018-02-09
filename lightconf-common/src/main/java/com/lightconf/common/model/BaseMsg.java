@@ -1,4 +1,4 @@
-package com.lightconf.common.util;
+package com.lightconf.common.model;
 
 import com.alibaba.fastjson.annotation.JSONType;
 

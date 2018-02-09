@@ -1,5 +1,7 @@
 package com.lightconf.common.util;
 
+import com.lightconf.common.model.Messages;
+
 public class ResultCode<T> {
     private String msg;
     private Integer code;

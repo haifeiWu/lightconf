@@ -1,4 +1,4 @@
-package com.lightconf.common.util;
+package com.lightconf.common.model;
 
 /**
  * @author whfstudio@163.com

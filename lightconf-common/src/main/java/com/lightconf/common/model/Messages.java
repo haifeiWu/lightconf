@@ -1,4 +1,4 @@
-package com.lightconf.common.util;
+package com.lightconf.common.model;
 
 public class Messages {
     public static int SUCCESS_CODE = 0;

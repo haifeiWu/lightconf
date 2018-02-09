@@ -1,4 +1,4 @@
-package com.lightconf.common.util;
+package com.lightconf.common.model;
 
 import java.io.Serializable;
 
