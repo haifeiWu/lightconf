@@ -1,7 +1,8 @@
-package com.whf.common.netty.codec;
+package com.lightconf.common.codec;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.lightconf.common.model.BaseMsg;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
@@ -14,10 +15,10 @@ import io.netty.handler.codec.MessageToByteEncoder;
  * @date 2018/01/29
  */
 @Sharable
-public class MessageEncoder extends MessageToByteEncoder<Object> {
+public class MessageEncoder extends MessageToByteEncoder<BaseMsg> {
 
     @Override
-    protected void encode(ChannelHandlerContext channelHandlerContext, Object baseMsg, ByteBuf byteBuf) throws Exception {
+    protected void encode(ChannelHandlerContext channelHandlerContext, BaseMsg baseMsg, ByteBuf byteBuf) throws Exception {
         //将对象转换为byte
         byte[] body = JSON.toJSONBytes(baseMsg, SerializerFeature.WriteClassName);
 

@@ -1,5 +1,8 @@
-package com.whf.common.netty.codec;
+package com.lightconf.common.codec;
 
+import com.alibaba.fastjson.JSON;
+import com.lightconf.common.model.BaseMsg;
+import com.lightconf.common.util.CommonConstants;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -18,7 +21,7 @@ public class MessageDecoder extends ByteToMessageDecoder {
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
 
         //这个HEAD_LENGTH是我们用于表示头长度的字节数
-        if (byteBuf.readableBytes() < 4) {
+        if (byteBuf.readableBytes() < CommonConstants.HEAD_LENGTH) {
             return;
         }
 
@@ -43,7 +46,7 @@ public class MessageDecoder extends ByteToMessageDecoder {
         byteBuf.readBytes(body);
 
         //将byte数据转化为我们需要的对象
-//        BaseMsg baseMsg = JSON.parseObject(body,BaseMsg.class);
-//        list.add(baseMsg);
+        BaseMsg baseMsg = JSON.parseObject(body,BaseMsg.class);
+        list.add(baseMsg);
     }
 }
