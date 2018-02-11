@@ -105,6 +105,13 @@
 			<artifactId>c3p0</artifactId>
 			<version>${c3p0.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>${druid.version}</version>
+		</dependency>
+
 		<!-- mysql-connector -->
 		<dependency>
 			<groupId>mysql</groupId>
