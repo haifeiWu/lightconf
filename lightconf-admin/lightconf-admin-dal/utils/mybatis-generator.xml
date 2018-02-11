@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!--数据库驱动 -->
+    <classPathEntry location="./mysql-connector-java-5.1.26-bin.jar" />
+
+    <context id="MySQLTables" targetRuntime="MyBatis3">
+        <!--是否覆盖xml文件: false 覆盖 true:追加 -->
+        <property name="mergeable" value="false"></property>
+        <!--分页插件-->
+        <plugin type="org.mybatis.generator.plugins.PaginationPlugin"/>
+        <!--实现model example 以及内部类 序列化插件-->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin2"/>
+
+        <commentGenerator>
+            <property name="suppressAllComments" value="true" /><!-- 是否取消注释 -->
+            <property name="suppressDate" value="false" /> <!-- 是否生成注释代时间戳 -->
+        </commentGenerator>
+        <!-- 数据库连接信息 -->
+        <!--<jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
+                        <!--connectionURL="jdbc:mysql://192.168.201.7:3306/thunderemm?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;autoReconnectForPools=true&amp;zeroDateTimeBehavior=convertToNull"-->
+                        <!--userId="root"-->
+                        <!--password="QAZwsx123!">-->
+        <!--</jdbcConnection>-->
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/thunderiam?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;autoReconnectForPools=true&amp;zeroDateTimeBehavior=convertToNull"
+                        userId="root"
+                        password="thundersoft">
+        </jdbcConnection>
+
+        <!-- 只有一个属于forceBigDecimals，默认false。 如果字段精确超过0，生成BigDecimal 如果字段精确是0，总长度10-18生成Long;如果字段精确是0，
+            总长5-9生成Integer; 如果字段精确是0，总长小于5生成Short; 如果forceBigDecimals为true,统一生成BigDecimal -->
+        <javaTypeResolver>
+            <!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!--生成 Model.java文件 -->
+        <javaModelGenerator targetPackage="com.quarkdata.quark.share.model.dataobj"
+                            targetProject="../../quark-share-model/src/main/java">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false" />
+            <!-- 是否针对string类型的字段在set的时候进行trim调用 -->
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <!-- 生成 Mapper.xml文件 -->
+        <sqlMapGenerator targetPackage="mappings"
+                         targetProject="../src/main/resources">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false" />
+        </sqlMapGenerator>
+
+        <!-- 生成 Mapper.java文件，即dao层 -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.quarkdata.quark.share.dal.dao"
+                             targetProject="../src/main/java">
+            <property name="enableSubPackages" value="false" />
+        </javaClientGenerator>
+
+        <!-- 待生成的数据库中的表名，生成一个表对应的Java和xml文件就需要配置这一段 -->
+
+        <!-- 部门表 -->
+        <!--<table tableName="department" domainObjectName="Department">-->
+            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
+        <!--</table>-->
+        <!---->
+        <!--&lt;!&ndash; 用户组表 &ndash;&gt;-->
+        <!--<table tableName="groups" domainObjectName="Groups">-->
+            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
+        <!--</table>-->
+        <!---->
+        <!--&lt;!&ndash; 用户表 &ndash;&gt;-->
+        <!--<table tableName="users" domainObjectName="Users">-->
+            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
+        <!--</table>-->
+        <!---->
+        <!--&lt;!&ndash; 租户表 &ndash;&gt;-->
+        <!--<table tableName="incorporation" domainObjectName="Incorporation">-->
+            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
+        <!--</table>-->
+        <!---->
+        <!--&lt;!&ndash; 用户组间关系表 &ndash;&gt;-->
+        <!--<table tableName="group_relat" domainObjectName="GroupRelat">-->
+            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
+        <!--</table>-->
+        <!---->
+        <!--&lt;!&ndash; 用户和组关系表 &ndash;&gt;-->
+        <!--<table tableName="user_group" domainObjectName="UserGroup">-->
+            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
+        <!--</table>-->
+        <!---->
+        <!--&lt;!&ndash; 用户和部门关系表 &ndash;&gt;-->
+        <!--<table tableName="user_dept" domainObjectName="UserDept">-->
+            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
+        <!--</table>-->
+        <!---->
+        <!--&lt;!&ndash; 用户组和部门关系表 &ndash;&gt;-->
+        <!--<table tableName="group_dept" domainObjectName="GroupDept">-->
+            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
+        <!--</table>-->
+        <!---->
+        <!-- 同步信息表 -->
+        <!--<table tableName="connector" domainObjectName="Connector">-->
+            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
+        <!--</table>-->
+        <!---->
+        <!-- 配置表 -->
+        <table tableName="plugin" domainObjectName="Plugin">
+            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+        </table>
+
+        <!--<table tableName="field_match" domainObjectName="FieldMatch">-->
+            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
+        <!--</table>-->
+
+        <!--<table tableName="plugin_field" domainObjectName="PluginField">-->
+            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
+        <!--</table>-->
+
+        <table tableName="plugin_history" domainObjectName="PluginHistory">
+            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+        </table>
+
+        <table tableName="sync_history" domainObjectName="SyncHistory">
+            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+        </table>
+
+        <table tableName="sync_log" domainObjectName="SyncLog">
+            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+        </table>
+
+        <table tableName="history_log" domainObjectName="HistoryLog">
+            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+        </table>
+
+        <!--&lt;!&ndash; 同步配置关系表 &ndash;&gt;-->
+        <!--<table tableName="connector_plugin" domainObjectName="ConnectorPlugin">-->
+            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
+        <!--</table>-->
+        <!---->
+        <!--&lt;!&ndash; 后台管理员表 &ndash;&gt;-->
+        <!--<table tableName="multi_admin" domainObjectName="MultiAdmin">-->
+            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
+        <!--</table>-->
+        <!---->
+        <!--&lt;!&ndash; 属性模板表 &ndash;&gt;-->
+        <!--<table tableName="profile_template" domainObjectName="ProfileTemplate">-->
+            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
+        <!--</table>-->
+        <!---->
+        <!--&lt;!&ndash; 用户属性扩展表 &ndash;&gt;-->
+        <!--<table tableName="user_info" domainObjectName="UserInfo">-->
+            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
+        <!--</table>-->
+
+        <!--<table tableName="oneshare_role" domainObjectName="OneshareRole">-->
+            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
+        <!--</table>-->
+        <!--<table tableName="oneshare_role_user" domainObjectName="OneshareRoleUser">-->
+            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
+        <!--</table>-->
+    </context>
+</generatorConfiguration>

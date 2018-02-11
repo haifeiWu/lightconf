@@ -9,4 +9,12 @@ package com.lightconf.common.util;
 public class CommonConstants {
 
     public static final int HEAD_LENGTH = 4;
+    public static final int RECONNECT = 3;
+
+    /**
+     * 核心线程池的个数.
+     */
+    public static final int CORE_POOL_SIZE = 3;
+
+    public static final int RETRY_DELAY = 10;
 }

@@ -16,7 +16,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class AnnoRefreshXxlConfListener implements XxlConfListener {
 
-    // listener:object = 1:N
+    /**
+     * listener:object = 1:N
+     */
     private List<Object> objectList = Collections.synchronizedList(new ArrayList<>());
     public void addObject(Object object){
         if (!objectList.contains(object)) {
@@ -38,7 +40,8 @@ public class AnnoRefreshXxlConfListener implements XxlConfListener {
         AnnoRefreshXxlConfListener annoRefreshXxlConfListener = keyListener.get(key);
         if (annoRefreshXxlConfListener == null) {
             annoRefreshXxlConfListener = new AnnoRefreshXxlConfListener();
-            XxlConfListenerFactory.addListener(key, annoRefreshXxlConfListener);    // add listener, just once when first time
+            // add listener, just once when first time
+            XxlConfListenerFactory.addListener(key, annoRefreshXxlConfListener);
         }
         keyListener.put(key, annoRefreshXxlConfListener);
         return annoRefreshXxlConfListener;
