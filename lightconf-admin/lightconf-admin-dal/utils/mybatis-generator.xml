@@ -20,14 +20,8 @@
             <property name="suppressDate" value="false" /> <!-- 是否生成注释代时间戳 -->
         </commentGenerator>
         <!-- 数据库连接信息 -->
-        <!--<jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
-                        <!--connectionURL="jdbc:mysql://192.168.201.7:3306/thunderemm?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;autoReconnectForPools=true&amp;zeroDateTimeBehavior=convertToNull"-->
-                        <!--userId="root"-->
-                        <!--password="QAZwsx123!">-->
-        <!--</jdbcConnection>-->
-
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://127.0.0.1:3306/thunderiam?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;autoReconnectForPools=true&amp;zeroDateTimeBehavior=convertToNull"
+                        connectionURL="jdbc:mysql://localhost:3306/xxl-conf?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;autoReconnectForPools=true&amp;zeroDateTimeBehavior=convertToNull"
                         userId="root"
                         password="thundersoft">
         </jdbcConnection>
@@ -40,8 +34,8 @@
         </javaTypeResolver>
 
         <!--生成 Model.java文件 -->
-        <javaModelGenerator targetPackage="com.quarkdata.quark.share.model.dataobj"
-                            targetProject="../../quark-share-model/src/main/java">
+        <javaModelGenerator targetPackage="com.lightconf.admin.model.dataobj"
+                            targetProject="../../lightconf-admin-model/src/main/java">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
             <property name="enableSubPackages" value="false" />
             <!-- 是否针对string类型的字段在set的时候进行trim调用 -->
@@ -57,112 +51,24 @@
 
         <!-- 生成 Mapper.java文件，即dao层 -->
         <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="com.quarkdata.quark.share.dal.dao"
+                             targetPackage="com.lightconf.admin.dal.dao"
                              targetProject="../src/main/java">
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
 
         <!-- 待生成的数据库中的表名，生成一个表对应的Java和xml文件就需要配置这一段 -->
 
-        <!-- 部门表 -->
-        <!--<table tableName="department" domainObjectName="Department">-->
-            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
-        <!--</table>-->
-        <!---->
-        <!--&lt;!&ndash; 用户组表 &ndash;&gt;-->
-        <!--<table tableName="groups" domainObjectName="Groups">-->
-            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
-        <!--</table>-->
-        <!---->
-        <!--&lt;!&ndash; 用户表 &ndash;&gt;-->
-        <!--<table tableName="users" domainObjectName="Users">-->
-            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
-        <!--</table>-->
-        <!---->
-        <!--&lt;!&ndash; 租户表 &ndash;&gt;-->
-        <!--<table tableName="incorporation" domainObjectName="Incorporation">-->
-            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
-        <!--</table>-->
-        <!---->
-        <!--&lt;!&ndash; 用户组间关系表 &ndash;&gt;-->
-        <!--<table tableName="group_relat" domainObjectName="GroupRelat">-->
-            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
-        <!--</table>-->
-        <!---->
-        <!--&lt;!&ndash; 用户和组关系表 &ndash;&gt;-->
-        <!--<table tableName="user_group" domainObjectName="UserGroup">-->
-            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
-        <!--</table>-->
-        <!---->
-        <!--&lt;!&ndash; 用户和部门关系表 &ndash;&gt;-->
-        <!--<table tableName="user_dept" domainObjectName="UserDept">-->
-            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
-        <!--</table>-->
-        <!---->
-        <!--&lt;!&ndash; 用户组和部门关系表 &ndash;&gt;-->
-        <!--<table tableName="group_dept" domainObjectName="GroupDept">-->
-            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
-        <!--</table>-->
-        <!---->
-        <!-- 同步信息表 -->
-        <!--<table tableName="connector" domainObjectName="Connector">-->
-            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
-        <!--</table>-->
-        <!---->
-        <!-- 配置表 -->
-        <table tableName="plugin" domainObjectName="Plugin">
+        <table tableName="light_conf_app" domainObjectName="App">
             <generatedKey column="ID" sqlStatement="MySql" identity="true" />
         </table>
 
-        <!--<table tableName="field_match" domainObjectName="FieldMatch">-->
-            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
-        <!--</table>-->
-
-        <!--<table tableName="plugin_field" domainObjectName="PluginField">-->
-            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
-        <!--</table>-->
-
-        <table tableName="plugin_history" domainObjectName="PluginHistory">
+        <table tableName="light_conf_app_conf" domainObjectName="AppConf">
             <generatedKey column="ID" sqlStatement="MySql" identity="true" />
         </table>
 
-        <table tableName="sync_history" domainObjectName="SyncHistory">
+        <table tableName="light_conf_conf" domainObjectName="Conf">
             <generatedKey column="ID" sqlStatement="MySql" identity="true" />
         </table>
 
-        <table tableName="sync_log" domainObjectName="SyncLog">
-            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
-        </table>
-
-        <table tableName="history_log" domainObjectName="HistoryLog">
-            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
-        </table>
-
-        <!--&lt;!&ndash; 同步配置关系表 &ndash;&gt;-->
-        <!--<table tableName="connector_plugin" domainObjectName="ConnectorPlugin">-->
-            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
-        <!--</table>-->
-        <!---->
-        <!--&lt;!&ndash; 后台管理员表 &ndash;&gt;-->
-        <!--<table tableName="multi_admin" domainObjectName="MultiAdmin">-->
-            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
-        <!--</table>-->
-        <!---->
-        <!--&lt;!&ndash; 属性模板表 &ndash;&gt;-->
-        <!--<table tableName="profile_template" domainObjectName="ProfileTemplate">-->
-            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
-        <!--</table>-->
-        <!---->
-        <!--&lt;!&ndash; 用户属性扩展表 &ndash;&gt;-->
-        <!--<table tableName="user_info" domainObjectName="UserInfo">-->
-            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
-        <!--</table>-->
-
-        <!--<table tableName="oneshare_role" domainObjectName="OneshareRole">-->
-            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
-        <!--</table>-->
-        <!--<table tableName="oneshare_role_user" domainObjectName="OneshareRoleUser">-->
-            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
-        <!--</table>-->
     </context>
 </generatorConfiguration>
