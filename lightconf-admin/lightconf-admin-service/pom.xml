@@ -14,4 +14,11 @@
     <version>${parent.version}</version>
     <packaging>jar</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.lightconf</groupId>
+            <artifactId>lightconf-admin-model</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+    </dependencies>
 </project>
