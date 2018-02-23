@@ -1,7 +1,11 @@
 package com.lightconf.common.model;
 
+/**
+ * @author wuhf
+ * @date 2018/02/23
+ */
 public class Messages {
-    public static int SUCCESS_CODE = 0;
+    public static int SUCCESS_CODE = 200;
     public static String SUCCESS_MSG = "success";
 
     public static int MISSING_INPUT_CODE = 10000;
