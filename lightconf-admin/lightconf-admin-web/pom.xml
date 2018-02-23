@@ -11,7 +11,28 @@
 
     <groupId>com.lightconf</groupId>
     <artifactId>lightconf-admin-web</artifactId>
-    <version>0.0.1-0-SNAPSHOT</version>
+    <version>${parent.version}</version>
     <packaging>jar</packaging>
 
+    <dependencies>
+
+        <!--local dependency-->
+        <dependency>
+            <groupId>com.lightconf</groupId>
+            <artifactId>lightconf-admin-service</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lightconf</groupId>
+            <artifactId>lightconf-admin-dal</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lightconf</groupId>
+            <artifactId>lightconf-admin-model</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+    </dependencies>
 </project>
