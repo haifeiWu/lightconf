@@ -11,7 +11,7 @@
 
     <groupId>com.lightconf</groupId>
     <artifactId>lightconf-admin-service</artifactId>
-    <version>0.0.1-0-SNAPSHOT</version>
+    <version>${parent.version}</version>
     <packaging>jar</packaging>
 
 </project>
