@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/haifeiWu/lightconf.svg?branch=master)](https://travis-ci.org/haifeiWu/lightconf)
+
 # lightconf
 ## 配置中心，实现方案
 
