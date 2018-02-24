@@ -15,60 +15,68 @@ import java.util.Map;
 
 /**
  * 配置管理
+ *
  * @author whfstudio
  */
 @Controller
 @RequestMapping("/conf")
-public class ConfController {
+public class ConfController extends BaseController{
 
     @Resource
     private ConfService confService;
 
     @RequestMapping("")
     @PermessionLimit
-    public String index(Model model, String znodeKey){
+    public String index(Model model, String znodeKey) {
         return "conf/conf.index";
     }
 
     @RequestMapping("/pageList")
     @ResponseBody
     @PermessionLimit
-    public Map<String, Object> pageList(@RequestParam(required = false, defaultValue = "0") int start,
-                                        @RequestParam(required = false, defaultValue = "10") int length,
-                                        String nodeGroup, String nodeKey) {
+    public Map<String, Object> pageList(
+            @RequestParam(required = false, defaultValue = "0") int start,
+            @RequestParam(required = false, defaultValue = "10") int length, String nodeGroup, String nodeKey) {
+        LOGGER.info("get apps config list");
         return confService.pageList(start, length, nodeGroup, nodeKey);
     }
 
     /**
      * get
+     *
      * @return
      */
     @RequestMapping("/delete")
     @ResponseBody
     @PermessionLimit
-    public LightConfResult delete(String nodeGroup, String nodeKey){
+    public LightConfResult delete(String nodeGroup, String nodeKey) {
+        LOGGER.info("delete config , the key is : {}",nodeKey);
         return confService.deleteByKey(nodeKey);
     }
 
     /**
      * create/update
+     *
      * @return
      */
     @RequestMapping("/add")
     @ResponseBody
     @PermessionLimit
-    public LightConfResult add(Conf conf){
+    public LightConfResult add(Conf conf) {
+        LOGGER.info("add conf key is : {}",conf.getConfKey());
         return confService.add(conf);
     }
 
     /**
      * create/update
+     *
      * @return
      */
     @RequestMapping("/update")
     @ResponseBody
     @PermessionLimit
-    public LightConfResult update(Conf conf){
+    public LightConfResult update(Conf conf) {
+        LOGGER.info("update conf key is : {}",conf.getConfKey());
         return confService.update(conf);
     }
 }
