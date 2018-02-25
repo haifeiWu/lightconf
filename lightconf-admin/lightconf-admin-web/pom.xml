@@ -12,7 +12,7 @@
     <groupId>com.lightconf</groupId>
     <artifactId>lightconf-admin-web</artifactId>
     <version>${parent.version}</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <dependencies>
 
