@@ -33,7 +33,6 @@
 		<property name="order" value="0" />
 	</bean>
 
-
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>
@@ -44,7 +43,7 @@
 			<bean class="com.lightconf.admin.web.controller.interceptor.CookieInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>
-	<bean id="exceptionResolver" class="com.lightconf.admin.web.controller.resolver.WebExceptionResolver" />
 
+	<bean id="exceptionResolver" class="com.lightconf.admin.web.controller.resolver.WebExceptionResolver" />
 
 </beans>

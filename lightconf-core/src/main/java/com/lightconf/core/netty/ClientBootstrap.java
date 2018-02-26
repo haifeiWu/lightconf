@@ -79,11 +79,11 @@ public class ClientBootstrap {
 
                 if (futureListener.isSuccess()) {
                     socketChannel = (SocketChannel) futureListener.channel();
-                    logger.info("Connect to server successfully! [host:" + hostConnect + ", port:" + portConnect + ", connector name:" + Constants.getClientId() + "]");
+                    logger.info(">>>>>>>>>> lightconf client connect to server successfully! [host:" + hostConnect + ", port:" + portConnect + ", connector name:" + Constants.getClientId() + "]");
                     login(socketChannel);
                 } else if (reConnect < CommonConstants.RECONNECT) {
                     reConnect++;
-                    logger.info("Failed to connect to server, try connect after " + retryDelay + "s [host:" + hostConnect + ", port:" + portConnect + ", connector name:" + Constants.getClientId() + "]");
+                    logger.info(">>>>>>>>>> lightconf client failed to connect to server, try connect after " + retryDelay + "s [host:" + hostConnect + ", port:" + portConnect + ", connector name:" + Constants.getClientId() + "]");
                     futureListener.channel().eventLoop().schedule(new Runnable() {
                         @Override
                         public void run() {
