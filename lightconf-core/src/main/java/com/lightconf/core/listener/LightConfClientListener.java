@@ -15,9 +15,9 @@ import org.springframework.context.event.ContextRefreshedEvent;
  * @author wuhf
  * @date 2018/02/11
  */
-public class LightConfListener implements ApplicationListener<ContextRefreshedEvent> {
+public class LightConfClientListener implements ApplicationListener<ContextRefreshedEvent> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LightConfListener.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LightConfClientListener.class);
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
@@ -29,7 +29,7 @@ public class LightConfListener implements ApplicationListener<ContextRefreshedEv
             // 启动netty客户端.
             ClientBootstrap clientBootstrap = new ClientBootstrap(host,port);
             ThreadPoolUtils.getInstance().getThreadPool().submit(new InitClientThread(clientBootstrap));
-            LOGGER.info("client start at host : {} ,port ： {}",host,port);
+            LOGGER.info(">>>>>>>>>> lightconf client start at host : {} ,port ： {}",host,port);
         } catch (InterruptedException e) {
             e.printStackTrace();
             LOGGER.error(e.getMessage());

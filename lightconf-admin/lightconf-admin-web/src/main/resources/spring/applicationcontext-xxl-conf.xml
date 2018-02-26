@@ -8,6 +8,9 @@
 	<!-- ********************************* 核心配置[必须]：XXL-CONF 配置工厂 ********************************* -->
 	<!--<bean id="xxlConf" class="com.xxl.conf.core.spring.XxlConfFactory" init-method="init" destroy-method="destroy" />-->
 
+	<!--LightConfClientListener bean-->
+	<bean id="lightConfListener" class="com.lightconf.admin.web.listener.LightConfServerListener"></bean>
+
 
 	<!-- ********************************* 测试示例（可删除） ********************************* -->
 	<!--<bean id="demoConf" class="com.xxl.conf.example.core.constant.DemoConf">-->
