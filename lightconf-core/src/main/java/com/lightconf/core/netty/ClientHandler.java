@@ -23,7 +23,6 @@ public class ClientHandler extends SimpleChannelInboundHandler<BaseMsg> {
                 case WRITER_IDLE:
                     PingMsg pingMsg = new PingMsg();
                     ctx.writeAndFlush(pingMsg);
-                    System.out.println("send ping to server----------");
                     break;
                 default:
                     break;
@@ -39,13 +38,12 @@ public class ClientHandler extends SimpleChannelInboundHandler<BaseMsg> {
             case LOGIN: {
                 //向服务器发起登录
                 LoginMsg loginMsg = new LoginMsg();
-                loginMsg.setPassword("123");
+                loginMsg.setPassword("abcd");
                 loginMsg.setUserName("wuhf");
                 channelHandlerContext.writeAndFlush(loginMsg);
             }
             break;
             case PING: {
-                logger.info("receive ping from server----------");
             }
             break;
             case ASK: {

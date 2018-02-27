@@ -19,7 +19,7 @@ import java.util.Map;
  * @author whfstudio
  */
 @Controller
-@RequestMapping("/conf")
+//@RequestMapping("/conf")
 public class ConfController extends BaseController{
 
     @Resource

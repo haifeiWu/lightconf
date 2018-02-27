@@ -24,6 +24,7 @@ public class ClientBootstrap {
 
     private int port;
     private String host;
+    private String applicationUuid;
     private int retryDelay;
     private SocketChannel socketChannel;
     private Bootstrap bootstrap;
@@ -34,9 +35,10 @@ public class ClientBootstrap {
         Constants.setClientId(LightConfPropConf.get(Environment.APPLICATION_UUID));
     }
 
-    public ClientBootstrap(String host,int port) throws InterruptedException {
+    public ClientBootstrap(String host,int port,String applicationUuid) throws InterruptedException {
         this.port = port;
         this.host = host;
+        this.applicationUuid = applicationUuid;
         this.retryDelay = CommonConstants.RETRY_DELAY;
         start();
     }
@@ -49,7 +51,7 @@ public class ClientBootstrap {
                 .group(workGroup)
                 .remoteAddress(host, port)
                 .handler(new ClientInitializer());
-        doConnect(port, host);
+        doConnect(port, host ,applicationUuid);
     }
 
     /**
@@ -58,7 +60,7 @@ public class ClientBootstrap {
      * @param host host.
      * @throws InterruptedException InterruptedException.
      */
-    public void doConnect(int port, String host) {
+    public void doConnect(int port, String host ,String applicationUuid) {
 
         if (socketChannel != null && socketChannel.isActive()) {
             return;
@@ -66,6 +68,7 @@ public class ClientBootstrap {
 
         final int portConnect = port;
         final String hostConnect = host;
+        final String uuid = applicationUuid;
 
         ChannelFuture future = bootstrap.connect(host, port);
 
@@ -79,15 +82,16 @@ public class ClientBootstrap {
 
                 if (futureListener.isSuccess()) {
                     socketChannel = (SocketChannel) futureListener.channel();
+
                     logger.info(">>>>>>>>>> lightconf client connect to server successfully! [host:" + hostConnect + ", port:" + portConnect + ", connector name:" + Constants.getClientId() + "]");
-                    login(socketChannel);
+                    login(socketChannel,uuid);
                 } else if (reConnect < CommonConstants.RECONNECT) {
                     reConnect++;
                     logger.info(">>>>>>>>>> lightconf client failed to connect to server, try connect after " + retryDelay + "s [host:" + hostConnect + ", port:" + portConnect + ", connector name:" + Constants.getClientId() + "]");
                     futureListener.channel().eventLoop().schedule(new Runnable() {
                         @Override
                         public void run() {
-                            doConnect(portConnect,hostConnect);
+                            doConnect(portConnect,hostConnect,uuid);
                         }
                     }, retryDelay, TimeUnit.SECONDS);
                 }
@@ -95,14 +99,12 @@ public class ClientBootstrap {
         });
     }
 
-    public static void login(SocketChannel socketChannel) {
+    public static void login(SocketChannel socketChannel, String uuid) {
         try {
-            String base64 = Base64Utils.encode(Constants.getClientId().getBytes());
-            byte[] encryDataByte = RSAUtils.encryptByPublicKey(Base64Utils.decode(base64), "");
-            String encryData = Base64Utils.encode(encryDataByte);
             LoginMsg loginMsg = new LoginMsg();
-//            loginMsg.setEncryData(encryData);
-//            loginMsg.setPublicKey(publicKey);
+            loginMsg.setClientId(uuid);
+            loginMsg.setUserName("wuhf");
+            loginMsg.setPassword("abcd");
             socketChannel.writeAndFlush(loginMsg);
         } catch (Exception e) {
             e.printStackTrace();

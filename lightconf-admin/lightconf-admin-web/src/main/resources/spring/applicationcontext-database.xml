@@ -55,14 +55,27 @@
 		<property name="filters" value="stat" />
 	</bean>
 
+	<!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
+		<!--<property name="dataSource" ref="dataSource" />-->
+		<!--<property name="mapperLocations" value="classpath:mybatis-mapper/*.xml"/>-->
+	<!--</bean>-->
+
+	<!-- MyBatis begin -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="mapperLocations" value="classpath:mybatis-mapper/*.xml"/>
+		<property name="dataSource" ref="dataSource"/>
+		<property name="mapperLocations" value="classpath:/mappings/*.xml"/>
+		<property name="configLocation" value="classpath:/spring/mybatis-config.xml"></property>
+	</bean>
+
+	<!-- 扫描basePackage下的接口 -->
+	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+		<property name="basePackage" value="com.lightconf.admin.dal.dao"/>
 	</bean>
     
-    <bean id="sqlSessionTemplate"  class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
-          <constructor-arg index="0" ref="sqlSessionFactory" />  
-    </bean>
+    <!--<bean id="sqlSessionTemplate"  class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">-->
+          <!--<constructor-arg index="0" ref="sqlSessionFactory" />  -->
+    <!--</bean>-->
 
 	<!-- ********************************* part 2 :for tx ********************************* -->
 
