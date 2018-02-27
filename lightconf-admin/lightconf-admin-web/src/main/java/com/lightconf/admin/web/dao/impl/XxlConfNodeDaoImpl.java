@@ -14,7 +14,7 @@ import java.util.Map;
  * 配置
  * @author xuxueli 16/10/8.
  */
-@Repository
+//@Repository
 public class XxlConfNodeDaoImpl implements IXxlConfNodeDao {
 
 	@Autowired

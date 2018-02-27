@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by xuxueli on 16/10/8.
  */
-@Repository
+//@Repository
 public class XxlConfGroupDaoImpl implements IXxlConfGroupDao {
 
     @Autowired

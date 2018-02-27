@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 /**
  * @author xuxueli 2018-02-04 01:27:30
  */
-@Controller
+//@Controller
 public class IndexController {
 	
 	@Resource

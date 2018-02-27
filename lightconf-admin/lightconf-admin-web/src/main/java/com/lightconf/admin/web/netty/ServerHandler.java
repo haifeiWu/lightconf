@@ -31,7 +31,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
              * 实现登录成功的逻辑.
              */
             LoginMsg loginMsg = (LoginMsg) baseMsg;
-            if ("wuhf".equals(loginMsg.getUserName()) && "123".equals(loginMsg.getPassword())) {
+            if ("wuhf".equals(loginMsg.getUserName()) && "abcd".equals(loginMsg.getPassword())) {
                 /**
                  * 登录成功,把channel存到服务端的map中.
                  */
