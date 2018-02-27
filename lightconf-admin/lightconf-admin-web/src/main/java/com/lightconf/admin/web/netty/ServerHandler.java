@@ -24,29 +24,12 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, BaseMsg baseMsg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext,
+            BaseMsg baseMsg) throws Exception {
         if (MsgType.LOGIN.equals(baseMsg.getType())) {
-
-            /**
-             * 实现登录成功的逻辑.
-             */
-            LoginMsg loginMsg = (LoginMsg) baseMsg;
-            if ("wuhf".equals(loginMsg.getUserName()) && "abcd".equals(loginMsg.getPassword())) {
-                /**
-                 * 登录成功,把channel存到服务端的map中.
-                 */
-                NettyChannelMap.add(loginMsg.getClientId(), (SocketChannel) channelHandlerContext.channel());
-                logger.info("client:{}" + loginMsg.getClientId() + " 登录成功");
-            }
-        } else {
-            if (NettyChannelMap.get(baseMsg.getClientId()) == null) {
-                /**
-                 * 说明未登录，或者连接断了，服务器向客户端发起登录请求，让客户端重新登录.
-                 */
-                LoginMsg loginMsg = new LoginMsg();
-                channelHandlerContext.channel().writeAndFlush(loginMsg);
-            }
+            lightConfClientLogin(channelHandlerContext, baseMsg);
         }
+
         switch (baseMsg.getType()) {
 
             case PING: {
@@ -75,18 +58,46 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
             break;
             case LOGIN:
                 break;
-            default:{
-                NettyChannelMap.remove((SocketChannel)channelHandlerContext.channel());
+            default: {
+                NettyChannelMap.remove((SocketChannel) channelHandlerContext.channel());
                 channelHandlerContext.disconnect();
-            }break;
+            }
+            break;
         }
         ReferenceCountUtil.release(baseMsg);
     }
 
+    /**
+     * 客户端登录.
+     * @param channelHandlerContext
+     * @param baseMsg
+     */
+    private void lightConfClientLogin(ChannelHandlerContext channelHandlerContext,
+            BaseMsg baseMsg) {
+        /**
+         * 实现登录成功的逻辑.
+         */
+        LoginMsg loginMsg = (LoginMsg) baseMsg;
+        if ("wuhf".equals(loginMsg.getUserName()) && "abcd".equals(loginMsg.getPassword())) {
+            // 登录成功,把channel存到服务端的map中.
+            NettyChannelMap.add(loginMsg.getClientId(), (SocketChannel) channelHandlerContext.channel());
+            logger.info("client" + loginMsg.getClientId() + " 登录成功");
+        } else {
+            if (NettyChannelMap.get(baseMsg.getClientId()) == null) {
+                // 说明未登录，或者连接断了，服务器向客户端发起登录请求，让客户端重新登录.
+                channelHandlerContext.channel().writeAndFlush(new LoginMsg());
+                return;
+            }
+        }
+    }
+
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
+            throws Exception {
         super.exceptionCaught(ctx, cause);
         NettyChannelMap.remove((SocketChannel) ctx.channel());
-        logger.error("channel is exception over. (SocketChannel)ctx.channel()=" + (SocketChannel)ctx.channel());
+        logger.error(
+                "channel is exception over. (SocketChannel)ctx.channel()=" + (SocketChannel) ctx
+                        .channel());
     }
 }
