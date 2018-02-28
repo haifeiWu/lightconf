@@ -20,5 +20,10 @@
             <artifactId>lightconf-admin-model</artifactId>
             <version>${parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.lightconf</groupId>
+            <artifactId>lightconf-admin-dal</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>

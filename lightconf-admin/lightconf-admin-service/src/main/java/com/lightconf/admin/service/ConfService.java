@@ -15,7 +15,7 @@ public interface ConfService {
 
     LightConfResult deleteByKey(String nodeKey);
 
-    LightConfResult add(Conf conf);
+    LightConfResult add(Conf conf, String appUuid);
 
-    LightConfResult update(Conf conf);
+    LightConfResult update(Conf conf, String appUuid);
 }
