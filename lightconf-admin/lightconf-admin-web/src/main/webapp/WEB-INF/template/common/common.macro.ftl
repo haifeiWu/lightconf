@@ -89,6 +89,7 @@
 				<li class="header">常用模块</li>
 				<li class="nav-click" ><a href="${request.contextPath}/conf"><i class="fa fa-circle-o text-red"></i> <span>配置管理</span></a></li>
                 <li class="nav-click" ><a href="${request.contextPath}/group"><i class="fa fa-circle-o text-red"></i> <span>分组管理</span></a></li>
+                <li class="nav-click" ><a href="${request.contextPath}/app"><i class="fa fa-circle-o text-red"></i> <span>应用管理</span></a></li>
 				<li class="nav-click" ><a href="${request.contextPath}/help"><i class="fa fa-circle-o text-yellow"></i><span>使用教程</span></a></li>
 			</ul>
 		</section>
@@ -98,12 +99,12 @@
 
 <#macro commonFooter >
 	<footer class="main-footer">
-		Powered by <b>XXL-CONF</b> 1.3
+		Powered by <b>LIGHTCONF</b> 1.0
 		<div class="pull-right hidden-xs">
-			<strong>Copyright &copy; 2015-${.now?string('yyyy')} &nbsp;
-                <a href="http://www.xuxueli.com/" target="_blank" >xuxueli</a>
+			<strong>Copyright &copy; 2017-${.now?string('yyyy')} &nbsp;
+                <a href="https://github.com/haifeiWu/" target="_blank" >haifeiWu</a>
                 &nbsp;
-                <a href="https://github.com/xuxueli/xxl-conf" target="_blank" >github</a>
+                <a href="https://github.com/haifeiWu/lightconf" target="_blank" >github</a>
 			</strong><!-- All rights reserved. -->
 		</div>
 	</footer>

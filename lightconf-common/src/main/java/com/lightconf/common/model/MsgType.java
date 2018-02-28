@@ -5,5 +5,5 @@ package com.lightconf.common.model;
  * @date 2017/11/20
  */
 public enum  MsgType {
-    PING,ASK,REPLY,LOGIN,REQUEST
+    PING,ASK,REPLY,LOGIN,REQUEST,PUSH_CONF
 }
