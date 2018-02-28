@@ -62,9 +62,9 @@ public class ConfController extends BaseController{
     @RequestMapping("/add")
     @ResponseBody
     @PermessionLimit
-    public LightConfResult add(Conf conf) {
+    public LightConfResult add(Conf conf,String appUuid) {
         LOGGER.info("add conf key is : {}",conf.getConfKey());
-        return confService.add(conf);
+        return confService.add(conf,appUuid);
     }
 
     /**
@@ -75,8 +75,8 @@ public class ConfController extends BaseController{
     @RequestMapping("/update")
     @ResponseBody
     @PermessionLimit
-    public LightConfResult update(Conf conf) {
+    public LightConfResult update(Conf conf,String appUuid) {
         LOGGER.info("update conf key is : {}",conf.getConfKey());
-        return confService.update(conf);
+        return confService.update(conf,appUuid);
     }
 }
