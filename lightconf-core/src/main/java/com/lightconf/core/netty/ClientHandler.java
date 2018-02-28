@@ -35,6 +35,10 @@ public class ClientHandler extends SimpleChannelInboundHandler<BaseMsg> {
         MsgType msgType = baseMsg.getType();
         switch (msgType) {
 
+            case PUSH_CONF:
+                logger.info("update application conf");
+                break;
+
             case LOGIN: {
                 //向服务器发起登录
                 LoginMsg loginMsg = new LoginMsg();

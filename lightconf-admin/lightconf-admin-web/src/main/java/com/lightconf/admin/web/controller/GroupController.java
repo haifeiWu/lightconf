@@ -18,7 +18,7 @@ import java.util.List;
  * @author xuxueli 2016-10-02 20:52:56
  */
 @Controller
-//@RequestMapping("/group")
+@RequestMapping("/group")
 public class GroupController {
 	
 //	@Resource
@@ -26,14 +26,14 @@ public class GroupController {
 //	@Resource
 //	private IXxlConfNodeDao xxlConfNodeDao;
 //
-//	@RequestMapping
-//	public String index(Model model) {
-//
+	@RequestMapping
+	public String index(Model model) {
+
 //		List<XxlConfGroup> list = xxlConfGroupDao.findAll();
 //
 //		model.addAttribute("list", list);
-//		return "group/group.index";
-//	}
+		return "group/group.index";
+	}
 //
 //	@RequestMapping("/save")
 //	@ResponseBody

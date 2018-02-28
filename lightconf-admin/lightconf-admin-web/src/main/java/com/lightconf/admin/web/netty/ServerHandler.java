@@ -32,6 +32,10 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
 
         switch (baseMsg.getType()) {
 
+            case PUSH_CONF:
+                logger.info("do nothing");
+                break;
+
             case PING: {
                 PingMsg pingMsg = (PingMsg) baseMsg;
                 PingMsg replyPing = new PingMsg();
