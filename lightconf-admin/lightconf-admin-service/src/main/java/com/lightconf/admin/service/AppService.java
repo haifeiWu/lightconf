@@ -15,4 +15,13 @@ public interface AppService {
      * @return
      */
     LightConfResult addApp(AppWithBLOBs app);
+
+    /**
+     * 修改应用配置信息.
+     * @param app
+     * @return
+     */
+    LightConfResult updateApp(AppWithBLOBs app);
+
+    LightConfResult deleteApp(String appId);
 }
