@@ -35,4 +35,28 @@ public class AppController extends BaseController {
         LightConfResult result = appService.addApp(app);
         return result;
     }
+
+    @RequestMapping("/update_app")
+    @PermessionLimit
+    public LightConfResult updateApp(AppWithBLOBs app) {
+        LOGGER.info("update application , the name is : {}",app.getAppName());
+        LightConfResult result = appService.updateApp(app);
+        return result;
+    }
+
+    @RequestMapping("/delete_app")
+    @PermessionLimit
+    public LightConfResult deleteApp(String appId) {
+        LOGGER.info("delete application , the appId is : {}",appId);
+        LightConfResult result = appService.deleteApp(appId);
+        return result;
+    }
+
+    @RequestMapping("/get_app_list")
+    @PermessionLimit
+    public LightConfResult getAppList() {
+        LOGGER.info("delete application , the appId is : {}");
+//        LightConfResult result = appService.getAppList();
+        return null;
+    }
 }
