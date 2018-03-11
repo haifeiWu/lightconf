@@ -46,4 +46,9 @@ public class AppServiceImpl implements AppService {
         appMapper.deleteByPrimaryKey(Integer.valueOf(appId));
         return LightConfResult.ok();
     }
+
+    @Override
+    public LightConfResult getAppList(int pageSize, int pageNum) {
+        return null;
+    }
 }

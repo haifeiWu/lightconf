@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 应用管理接口.
@@ -54,9 +55,11 @@ public class AppController extends BaseController {
 
     @RequestMapping("/get_app_list")
     @PermessionLimit
-    public LightConfResult getAppList() {
+    public LightConfResult getAppList(@RequestParam(required = false, defaultValue = "0") int pageSize,
+                                      @RequestParam(required = false, defaultValue = "10") int pageNum) {
         LOGGER.info("delete application , the appId is : {}");
-//        LightConfResult result = appService.getAppList();
-        return null;
+        LightConfResult result = appService.getAppList(pageSize,pageNum);
+        LOGGER.info("getAppList return data : {}",result);
+        return result;
     }
 }
