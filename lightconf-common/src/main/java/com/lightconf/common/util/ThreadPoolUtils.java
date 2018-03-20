@@ -1,23 +1,22 @@
 package com.lightconf.common.util;
 
-import org.apache.commons.lang3.concurrent.BasicThreadFactory;
-
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.*;
 
 /**
  * 线程池创建.
+ *
  * @author wuhf
  * @date 2018/01/16
  */
 public class ThreadPoolUtils {
 
-    private static ScheduledExecutorService executorService;
+    private static ExecutorService executorService;
 
     private ThreadPoolUtils() {
         //手动创建线程池.
-        executorService = new ScheduledThreadPoolExecutor(CommonConstants.CORE_POOL_SIZE,
-                new BasicThreadFactory.Builder().namingPattern("syncdata-schedule-pool-%d").daemon(true).build());
+        executorService = new ThreadPoolExecutor(CommonConstants.CORE_POOL_SIZE,
+                CommonConstants.MAX_POOL_SIZE, CommonConstants.THREAD_KEEP_ALIVE_TIME,
+                TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
     }
 
     private static class PluginConfigHolder {
@@ -28,7 +27,7 @@ public class ThreadPoolUtils {
         return PluginConfigHolder.INSTANCE;
     }
 
-    public ScheduledExecutorService getThreadPool(){
+    public ExecutorService getThreadPool() {
         return executorService;
     }
 
