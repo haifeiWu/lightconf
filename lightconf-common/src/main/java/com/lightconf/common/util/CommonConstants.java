@@ -15,6 +15,8 @@ public class CommonConstants {
      * 核心线程池的个数.
      */
     public static final int CORE_POOL_SIZE = 3;
+    public static final int MAX_POOL_SIZE = 10;
+    public static final int THREAD_KEEP_ALIVE_TIME = 10;
 
     public static final int RETRY_DELAY = 10;
 }
