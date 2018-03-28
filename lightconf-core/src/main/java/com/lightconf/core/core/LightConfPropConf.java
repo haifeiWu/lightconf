@@ -33,6 +33,7 @@ public class LightConfPropConf {
                 prop = loadProp(propFileLocation);
             }
 
+            // 加载配置到内存中
             for (String key : prop.stringPropertyNames()) {
                 propConf.put(key, prop.getProperty(key));
             }

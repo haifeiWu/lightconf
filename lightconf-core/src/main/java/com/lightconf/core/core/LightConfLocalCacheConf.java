@@ -35,7 +35,7 @@ public class LightConfLocalCacheConf {
                         .newCacheConfigurationBuilder(String.class, CacheNode.class, ResourcePoolsBuilder.heap(1000))
         );
 
-        logger.info(">>>>>>>>>> xxl-conf, XxlConfLocalCacheConf init success.");
+        logger.info(">>>>>>>>>> light-conf, LightConfLocalCacheConf init success.");
     }
 
     /**
@@ -74,7 +74,7 @@ public class LightConfLocalCacheConf {
      */
     public static void set(String key, String value) {
         lightConfLocalCache.put(key, new CacheNode(value));
-        logger.info(">>>>>>>>>> xxl-conf: SET: [{}={}]", key, value);
+        logger.info(">>>>>>>>>> light-conf: SET: [{}={}]", key, value);
 
         XxlConfListenerFactory.onChange(key);
     }
@@ -88,7 +88,7 @@ public class LightConfLocalCacheConf {
     public static void update(String key, String value) {
         if (lightConfLocalCache!=null && lightConfLocalCache.containsKey(key)) {
             lightConfLocalCache.put(key, new CacheNode(value));
-            logger.info(">>>>>>>>>> xxl-conf: UPDATE: [{}={}]", key, value);
+            logger.info(">>>>>>>>>> light-conf: UPDATE: [{}={}]", key, value);
 
             XxlConfListenerFactory.onChange(key);
         }
@@ -104,7 +104,7 @@ public class LightConfLocalCacheConf {
         if (lightConfLocalCache!=null && lightConfLocalCache.containsKey(key)) {
             lightConfLocalCache.remove(key);
         }
-        logger.info(">>>>>>>>>> xxl-conf: REMOVE: [{}]", key);
+        logger.info(">>>>>>>>>> light-conf: REMOVE: [{}]", key);
     }
 
     /**
