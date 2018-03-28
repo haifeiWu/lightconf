@@ -2,8 +2,7 @@ package com.lightconf.core.spring;
 
 import com.lightconf.core.XxlConfClient;
 import com.lightconf.core.annotaion.XxlConf;
-import com.lightconf.core.core.XxlConfLocalCacheConf;
-import com.lightconf.core.core.XxlConfZkClient;
+import com.lightconf.core.core.LightConfLocalCacheConf;
 import com.lightconf.core.listener.impl.AnnoRefreshXxlConfListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,15 +24,15 @@ import java.lang.reflect.Field;
  *
  * @author xuxueli 2015-9-12 19:42:49
  */
-public class XxlConfFactory extends PropertySourcesPlaceholderConfigurer {
-	private static Logger logger = LoggerFactory.getLogger(XxlConfFactory.class);
+public class LightConfFactory extends PropertySourcesPlaceholderConfigurer {
+	private static Logger logger = LoggerFactory.getLogger(LightConfFactory.class);
 
 	public void init() {
 	}
 
 	public void destroy(){
-		XxlConfLocalCacheConf.destroy();
-		XxlConfZkClient.destroy();
+		LightConfLocalCacheConf.destroy();
+//		XxlConfZkClient.destroy();
 	}
 
 	/**
