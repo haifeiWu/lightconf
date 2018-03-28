@@ -30,6 +30,7 @@ public class XxlConfFactory extends PropertySourcesPlaceholderConfigurer {
 
 	public void init(){
 	}
+
 	public void destroy(){
 		XxlConfLocalCacheConf.destroy();
 		XxlConfZkClient.destroy();
