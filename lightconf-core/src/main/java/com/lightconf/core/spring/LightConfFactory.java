@@ -1,5 +1,6 @@
 package com.lightconf.core.spring;
 
+import com.lightconf.core.LightConfClient;
 import com.lightconf.core.XxlConfClient;
 import com.lightconf.core.annotaion.XxlConf;
 import com.lightconf.core.core.LightConfLocalCacheConf;
@@ -8,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionVisitor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -40,9 +42,9 @@ public class LightConfFactory extends PropertySourcesPlaceholderConfigurer {
 	 *
 	 * @return
 	 */
-	private static BeanDefinitionVisitor getXxlConfBeanDefinitionVisitor() {
-		// xxl conf StringValueResolver
-		StringValueResolver xxlConfValueResolver = new StringValueResolver() {
+	private static BeanDefinitionVisitor getLightConfBeanDefinitionVisitor() {
+		// light conf StringValueResolver
+		StringValueResolver lightConfValueResolver = new StringValueResolver() {
 			String placeholderPrefix = "${";
 			String placeholderSuffix = "}";
 			@Override
@@ -54,9 +56,9 @@ public class LightConfFactory extends PropertySourcesPlaceholderConfigurer {
 				while (start && end) {
 					// replace by xxl-conf
 					String key = buf.substring(placeholderPrefix.length(), buf.length() - placeholderSuffix.length());
-					String zkValue = XxlConfClient.get(key, "");
-					buf = new StringBuffer(zkValue);
-					logger.info(">>>>>>>>>>> xxl conf, resolved placeholder success, [{}={}]", key, zkValue);
+					String value = LightConfClient.get(key, "");
+					buf = new StringBuffer(value);
+					logger.info(">>>>>>>>>>> light-conf, resolved placeholder success, [{}={}]", key, value);
 					start = buf.toString().startsWith(placeholderPrefix);
 					end = buf.toString().endsWith(placeholderSuffix);
 				}
@@ -64,8 +66,8 @@ public class LightConfFactory extends PropertySourcesPlaceholderConfigurer {
 			}
 		};
 
-		// xxl conf BeanDefinitionVisitor
-		BeanDefinitionVisitor xxlConfVisitor = new BeanDefinitionVisitor(xxlConfValueResolver);
+		// light conf BeanDefinitionVisitor
+		BeanDefinitionVisitor xxlConfVisitor = new BeanDefinitionVisitor(lightConfValueResolver);
 		return xxlConfVisitor;
 	}
 
@@ -75,6 +77,7 @@ public class LightConfFactory extends PropertySourcesPlaceholderConfigurer {
 	 * @param beanWithXxlConf
 	 */
 	public static void refreshBeanWithXxlConf(final Object beanWithXxlConf, final String key){
+
 		ReflectionUtils.doWithFields(beanWithXxlConf.getClass(), new ReflectionUtils.FieldCallback() {
 			@Override
 			public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
@@ -91,7 +94,7 @@ public class LightConfFactory extends PropertySourcesPlaceholderConfigurer {
 
 					field.setAccessible(true);
 					field.set(beanWithXxlConf, confValue);
-					logger.info(">>>>>>>>>>> xxl conf, refreshBeanWithXxlConf success, [{}={}]", confKey, confValue);
+					logger.info(">>>>>>>>>>> light-conf, refreshBeanWithXxlConf success, [{}={}]", confKey, confValue);
 					if (xxlConf.callback()) {
 						AnnoRefreshXxlConfListener.addKeyObject(confKey, beanWithXxlConf);
 					}
@@ -105,7 +108,7 @@ public class LightConfFactory extends PropertySourcesPlaceholderConfigurer {
 		//super.processProperties(beanFactoryToProcess, propertyResolver);
 
 		// xxl conf BeanDefinitionVisitor
-		BeanDefinitionVisitor xxlConfVisitor = getXxlConfBeanDefinitionVisitor();
+		BeanDefinitionVisitor lightConfVisitor = getLightConfBeanDefinitionVisitor();
 
 		// visit bean definition
 		String[] beanNames = beanFactoryToProcess.getBeanDefinitionNames();
@@ -114,25 +117,39 @@ public class LightConfFactory extends PropertySourcesPlaceholderConfigurer {
 				if (!(beanName.equals(this.beanName) && beanFactoryToProcess.equals(this.beanFactory))) {
 
 					// XML：resolves '${...}' placeholders within bean definition property values
-					BeanDefinition bd = beanFactoryToProcess.getBeanDefinition(beanName);
-					xxlConfVisitor.visitBeanDefinition(bd);
+					BeanDefinition beanDefinition = beanFactoryToProcess.getBeanDefinition(beanName);
+                    lightConfVisitor.visitBeanDefinition(beanDefinition);
 
 					// Annotation：resolves '@XxlConf' annotations within bean definition fields
-					final Object beanWithXxlConf = beanFactoryToProcess.getBean(beanName);
-					refreshBeanWithXxlConf(beanWithXxlConf, null);	// refresh bean with xxl conf
+					final Object beanWithLightConf = beanFactoryToProcess.getBean(beanName);
+					refreshBeanWithXxlConf(beanWithLightConf, null);	// refresh bean with xxl conf
+
+                    // Annotation：resolves '@Value' annotations within bean definition fields
+                    final Object springAnnotation = beanFactoryToProcess.getBean(beanName);
+                    refreshBeanWithSpringAnnotation(springAnnotation, null);	// refresh bean with xxl conf
 				}
 			}
 		}
 
-		logger.info(">>>>>>>>>>> xxl conf, XxlConfFactory process success");
+		logger.info(">>>>>>>>>>> light-conf, XxlConfFactory process success");
 	}
 
-	@Override
+    private static void refreshBeanWithSpringAnnotation(final Object springAnnotation, Object object) {
+	    ReflectionUtils.doWithFields(springAnnotation.getClass(), new ReflectionUtils.FieldCallback() {
+            @Override
+            public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
+
+            }
+        });
+    }
+
+    @Override
 	public int getOrder() {
 		return Ordered.LOWEST_PRECEDENCE;
 	}
 
 	private String beanName;
+
 	@Override
 	public void setBeanName(String name) {
 		this.beanName = name;
