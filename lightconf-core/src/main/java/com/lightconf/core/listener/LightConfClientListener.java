@@ -21,19 +21,23 @@ public class LightConfClientListener implements ApplicationListener<ContextRefre
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        try {
-            // 加载配置文件的配置.
-            int port = Integer.valueOf(LightConfPropConf.get(Environment.LIGHT_CONF_PORT));
-            String host = LightConfPropConf.get(Environment.LIGHT_CONF_HOST);
-            String appId = LightConfPropConf.get(Environment.APPLICATION_UUID);
 
-            // 启动netty客户端.
-            ClientBootstrap clientBootstrap = new ClientBootstrap(host,port,appId);
-            ThreadPoolUtils.getInstance().getThreadPool().submit(new InitClientThread(clientBootstrap));
-            LOGGER.info(">>>>>>>>>> lightconf client start at host : {} ,port ： {}",host,port);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            LOGGER.error(e.getMessage());
+        // 防止二次加载
+        if (contextRefreshedEvent.getApplicationContext().getParent() == null) {
+            try {
+                // 加载配置文件的配置.
+                int port = Integer.valueOf(LightConfPropConf.get(Environment.LIGHT_CONF_PORT));
+                String host = LightConfPropConf.get(Environment.LIGHT_CONF_HOST);
+                String appId = LightConfPropConf.get(Environment.APPLICATION_UUID);
+
+                // 启动netty客户端.
+                ClientBootstrap clientBootstrap = new ClientBootstrap(host,port,appId);
+                ThreadPoolUtils.getInstance().getThreadPool().submit(new InitClientThread(clientBootstrap));
+                LOGGER.info(">>>>>>>>>> lightconf client start at host : {} ,port ： {}",host,port);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                LOGGER.error(e.getMessage());
+            }
         }
     }
 
