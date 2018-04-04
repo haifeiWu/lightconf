@@ -3,6 +3,8 @@ package com.lightconf.admin.service;
 import com.lightconf.admin.model.dataobj.AppWithBLOBs;
 import com.lightconf.common.util.LightConfResult;
 
+import java.util.List;
+
 /**
  * @author wuhf
  * @date 2018/02/11
@@ -32,4 +34,6 @@ public interface AppService {
      * @return
      */
     LightConfResult getAppList(int pageSize, int pageNum);
+
+    List<AppWithBLOBs> getAllApp();
 }

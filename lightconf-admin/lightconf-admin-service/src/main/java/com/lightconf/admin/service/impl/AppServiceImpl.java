@@ -2,6 +2,7 @@ package com.lightconf.admin.service.impl;
 
 import com.lightconf.admin.dal.dao.AppMapper;
 import com.lightconf.admin.model.dataobj.App;
+import com.lightconf.admin.model.dataobj.AppExample;
 import com.lightconf.admin.model.dataobj.AppWithBLOBs;
 import com.lightconf.admin.service.AppService;
 import com.lightconf.common.model.Messages;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -50,5 +52,11 @@ public class AppServiceImpl implements AppService {
     @Override
     public LightConfResult getAppList(int pageSize, int pageNum) {
         return null;
+    }
+
+    @Override
+    public List<AppWithBLOBs> getAllApp() {
+        AppExample appExample = new AppExample();
+        return appMapper.selectByExampleWithBLOBs(appExample);
     }
 }

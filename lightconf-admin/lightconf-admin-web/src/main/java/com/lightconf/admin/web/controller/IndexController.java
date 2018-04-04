@@ -31,7 +31,7 @@ public class IndexController {
 
     @RequestMapping("/")
     public String index(Model model, HttpServletRequest request) {
-        return "redirect:/conf";
+        return "redirect:/app";
     }
 
     @RequestMapping("/toLogin")
