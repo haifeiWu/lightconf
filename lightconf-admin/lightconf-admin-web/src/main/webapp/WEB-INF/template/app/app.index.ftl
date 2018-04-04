@@ -20,7 +20,7 @@
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>分组管理</h1>
+            <h1>应用管理</h1>
         </section>
 
         <!-- Main content -->
@@ -30,26 +30,30 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">分组列表</h3>&nbsp;&nbsp;
-                            <button class="btn btn-info btn-xs pull-left2 add" >+新增分组</button>
+                            <h3 class="box-title">应用列表</h3>&nbsp;&nbsp;
+                            <button class="btn btn-info btn-xs pull-left2 add" >+新增应用</button>
                         </div>
                         <div class="box-body">
                             <table id="joblog_list" class="table table-bordered table-striped display" width="100%" >
                                 <thead>
                                 <tr>
-                                    <th name="groupName" >GroupName</th>
-                                    <th name="groupTitle" >分组名</th>
+                                    <th name="appName" >应用名</th>
+                                    <th name="appDesc" >应用描述</th>
+                                    <th name="uuid" >UUID</th>
+                                    <th name="publicKey" >publicKey</th>
                                 </tr>
                                 </thead>
                                 <tbody>
 								<#if list?exists && list?size gt 0>
-								<#list list as group>
+								<#list list as app>
 									<tr>
-                                        <td>${group.groupName}</td>
-                                        <td>${group.groupTitle}</td>
+                                        <td>${app.appName}</td>
+                                        <td>${app.appDesc}</td>
+                                        <td>${app.uuid}</td>
+                                        <td>${app.publicKey}</td>
                                         <td>
-                                            <button class="btn btn-warning btn-xs update" groupName="${group.groupName}" groupTitle="${group.groupTitle}" >编辑</button>
-                                            <button class="btn btn-danger btn-xs remove" groupName="${group.groupName}" >删除</button>
+                                            <button class="btn btn-warning btn-xs update" appName = "${app.appName}" appDesc = "${app.appDesc}" >编辑</button>
+                                            <button class="btn btn-danger btn-xs remove" id="${app.id}" >删除</button>
                                         </td>
                                     </tr>
 								</#list>
@@ -73,12 +77,12 @@
                 <div class="modal-body">
                     <form class="form-horizontal form" role="form" >
                         <div class="form-group">
-                            <label for="lastname" class="col-sm-2 control-label">GroupName<font color="red">*</font></label>
-                            <div class="col-sm-10"><input type="text" class="form-control" name="groupName" placeholder="请输入“GroupName”" maxlength="64" ></div>
+                            <label for="lastname" class="col-sm-2 control-label">应用名<font color="red">*</font></label>
+                            <div class="col-sm-10"><input type="text" class="form-control" name="appName" placeholder="请输入“应用名”" maxlength="64" ></div>
                         </div>
                         <div class="form-group">
-                            <label for="lastname" class="col-sm-2 control-label">分组名<font color="red">*</font></label>
-                            <div class="col-sm-10"><input type="text" class="form-control" name="groupTitle" placeholder="请输入“分组名”" maxlength="12" ></div>
+                            <label for="lastname" class="col-sm-2 control-label">应用描述<font color="red">*</font></label>
+                            <div class="col-sm-10"><input type="text" class="form-control" name="appDesc" placeholder="请输入“应用描述”" maxlength="12" ></div>
                         </div>
                         <hr>
                         <div class="form-group">
@@ -103,12 +107,12 @@
                 <div class="modal-body">
                     <form class="form-horizontal form" role="form" >
                         <div class="form-group">
-                            <label for="lastname" class="col-sm-2 control-label">GroupName<font color="red">*</font></label>
-                            <div class="col-sm-10"><input type="text" class="form-control" name="groupName" placeholder="请输入“GroupName”" maxlength="64" readonly></div>
+                            <label for="lastname" class="col-sm-2 control-label">应用名<font color="red">*</font></label>
+                            <div class="col-sm-10"><input type="text" class="form-control" name="appName" placeholder="请输入“应用名”" maxlength="64" readonly></div>
                         </div>
                         <div class="form-group">
-                            <label for="lastname" class="col-sm-2 control-label">分组名<font color="red">*</font></label>
-                            <div class="col-sm-10"><input type="text" class="form-control" name="groupTitle" placeholder="请输入“分组名”" maxlength="12" ></div>
+                            <label for="lastname" class="col-sm-2 control-label">应用描述<font color="red">*</font></label>
+                            <div class="col-sm-10"><input type="text" class="form-control" name="appDesc" placeholder="请输入“应用描述”" maxlength="12" ></div>
                         </div>
                         <hr>
                         <div class="form-group">
@@ -132,6 +136,6 @@
 <script src="${request.contextPath}/static/adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="${request.contextPath}/static/adminlte/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script src="${request.contextPath}/static/plugins/jquery/jquery.validate.min.js"></script>
-<script src="${request.contextPath}/static/js/group.index.1.js"></script>
+<script src="${request.contextPath}/static/js/app.1.js"></script>
 </body>
 </html>
