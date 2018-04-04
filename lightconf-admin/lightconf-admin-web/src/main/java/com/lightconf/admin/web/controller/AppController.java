@@ -9,6 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * 应用管理接口.
@@ -25,20 +28,23 @@ public class AppController extends BaseController {
 
     @RequestMapping("")
     @PermessionLimit
-    public String index(Model model, String znodeKey) {
+    public String index(Model model) {
+        List<AppWithBLOBs> appList = appService.getAllApp();
+		model.addAttribute("list", appList);
         return "app/app.index";
     }
 
     @RequestMapping("/add_app")
-    @PermessionLimit
+    @ResponseBody
     public LightConfResult addApp(AppWithBLOBs app) {
         LOGGER.info("add application , the name is : {}",app.getAppName());
         LightConfResult result = appService.addApp(app);
+        LOGGER.info(result.toString());
         return result;
     }
 
     @RequestMapping("/update_app")
-    @PermessionLimit
+    @ResponseBody
     public LightConfResult updateApp(AppWithBLOBs app) {
         LOGGER.info("update application , the name is : {}",app.getAppName());
         LightConfResult result = appService.updateApp(app);
@@ -46,7 +52,7 @@ public class AppController extends BaseController {
     }
 
     @RequestMapping("/delete_app")
-    @PermessionLimit
+    @ResponseBody
     public LightConfResult deleteApp(String appId) {
         LOGGER.info("delete application , the appId is : {}",appId);
         LightConfResult result = appService.deleteApp(appId);
@@ -54,7 +60,7 @@ public class AppController extends BaseController {
     }
 
     @RequestMapping("/get_app_list")
-    @PermessionLimit
+    @ResponseBody
     public LightConfResult getAppList(@RequestParam(required = false, defaultValue = "0") int pageSize,
                                       @RequestParam(required = false, defaultValue = "10") int pageNum) {
         LOGGER.info("delete application , the appId is : {}");
