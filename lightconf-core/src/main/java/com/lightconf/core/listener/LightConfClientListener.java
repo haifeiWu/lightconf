@@ -22,6 +22,7 @@ public class LightConfClientListener implements ApplicationListener<ContextRefre
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
 
+            LOGGER.info(">>>>>>>>>> lightconf client start at host : {} ,port ： {}",host,port);
         // 防止二次加载
         if (contextRefreshedEvent.getApplicationContext().getParent() == null) {
             try {
