@@ -2,13 +2,13 @@ $(function() {
 
     // remove
     $('.remove').on('click', function(){
-        var groupName = $(this).attr('groupName');
+        var id = $(this).attr('id');
 
-        ComConfirm.show("确认删除分组?", function(){
+        ComConfirm.show("确认删除应用吗?", function(){
             $.ajax({
                 type : 'POST',
-                url : base_url + '/group/remove',
-                data : {"groupName":groupName},
+                url : base_url + '/app/delete_app',
+                data : {"appId":id},
                 dataType : "json",
                 success : function(data){
                     if (data.code == 200) {
@@ -169,5 +169,28 @@ $(function() {
         $("#updateModal .form")[0].reset();
         addModalValidate.resetForm();
         $("#updateModal .form .form-group").removeClass("has-error");
+    });
+
+    $('.getAppConf').on('click', function(){
+        var appId = $(this).attr('id');
+
+        $.ajax({
+            url : base_url + "/app/get_app_conf",
+            type : "post",
+            data : {"appId":appId},
+            dataType : "json",
+            async: false,
+            success : function(data){
+                if (data.code == 200) {
+
+                } else {
+                    if (data.msg) {
+                        ComAlert.show(2, data.msg);
+                    } else {
+                        ComAlert.show(2, '信息获取失败！');
+                    }
+                }
+            },
+        })
     });
 });

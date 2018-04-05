@@ -36,4 +36,11 @@ public interface AppService {
     LightConfResult getAppList(int pageSize, int pageNum);
 
     List<AppWithBLOBs> getAllApp();
+
+    /**
+     * 获取应用的配置信息.
+     * @param appId appId.
+     * @return
+     */
+    LightConfResult getAppConf(String appId);
 }
