@@ -54,6 +54,7 @@
                                         <td>
                                             <button class="btn btn-warning btn-xs update" id="${app.id}" appName = "${app.appName}" appDesc = "${app.appDesc}" >编辑</button>
                                             <button class="btn btn-danger btn-xs remove" id="${app.id}" >删除</button>
+                                            <button class="btn btn-info btn-xs getAppConf" id="${app.id}" >应用配置信息</button>
                                         </td>
                                     </tr>
 								</#list>
