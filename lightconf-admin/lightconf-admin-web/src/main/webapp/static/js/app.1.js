@@ -106,6 +106,7 @@ $(function() {
     $('.update').on('click', function(){
         $("#updateModal .form input[name='appName']").val($(this).attr("appName"));
         $("#updateModal .form input[name='appDesc']").val($(this).attr("appDesc"));
+        $("#updateModal .form input[name='id']").val($(this).attr("id"));
 
         $('#updateModal').modal({backdrop: false, keyboard: false}).modal('show');
     });
@@ -146,7 +147,7 @@ $(function() {
             element.parent('div').append(error);
         },
         submitHandler : function(form) {
-            $.post(base_url + "/app/update",  $("#updateModal .form").serialize(), function(data, status) {
+            $.post(base_url + "/app/update_app",  $("#updateModal .form").serialize(), function(data, status) {
                 if (data.code == "200") {
                     $('#addModal').modal('hide');
                     setTimeout(function () {
