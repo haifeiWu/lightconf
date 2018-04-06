@@ -1,7 +1,10 @@
 package com.lightconf.admin.service.impl;
 
+import com.lightconf.admin.dal.dao.AppConfMapper;
 import com.lightconf.admin.dal.dao.AppMapper;
+import com.lightconf.admin.dal.dao.ConfMapper;
 import com.lightconf.admin.dal.dao.ConfMapper2;
+import com.lightconf.admin.model.dataobj.AppConfExample;
 import com.lightconf.admin.model.dataobj.AppExample;
 import com.lightconf.admin.model.dataobj.AppWithBLOBs;
 import com.lightconf.admin.model.dataobj.Conf;
@@ -32,7 +35,13 @@ public class AppServiceImpl implements AppService {
     AppMapper appMapper;
 
     @Autowired
+    ConfMapper confMapper;
+
+    @Autowired
     ConfMapper2 confMapper2;
+
+    @Autowired
+    AppConfMapper appConfMapper;
 
     @Override
     public LightConfResult addApp(AppWithBLOBs app) {
@@ -53,7 +62,23 @@ public class AppServiceImpl implements AppService {
             LOGGER.info(">>>>>> params is not be null");
             return LightConfResult.build(Messages.INPUT_ERROR_CODE,Messages.MISSING_INPUT_MSG);
         }
-        appMapper.deleteByPrimaryKey(Integer.valueOf(appId));
+
+        LOGGER.info(">>>>>> delete app,the id is : {}",appId);
+        int id = Integer.valueOf(appId);
+        appMapper.deleteByPrimaryKey(id);
+        // 应用配置信息
+
+        List<Conf> confList = confMapper2.getAppConf(id);
+        if (confList.size() > 0 && confList != null) {
+            for (Conf conf :confList) {
+                confMapper.deleteByPrimaryKey(conf.getId());
+            }
+        }
+
+        // 删除关系表数据
+        AppConfExample appConfExample = new AppConfExample();
+        appConfExample.createCriteria().andAppIdEqualTo(appId);
+        appConfMapper.deleteByExample(appConfExample);
         return LightConfResult.ok();
     }
 

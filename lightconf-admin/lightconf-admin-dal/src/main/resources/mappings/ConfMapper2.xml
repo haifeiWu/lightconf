@@ -17,4 +17,5 @@
     FROM light_conf_conf conf INNER JOIN light_conf_app_conf app_conf ON conf.id = app_conf.conf_id
     WHERE app_conf.app_id = #{appId,jdbcType=INTEGER}
   </select>
+
 </mapper>
