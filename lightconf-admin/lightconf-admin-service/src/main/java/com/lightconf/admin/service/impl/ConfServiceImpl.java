@@ -51,23 +51,23 @@ public class ConfServiceImpl implements ConfService {
     }
 
     @Override
-    public LightConfResult add(Conf conf, String appUuid) {
+    public LightConfResult add(Conf conf, String appId) {
 
-        if (StringUtils.isBlank(appUuid)) {
+        if (StringUtils.isBlank(appId)) {
             LOGGER.info("appUuid is not allow be null");
             return LightConfResult.build(Messages.MISSING_INPUT_CODE,Messages.MISSING_INPUT_MSG);
         }
 
-        App app = getAppByUuid(appUuid);
+        App app = appMapper.selectByPrimaryKey(Integer.valueOf(appId));
         if (null != app) {
             confMapper.insert(conf);
             AppConf appConf = new AppConf();
             appConf.setAppId(String.valueOf(app.getId()));
             appConf.setConfId(String.valueOf(conf.getId()));
             appConfMapper.insert(appConf);
-
-            // 更新配置到客户端.
-            NettyChannelMap.get(app.getUuid()).writeAndFlush(conf);
+//
+//            // 更新配置到客户端.
+//            NettyChannelMap.get(app.getUuid()).writeAndFlush(conf);
             LOGGER.info("add conf success");
             return LightConfResult.ok();
         } else {

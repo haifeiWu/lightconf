@@ -18,4 +18,10 @@
     WHERE app_conf.app_id = #{appId,jdbcType=INTEGER}
   </select>
 
+  <select id="getAppConfByPage" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM light_conf_conf conf INNER JOIN light_conf_app_conf app_conf ON conf.id = app_conf.conf_id
+    WHERE app_conf.app_id = #{appId,jdbcType=INTEGER} limit #{start},#{length}
+  </select>
 </mapper>

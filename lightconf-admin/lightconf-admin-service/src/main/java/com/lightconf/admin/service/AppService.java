@@ -43,4 +43,13 @@ public interface AppService {
      * @return
      */
     LightConfResult getAppConf(String appId);
+
+    /**
+     * 获取应用的配置信息，分页显示。
+     * @param start start
+     * @param length length
+     * @param appId appId
+     * @return
+     */
+    LightConfResult getAppConfByPage(int start, int length, String appId);
 }

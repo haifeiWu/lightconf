@@ -182,7 +182,8 @@ $(function() {
             async: false,
             success : function(data){
                 if (data.code == 200) {
-
+                    // 跳转到A应用的配置信息界面。
+                    window.location.href = base_url + "/conf?appId=" + appId;
                 } else {
                     if (data.msg) {
                         ComAlert.show(2, data.msg);
