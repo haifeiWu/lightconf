@@ -102,4 +102,14 @@ public class AppServiceImpl implements AppService {
         List<Conf> confList = confMapper2.getAppConf(Integer.valueOf(appId));
         return LightConfResult.build(Messages.SUCCESS_CODE,Messages.SUCCESS_MSG,confList);
     }
+
+    @Override
+    public LightConfResult getAppConfByPage(int start, int length, String appId) {
+        if (StringUtils.isBlank(appId)) {
+            LOGGER.info(">>>>>> params is not be null");
+            return LightConfResult.build(Messages.INPUT_ERROR_CODE,Messages.MISSING_INPUT_MSG);
+        }
+        List<Conf> confList = confMapper2.getAppConfByPage(start,length,Integer.valueOf(appId));
+        return LightConfResult.build(Messages.SUCCESS_CODE,Messages.SUCCESS_MSG,confList);
+    }
 }
