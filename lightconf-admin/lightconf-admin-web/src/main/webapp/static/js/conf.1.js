@@ -90,20 +90,23 @@ $(function(){
 	
 	// 删除
 	$("#conf_list").on('click', '.delete',function() {
-		var nodeGroup = $(this).parent('p').attr("nodeGroup");
-		var nodeKey = $(this).parent('p').attr("nodeKey");
-		ComConfirm.show("确定要删除配置：" + nodeKey, function(){
+		// var nodeGroup = $(this).parent('p').attr("nodeGroup");
+		// var nodeKey = $(this).parent('p').attr("nodeKey");
+        var confKey = $(this).attr("confKey");
+        // var confId = $(this).parent('p').attr("confId");
+        var confId = $(this).attr('confId');
+		ComConfirm.show("确定要删除配置：" + confKey, function() {
 			$.post(
 				base_url + "/conf/delete",
 				{
-					"nodeGroup" : nodeGroup,
-					"nodeKey" : nodeKey
+					"confId" : confId
 				},
 				function(data, status) {
 					if (data.code == "200") {
 						ComAlert.show(1, "删除成功", function(){
-							confTable.fnDraw();
+							// confTable.fnDraw();
 						});
+						window.reload();
 					} else {
 						ComAlert.show(2, data.msg);
 					}
@@ -165,9 +168,9 @@ $(function(){
     			if (data.code == "200") {
     				ComAlert.show(1, "新增配置成功", function(){
 						// confTable.fnDraw();
-                        window.reload();
 						$('#addModal').modal('hide');
     				});
+                    window.reload();
     			} else {
     				ComAlert.show(2, data.msg);
     			}
@@ -181,12 +184,18 @@ $(function(){
 	// 更新
 	$("#conf_list").on('click', '.update',function() {
 
-		$("#updateModal .form input[name='nodeGroup']").val( $(this).parent('p').attr("nodeGroup") );
-		$("#updateModal .form input[name='nodeKey']").val( $(this).parent('p').attr("nodeKey") );
-		//$("#updateModal .form input[name='nodeValueReal']").val( $(this).parent('p').attr("nodeValueReal") );
-		//$("#updateModal .form textarea[name='nodeValue']").val( $(this).parent('p').attr("nodeValue") );
-		$("#updateModal .form textarea[name='nodeValue']").val( $(this).parent('p').find("textarea[name='nodeValue']").val() );
-		$("#updateModal .form input[name='nodeDesc']").val( $(this).parent('p').attr("nodeDesc") );
+		// $("#updateModal .form input[name='nodeGroup']").val( $(this).parent('p').attr("nodeGroup") );
+		// $("#updateModal .form input[name='confKey']").val( $(this).parent('p').attr("confKey") );
+		// //$("#updateModal .form input[name='nodeValueReal']").val( $(this).parent('p').attr("nodeValueReal") );
+		// //$("#updateModal .form textarea[name='nodeValue']").val( $(this).parent('p').attr("nodeValue") );
+		// $("#updateModal .form textarea[name='confValue']").val( $(this).parent('p').find("textarea[name='confValue']").val() );
+		// $("#updateModal .form input[name='confDesc']").val( $(this).parent('p').attr("confDesc") );
+        // $("#updateModal .form textarea[name='confId']").val( $(this).parent('p').find("textarea[name='confId']").val() );
+
+        $("#updateModal .form input[name='confKey']").val($(this).attr("confKey"));
+        $("#updateModal .form textarea[name='confValue']").val($(this).attr("confValue"));
+        $("#updateModal .form input[name='confDesc']").val($(this).attr("confDesc"));
+        $("#updateModal .form textarea[name='id']").val($(this).attr("confId"));
 
 		$('#updateModal').modal('show');
 	});
@@ -233,6 +242,7 @@ $(function(){
 						// confTable.fnDraw();
 						$('#updateModal').modal('hide');
     				});
+    				window.reload();
     			} else {
     				ComAlert.show(2, data.msg);
     			}

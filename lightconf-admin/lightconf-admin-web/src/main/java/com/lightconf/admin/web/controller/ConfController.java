@@ -64,9 +64,10 @@ public class ConfController extends BaseController{
     @RequestMapping("/delete")
     @ResponseBody
     @PermessionLimit
-    public LightConfResult delete(String nodeGroup, String nodeKey) {
-        LOGGER.info("delete config , the key is : {}",nodeKey);
-        return confService.deleteByKey(nodeKey);
+    public LightConfResult delete(String confId) {
+        LOGGER.info("delete config , the key is : {}",confId);
+        LightConfResult result = confService.deleteById(confId);
+        return result;
     }
 
     /**
@@ -97,8 +98,9 @@ public class ConfController extends BaseController{
     @RequestMapping("/update")
     @ResponseBody
     @PermessionLimit
-    public LightConfResult update(Conf conf,String appUuid) {
+    public LightConfResult update(Conf conf,String appId) {
         LOGGER.info("update conf key is : {}",conf.getConfKey());
-        return confService.update(conf,appUuid);
+        LightConfResult result = confService.update(conf,appId);
+        return result;
     }
 }
