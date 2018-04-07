@@ -85,8 +85,8 @@
 					                        	<div class="input-group">
 						                      		<#--<button class="btn btn-primary btn-xs update" type="button" nodeKey="${item.nodeKey}" znodeValue="${item.znodeValue}" znodeDesc="${item.znodeDesc}" >更新</button>&nbsp;-->
 														<#--<button class="btn btn-danger btn-xs delete" type="button" nodeKey="${item.nodeKey}">删除</button>-->
-                                                    <button class="btn btn-primary btn-xs update" type="button" confId="${item.id}" confKey="${item.confKey}" confValue="${item.confValue}" >更新</button>&nbsp;
-						                      		<button class="btn btn-danger btn-xs delete" type="button" confId="${item.id}">删除</button>
+                                                    <button class="btn btn-primary btn-xs update" type="button" confDesc="${item.confDesc}" confId="${item.id}" confKey="${item.confKey}" confValue="${item.confValue}" >更新</button>&nbsp;
+						                      		<button class="btn btn-danger btn-xs delete" type="button" confKey="${item.confKey}" confId="${item.id}">删除</button>
 					                        	</div>
 					                        </td>
 				                      	</tr>
@@ -166,24 +166,37 @@
 	         	</div>
 	         	<div class="modal-body">
 					<form class="form-horizontal form" role="form" >
-                        <div class="form-group">
-                            <label for="firstname" class="col-sm-2 control-label">GROUP</label>
-                            <div class="col-sm-10"><input type="text" class="form-control" name="nodeGroup" placeholder="请输入KEY" maxlength="100" readonly></div>
-                        </div>
+                        <#--<div class="form-group">-->
+                            <#--<label for="firstname" class="col-sm-2 control-label">GROUP</label>-->
+                            <#--<div class="col-sm-10"><input type="text" class="form-control" name="nodeGroup" placeholder="请输入KEY" maxlength="100" readonly></div>-->
+                        <#--</div>-->
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">KEY</label>
-                            <div class="col-sm-10"><input type="text" class="form-control" name="nodeKey" placeholder="请输入KEY" maxlength="100" readonly></div>
+                            <div class="col-sm-10"><input type="text" class="form-control" name="confKey" placeholder="请输入KEY" maxlength="100" readonly></div>
                         </div>
                         <div class="form-group">
                             <label for="lastname" class="col-sm-2 control-label">描述</label>
-                            <div class="col-sm-10"><input type="text" class="form-control" name="nodeDesc" placeholder="请输入描述" maxlength="100" ></div>
+                            <div class="col-sm-10"><input type="text" class="form-control" name="confDesc" placeholder="请输入描述" maxlength="100" ></div>
                         </div>
                         <div class="form-group">
                             <label for="lastname" class="col-sm-2 control-label">VALUE</label>
                             <div class="col-sm-10">
-                                <textarea class="textarea" name="nodeValue" maxlength="512" placeholder="请输入VALUE" style="width: 100%; height: 100px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                                <textarea class="textarea" name="confValue" maxlength="512" placeholder="请输入VALUE" style="width: 100%; height: 100px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
                             </div>
                         </div>
+
+                        <div class="form-group" style="display: none">
+                            <label for="lastname" class="col-sm-2 control-label">appId</label>
+                            <div class="col-sm-10"><input type="text" class="form-control" name="appId" value="${appId}" placeholder="请输入描述" maxlength="100" ></div>
+                        </div>
+
+                        <div class="form-group" style="display:none;">
+                            <label for="lastname" class="col-sm-2 control-label">confId</label>
+                            <div class="col-sm-10">
+                                <textarea class="textarea" name="id" maxlength="512" placeholder="请输入confId" style="width: 100%; height: 100px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                            </div>
+                        </div>
+
 						<div class="form-group">
 							<div class="col-sm-offset-2 col-sm-10">
 								<button type="submit" class="btn btn-primary"  >更新</button>
