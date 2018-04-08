@@ -12,6 +12,7 @@ public class PushMsg extends BaseMsg {
 
     private String key;
     private String value;
+    private String confType;
 
     public String getKey() {
         return key;
@@ -27,5 +28,13 @@ public class PushMsg extends BaseMsg {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getConfType() {
+        return confType;
+    }
+
+    public void setConfType(String confType) {
+        this.confType = confType;
     }
 }

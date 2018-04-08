@@ -1,6 +1,7 @@
 package com.lightconf.core.netty;
 
 import com.lightconf.common.model.*;
+import com.lightconf.common.util.CommonConstants;
 import com.lightconf.core.core.LightConfLocalCacheConf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -39,10 +40,17 @@ public class ClientHandler extends SimpleChannelInboundHandler<BaseMsg> {
             case PUSH_CONF:
                 // 将server推送过来的数据放在本地缓存中
                 PushMsg pushMsg = (PushMsg) baseMsg;
-                LightConfLocalCacheConf.set(pushMsg.getKey(),pushMsg.getValue());
-                logger.info("update application conf");
+                if (CommonConstants.CONF_TYPE_ADD.equals(pushMsg.getConfType())) {
+                    LightConfLocalCacheConf.set(pushMsg.getKey(),pushMsg.getValue());
+                    logger.info("add application conf");
+                } else if (CommonConstants.CONF_TYPE_UPDATE.equals(pushMsg.getConfType())) {
+                    LightConfLocalCacheConf.update(pushMsg.getKey(),pushMsg.getValue());
+                    logger.info("update application conf");
+                } else {
+                    LightConfLocalCacheConf.remove(pushMsg.getKey());
+                    logger.info("delete application conf");
+                }
                 break;
-
             case LOGIN: {
                 //向服务器发起登录
                 LoginMsg loginMsg = new LoginMsg();
