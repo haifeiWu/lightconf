@@ -32,13 +32,6 @@ public class LightConfClient {
 			return cacheNode.getValue();
 		}
 
-		// level 3	(get-and-watch, add-local-cache)
-//		String zkData = XxlConfZkClient.getPathDataByKey(key);
-//		XxlConfLocalCacheConf.set(key, zkData);		// cache null value
-//		if (zkData != null) {
-//			return zkData;
-//		}
-
 		return defaultVal;
 	}
 

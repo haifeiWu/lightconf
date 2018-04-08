@@ -1,6 +1,7 @@
 package com.lightconf.core.netty;
 
 import com.lightconf.common.model.*;
+import com.lightconf.core.core.LightConfLocalCacheConf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleStateEvent;
@@ -36,6 +37,9 @@ public class ClientHandler extends SimpleChannelInboundHandler<BaseMsg> {
         switch (msgType) {
 
             case PUSH_CONF:
+                // 将server推送过来的数据放在本地缓存中
+                PushMsg pushMsg = (PushMsg) baseMsg;
+                LightConfLocalCacheConf.set(pushMsg.getKey(),pushMsg.getValue());
                 logger.info("update application conf");
                 break;
 

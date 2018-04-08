@@ -44,14 +44,15 @@ public class ClientBootstrap {
     }
 
     public void start() {
-
-        bootstrap = new Bootstrap();
-        bootstrap.channel(NioSocketChannel.class)
-                .option(ChannelOption.SO_KEEPALIVE, true)
-                .group(workGroup)
-                .remoteAddress(host, port)
-                .handler(new ClientInitializer());
-        doConnect(port, host ,applicationUuid);
+        if (bootstrap == null) {
+            bootstrap = new Bootstrap();
+            bootstrap.channel(NioSocketChannel.class)
+                    .option(ChannelOption.SO_KEEPALIVE, true)
+                    .group(workGroup)
+                    .remoteAddress(host, port)
+                    .handler(new ClientInitializer());
+            doConnect(port, host ,applicationUuid);
+        }
     }
 
     /**
@@ -83,7 +84,7 @@ public class ClientBootstrap {
                 if (futureListener.isSuccess()) {
                     socketChannel = (SocketChannel) futureListener.channel();
 
-                    logger.info(">>>>>>>>>> lightconf client connect to server successfully! [host:" + hostConnect + ", port:" + portConnect + ", connector name:" + Constants.getClientId() + "]");
+                    logger.info(">>>>>>>>>> lightconf client connect to server successfully! [host:" + hostConnect + ", port:" + portConnect + ", connector uuid:" + Constants.getClientId() + "]");
                     login(socketChannel,uuid);
                 } else if (reConnect < CommonConstants.RECONNECT) {
                     reConnect++;
