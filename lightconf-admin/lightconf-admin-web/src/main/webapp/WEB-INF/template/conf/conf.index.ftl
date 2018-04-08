@@ -33,20 +33,20 @@
 			
                 <div class="row">
                     <div class="col-xs-4">
-                        <div class="input-group">
-                            <span class="input-group-addon">分组</span>
-                            <select class="form-control" id="nodeGroup" >
-                                <option value="" >全部</option>
-								<#list XxlConfNodeGroup as group>
-									<option value="${group.groupName}" >${group.groupTitle}</option>
-								</#list>
-                            </select>
-                        </div>
+                        <#--<div class="input-group">-->
+                            <#--<span class="input-group-addon">分组</span>-->
+                            <#--<select class="form-control" id="nodeGroup" >-->
+                                <#--<option value="" >全部</option>-->
+								<#--<#list XxlConfNodeGroup as group>-->
+									<#--<option value="${group.groupName}" >${group.groupTitle}</option>-->
+								<#--</#list>-->
+                            <#--</select>-->
+                        <#--</div>-->
                     </div>
                     <div class="col-xs-4">
                         <div class="input-group">
                             <span class="input-group-addon">KEY</span>
-                            <input type="text" class="form-control" id="nodeKey" value="${nodeKey}" autocomplete="on" >
+                            <input type="text" class="form-control" id="confKey" autocomplete="on" >
                         </div>
                     </div>
                     <div class="col-xs-2">
@@ -63,27 +63,30 @@
 	                  	<table id="conf_list" class="table table-bordered table-hover">
 		                    <thead>
 		                      	<tr>
-                                    <th>GROUP</th>
-                                    <th>KEY</th>
-			                        <th>GROUP_KEY</th>
+			                        <th>KEY</th>
 			                        <th>VALUE</th>
-			                        <th>VALUE(zk)</th>
 			                        <th>描述</th>
 			                        <th>操作</th>
 		                      	</tr>
 							</thead>
 		                    <tbody>
-		                    	<#if fileterData?exists>
-		                    		<#list fileterData as item>
+		                    	<#--<#if fileterData?exists>-->
+
+								<#if list?exists && list?size gt 0>
+		                    		<#--<#list fileterData as item>-->
+									<#list list as item>
 		                    			<tr>
-					                        <td>${item.nodeKey}</td>
-					                        <td <#if item.znodeValue != item.znodeValueReal>style="color:red;font: italic bold"</#if> >${item.znodeValue}</td>
-					                        <td <#if item.znodeValue != item.znodeValueReal>style="color:red;font: italic bold"</#if> >${item.znodeValueReal}</td>
-					                        <td>${item.znodeDesc}</td>
+					                        <td>${item.confKey}</td>
+					                        <#--<td <#if item.znodeValue != item.znodeValueReal>style="color:red;font: italic bold"</#if> >${item.znodeValue}</td>
+					                        <td <#if item.znodeValue != item.znodeValueReal>style="color:red;font: italic bold"</#if> >${item.znodeValueReal}</td>-->
+					                        <td>${item.confValue}</td>
+                                            <td>${item.confDesc}</td>
 					                        <td>
 					                        	<div class="input-group">
-						                      		<button class="btn btn-primary btn-xs update" type="button" nodeKey="${item.nodeKey}" znodeValue="${item.znodeValue}" znodeDesc="${item.znodeDesc}" >更新</button>&nbsp;
-						                      		<button class="btn btn-danger btn-xs delete" type="button" nodeKey="${item.nodeKey}">删除</button>
+						                      		<#--<button class="btn btn-primary btn-xs update" type="button" nodeKey="${item.nodeKey}" znodeValue="${item.znodeValue}" znodeDesc="${item.znodeDesc}" >更新</button>&nbsp;-->
+														<#--<button class="btn btn-danger btn-xs delete" type="button" nodeKey="${item.nodeKey}">删除</button>-->
+                                                    <button class="btn btn-primary btn-xs update" type="button" confDesc="${item.confDesc}" confId="${item.id}" confKey="${item.confKey}" confValue="${item.confValue}" >更新</button>&nbsp;
+						                      		<button class="btn btn-danger btn-xs delete" type="button" confKey="${item.confKey}" confId="${item.id}">删除</button>
 					                        	</div>
 					                        </td>
 				                      	</tr>
@@ -114,30 +117,34 @@
 	         	</div>
 	         	<div class="modal-body">
 					<form class="form-horizontal form" role="form" >
-                        <div class="form-group">
-                            <label for="firstname" class="col-sm-2 control-label">分组</label>
-                            <div class="col-sm-4">
-								<select class="form-control" name="nodeGroup" >
-									<#list XxlConfNodeGroup as group>
-                                        <option value="${group.groupName}" >${group.groupTitle}</option>
-									</#list>
-								</select>
-                        	</div>
-                        </div>
+                        <#--<div class="form-group">-->
+                            <#--<label for="firstname" class="col-sm-2 control-label">分组</label>-->
+                            <#--<div class="col-sm-4">-->
+								<#--<select class="form-control" name="nodeGroup" >-->
+									<#--<#list XxlConfNodeGroup as group>-->
+                                        <#--<option value="${group.groupName}" >${group.groupTitle}</option>-->
+									<#--</#list>-->
+								<#--</select>-->
+                        	<#--</div>-->
+                        <#--</div>-->
 						<div class="form-group">
 							<label for="firstname" class="col-sm-2 control-label">KEY</label>
-							<div class="col-sm-10"><input type="text" class="form-control" name="nodeKey" placeholder="请输入KEY" maxlength="100" ></div>
+							<div class="col-sm-10"><input type="text" class="form-control" name="confKey" placeholder="请输入KEY" maxlength="100" ></div>
 						</div>
                         <div class="form-group">
                             <label for="lastname" class="col-sm-2 control-label">描述</label>
-                            <div class="col-sm-10"><input type="text" class="form-control" name="nodeDesc" placeholder="请输入描述" maxlength="100" ></div>
+                            <div class="col-sm-10"><input type="text" class="form-control" name="confDesc" placeholder="请输入描述" maxlength="100" ></div>
                         </div>
 						<div class="form-group">
 							<label for="lastname" class="col-sm-2 control-label">VALUE</label>
 							<div class="col-sm-10">
-                                <textarea class="textarea" name="nodeValue" maxlength="512" placeholder="请输入VALUE" style="width: 100%; height: 100px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                                <textarea class="textarea" name="confValue" maxlength="512" placeholder="请输入VALUE" style="width: 100%; height: 100px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
 							</div>
 						</div>
+                        <div class="form-group" style="display: none">
+                            <label for="lastname" class="col-sm-2 control-label">appId</label>
+                            <div class="col-sm-10"><input type="text" class="form-control" name="appId" value="${appId}" placeholder="请输入描述" maxlength="100" ></div>
+                        </div>
 						<div class="form-group">
 							<div class="col-sm-offset-2 col-sm-10">
 								<button type="submit" class="btn btn-primary"  >保存</button>
@@ -159,24 +166,37 @@
 	         	</div>
 	         	<div class="modal-body">
 					<form class="form-horizontal form" role="form" >
-                        <div class="form-group">
-                            <label for="firstname" class="col-sm-2 control-label">GROUP</label>
-                            <div class="col-sm-10"><input type="text" class="form-control" name="nodeGroup" placeholder="请输入KEY" maxlength="100" readonly></div>
-                        </div>
+                        <#--<div class="form-group">-->
+                            <#--<label for="firstname" class="col-sm-2 control-label">GROUP</label>-->
+                            <#--<div class="col-sm-10"><input type="text" class="form-control" name="nodeGroup" placeholder="请输入KEY" maxlength="100" readonly></div>-->
+                        <#--</div>-->
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">KEY</label>
-                            <div class="col-sm-10"><input type="text" class="form-control" name="nodeKey" placeholder="请输入KEY" maxlength="100" readonly></div>
+                            <div class="col-sm-10"><input type="text" class="form-control" name="confKey" placeholder="请输入KEY" maxlength="100" readonly></div>
                         </div>
                         <div class="form-group">
                             <label for="lastname" class="col-sm-2 control-label">描述</label>
-                            <div class="col-sm-10"><input type="text" class="form-control" name="nodeDesc" placeholder="请输入描述" maxlength="100" ></div>
+                            <div class="col-sm-10"><input type="text" class="form-control" name="confDesc" placeholder="请输入描述" maxlength="100" ></div>
                         </div>
                         <div class="form-group">
                             <label for="lastname" class="col-sm-2 control-label">VALUE</label>
                             <div class="col-sm-10">
-                                <textarea class="textarea" name="nodeValue" maxlength="512" placeholder="请输入VALUE" style="width: 100%; height: 100px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                                <textarea class="textarea" name="confValue" maxlength="512" placeholder="请输入VALUE" style="width: 100%; height: 100px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
                             </div>
                         </div>
+
+                        <div class="form-group" style="display: none">
+                            <label for="lastname" class="col-sm-2 control-label">appId</label>
+                            <div class="col-sm-10"><input type="text" class="form-control" name="appId" value="${appId}" placeholder="请输入描述" maxlength="100" ></div>
+                        </div>
+
+                        <div class="form-group" style="display:none;">
+                            <label for="lastname" class="col-sm-2 control-label">confId</label>
+                            <div class="col-sm-10">
+                                <textarea class="textarea" name="id" maxlength="512" placeholder="请输入confId" style="width: 100%; height: 100px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                            </div>
+                        </div>
+
 						<div class="form-group">
 							<div class="col-sm-offset-2 col-sm-10">
 								<button type="submit" class="btn btn-primary"  >更新</button>

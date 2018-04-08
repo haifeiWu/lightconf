@@ -3,10 +3,7 @@ package com.lightconf.admin.service.impl;
 import com.lightconf.admin.dal.dao.AppConfMapper;
 import com.lightconf.admin.dal.dao.AppMapper;
 import com.lightconf.admin.dal.dao.ConfMapper;
-import com.lightconf.admin.model.dataobj.App;
-import com.lightconf.admin.model.dataobj.AppConf;
-import com.lightconf.admin.model.dataobj.AppExample;
-import com.lightconf.admin.model.dataobj.Conf;
+import com.lightconf.admin.model.dataobj.*;
 import com.lightconf.admin.service.ConfService;
 import com.lightconf.common.model.Messages;
 import com.lightconf.common.util.LightConfResult;
@@ -51,23 +48,23 @@ public class ConfServiceImpl implements ConfService {
     }
 
     @Override
-    public LightConfResult add(Conf conf, String appUuid) {
+    public LightConfResult add(Conf conf, String appId) {
 
-        if (StringUtils.isBlank(appUuid)) {
+        if (StringUtils.isBlank(appId)) {
             LOGGER.info("appUuid is not allow be null");
             return LightConfResult.build(Messages.MISSING_INPUT_CODE,Messages.MISSING_INPUT_MSG);
         }
 
-        App app = getAppByUuid(appUuid);
+        App app = appMapper.selectByPrimaryKey(Integer.valueOf(appId));
         if (null != app) {
             confMapper.insert(conf);
             AppConf appConf = new AppConf();
             appConf.setAppId(String.valueOf(app.getId()));
             appConf.setConfId(String.valueOf(conf.getId()));
             appConfMapper.insert(appConf);
-
-            // 更新配置到客户端.
-            NettyChannelMap.get(app.getUuid()).writeAndFlush(conf);
+//
+//            // 更新配置到客户端.
+//            NettyChannelMap.get(app.getUuid()).writeAndFlush(conf);
             LOGGER.info("add conf success");
             return LightConfResult.ok();
         } else {
@@ -91,22 +88,40 @@ public class ConfServiceImpl implements ConfService {
     }
 
     @Override
-    public LightConfResult update(Conf conf, String appUuid) {
+    public LightConfResult update(Conf conf, String appId) {
 
-        if (StringUtils.isBlank(appUuid)) {
-            LOGGER.info("appUuid is not allow be null");
+        if (StringUtils.isBlank(appId)) {
+            LOGGER.error("appUuid is not allow be null");
             return LightConfResult.build(Messages.MISSING_INPUT_CODE,Messages.MISSING_INPUT_MSG);
         }
 
-        App app = getAppByUuid(appUuid);
+        App app = appMapper.selectByPrimaryKey(Integer.valueOf(appId));
         if (null != app) {
             confMapper.updateByPrimaryKeySelective(conf);
             // 更新配置到客户端.
-            NettyChannelMap.get(app.getUuid()).writeAndFlush(conf);
+//            NettyChannelMap.get(app.getUuid()).writeAndFlush(conf);
             LOGGER.info("update conf success");
             return LightConfResult.ok();
         } else {
             return LightConfResult.build(Messages.MISSING_INPUT_CODE,Messages.MISSING_INPUT_MSG);
         }
+    }
+
+    @Override
+    public LightConfResult deleteById(String confId) {
+        if (StringUtils.isBlank(confId)) {
+            LOGGER.error("confId is not allow be null");
+            return LightConfResult.build(Messages.MISSING_INPUT_CODE,Messages.MISSING_INPUT_MSG);
+        }
+
+        int id = Integer.valueOf(confId);
+        // 删除配置信息。
+        confMapper.deleteByPrimaryKey(id);
+
+        // 删除关系表数据。
+        AppConfExample appConfExample = new AppConfExample();
+        appConfExample.createCriteria().andConfIdEqualTo(confId);
+        appConfMapper.deleteByExample(appConfExample);
+        return LightConfResult.ok();
     }
 }
