@@ -1,5 +1,6 @@
 package com.lightconf.admin.service;
 
+import com.lightconf.admin.model.dataobj.App;
 import com.lightconf.admin.model.dataobj.AppWithBLOBs;
 import com.lightconf.common.util.LightConfResult;
 
@@ -52,4 +53,11 @@ public interface AppService {
      * @return
      */
     LightConfResult getAppConfByPage(int start, int length, String appId);
+
+    /**
+     * 根据uuid查询应用信息！
+     * @param appUUid
+     * @return
+     */
+    App getAppByUUID(String appUUid);
 }

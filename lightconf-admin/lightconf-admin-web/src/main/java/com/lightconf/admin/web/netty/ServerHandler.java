@@ -1,13 +1,17 @@
 package com.lightconf.admin.web.netty;
 
+import com.lightconf.admin.model.dataobj.App;
+import com.lightconf.admin.service.AppService;
 import com.lightconf.common.model.*;
 import com.lightconf.common.util.NettyChannelMap;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.util.ReferenceCountUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author wuhf
@@ -16,6 +20,9 @@ import org.slf4j.LoggerFactory;
 public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
 
     private static final Logger logger = LoggerFactory.getLogger(ServerHandler.class);
+
+    @Autowired
+    private AppService appService;
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
@@ -82,14 +89,20 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
          * 实现登录成功的逻辑.
          */
         LoginMsg loginMsg = (LoginMsg) baseMsg;
-        if ("wuhf".equals(loginMsg.getUserName()) && "abcd".equals(loginMsg.getPassword())) {
+        String appUUid = loginMsg.getClientId();
+        if (StringUtils.isBlank(appUUid)) {
+            ReferenceCountUtil.release("应用的uuid配置有误，请检查配置！");
+        }
+        App app = appService.getAppByUUID(appUUid);
+        if (null != app) {
             // 登录成功,把channel存到服务端的map中.
             NettyChannelMap.add(loginMsg.getClientId(), (SocketChannel) channelHandlerContext.channel());
             logger.info("client" + loginMsg.getClientId() + " 登录成功");
         } else {
             if (NettyChannelMap.get(baseMsg.getClientId()) == null) {
                 // 说明未登录，或者连接断了，服务器向客户端发起登录请求，让客户端重新登录.
-                channelHandlerContext.channel().writeAndFlush(new LoginMsg());
+                ReferenceCountUtil.release("应用的uuid配置有误，请检查配置！");
+                logger.error(">>>>>>应用的uuid配置有误，请检查配置！");
                 return;
             }
         }
