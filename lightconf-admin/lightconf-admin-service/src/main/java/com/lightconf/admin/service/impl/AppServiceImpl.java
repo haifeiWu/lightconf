@@ -4,10 +4,7 @@ import com.lightconf.admin.dal.dao.AppConfMapper;
 import com.lightconf.admin.dal.dao.AppMapper;
 import com.lightconf.admin.dal.dao.ConfMapper;
 import com.lightconf.admin.dal.dao.ConfMapper2;
-import com.lightconf.admin.model.dataobj.AppConfExample;
-import com.lightconf.admin.model.dataobj.AppExample;
-import com.lightconf.admin.model.dataobj.AppWithBLOBs;
-import com.lightconf.admin.model.dataobj.Conf;
+import com.lightconf.admin.model.dataobj.*;
 import com.lightconf.admin.service.AppService;
 import com.lightconf.common.model.Messages;
 import com.lightconf.common.util.LightConfResult;
@@ -111,5 +108,16 @@ public class AppServiceImpl implements AppService {
         }
         List<Conf> confList = confMapper2.getAppConfByPage(start,length,Integer.valueOf(appId));
         return LightConfResult.build(Messages.SUCCESS_CODE,Messages.SUCCESS_MSG,confList);
+    }
+
+    @Override
+    public App getAppByUUID(String appUUid) {
+        AppExample appExample = new AppExample();
+        appExample.createCriteria().andUuidEqualTo(appUUid);
+        List<App> appList = appMapper.selectByExample(appExample);
+        if (appList.size() > 0 && null != appList) {
+            return appList.get(0);
+        }
+        return null;
     }
 }
