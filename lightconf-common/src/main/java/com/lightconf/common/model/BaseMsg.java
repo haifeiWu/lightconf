@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author whfstudio@163.com
  * @date 2017/11/20
  */
-@JSONType(seeAlso = {AskMsg.class,LoginMsg.class,ReplyMsg.class,PingMsg.class})
+@JSONType(seeAlso = {AskMsg.class,LoginMsg.class,ReplyMsg.class,PingMsg.class,PushMsg.class})
 public abstract class BaseMsg implements Serializable {
     private static final long serialVersionUID = 1L;
     private MsgType type;

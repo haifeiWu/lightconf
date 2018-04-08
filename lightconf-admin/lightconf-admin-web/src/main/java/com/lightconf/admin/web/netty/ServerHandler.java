@@ -2,6 +2,7 @@ package com.lightconf.admin.web.netty;
 
 import com.lightconf.admin.model.dataobj.App;
 import com.lightconf.admin.service.AppService;
+import com.lightconf.admin.service.impl.SpringContextHolder;
 import com.lightconf.common.model.*;
 import com.lightconf.common.util.NettyChannelMap;
 import io.netty.channel.ChannelHandlerContext;
@@ -22,7 +23,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
     private static final Logger logger = LoggerFactory.getLogger(ServerHandler.class);
 
     @Autowired
-    private AppService appService;
+    private AppService appService = SpringContextHolder.getBean(AppService.class);
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
