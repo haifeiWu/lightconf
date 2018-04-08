@@ -2,13 +2,13 @@ $(function() {
 
     // remove
     $('.remove').on('click', function(){
-        var groupName = $(this).attr('groupName');
+        var id = $(this).attr('id');
 
-        ComConfirm.show("确认删除分组?", function(){
+        ComConfirm.show("确认删除应用吗?", function(){
             $.ajax({
                 type : 'POST',
-                url : base_url + '/group/remove',
-                data : {"groupName":groupName},
+                url : base_url + '/app/delete_app',
+                data : {"appId":id},
                 dataType : "json",
                 success : function(data){
                     if (data.code == 200) {
@@ -106,6 +106,7 @@ $(function() {
     $('.update').on('click', function(){
         $("#updateModal .form input[name='appName']").val($(this).attr("appName"));
         $("#updateModal .form input[name='appDesc']").val($(this).attr("appDesc"));
+        $("#updateModal .form input[name='id']").val($(this).attr("id"));
 
         $('#updateModal').modal({backdrop: false, keyboard: false}).modal('show');
     });
@@ -146,7 +147,7 @@ $(function() {
             element.parent('div').append(error);
         },
         submitHandler : function(form) {
-            $.post(base_url + "/app/update",  $("#updateModal .form").serialize(), function(data, status) {
+            $.post(base_url + "/app/update_app",  $("#updateModal .form").serialize(), function(data, status) {
                 if (data.code == "200") {
                     $('#addModal').modal('hide');
                     setTimeout(function () {
@@ -168,5 +169,29 @@ $(function() {
         $("#updateModal .form")[0].reset();
         addModalValidate.resetForm();
         $("#updateModal .form .form-group").removeClass("has-error");
+    });
+
+    $('.getAppConf').on('click', function(){
+        var appId = $(this).attr('id');
+
+        $.ajax({
+            url : base_url + "/app/get_app_conf",
+            type : "post",
+            data : {"appId":appId},
+            dataType : "json",
+            async: false,
+            success : function(data){
+                if (data.code == 200) {
+                    // 跳转到A应用的配置信息界面。
+                    window.location.href = base_url + "/conf?appId=" + appId;
+                } else {
+                    if (data.msg) {
+                        ComAlert.show(2, data.msg);
+                    } else {
+                        ComAlert.show(2, '信息获取失败！');
+                    }
+                }
+            },
+        })
     });
 });

@@ -52,8 +52,9 @@
                                         <td>${app.uuid}</td>
                                         <td>${app.publicKey}</td>
                                         <td>
-                                            <button class="btn btn-warning btn-xs update" appName = "${app.appName}" appDesc = "${app.appDesc}" >编辑</button>
+                                            <button class="btn btn-warning btn-xs update" id="${app.id}" appName = "${app.appName}" appDesc = "${app.appDesc}" >编辑</button>
                                             <button class="btn btn-danger btn-xs remove" id="${app.id}" >删除</button>
+                                            <button class="btn btn-info btn-xs getAppConf" id="${app.id}" >应用配置信息</button>
                                         </td>
                                     </tr>
 								</#list>
@@ -113,6 +114,11 @@
                         <div class="form-group">
                             <label for="lastname" class="col-sm-2 control-label">应用描述<font color="red">*</font></label>
                             <div class="col-sm-10"><input type="text" class="form-control" name="appDesc" placeholder="请输入“应用描述”" maxlength="12" ></div>
+                        </div>
+
+                        <div class="form-group" style="display: none">
+                            <label for="lastname" class="col-sm-2 control-label">appId<font color="red">*</font></label>
+                            <div class="col-sm-10"><input type="text" class="form-control" name="id" placeholder="请输入“appId”" maxlength="12" ></div>
                         </div>
                         <hr>
                         <div class="form-group">

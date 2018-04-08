@@ -18,4 +18,11 @@ public interface ConfService {
     LightConfResult add(Conf conf, String appUuid);
 
     LightConfResult update(Conf conf, String appUuid);
+
+    /**
+     * 根据id删除conf信息。
+     * @param confId confId
+     * @return
+     */
+    LightConfResult deleteById(String confId);
 }

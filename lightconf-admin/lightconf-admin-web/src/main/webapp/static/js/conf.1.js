@@ -1,92 +1,83 @@
 $(function(){
 
 	// init date tables
-	var confTable = $("#conf_list").dataTable({
-		"deferRender": true,
-		"processing" : true,
-		"serverSide": true,
-		"ajax": {
-			url: base_url + "/conf/pageList",
-			type:"post",
-			data : function ( d ) {
-				var obj = {};
-				obj.nodeGroup = $('#nodeGroup').val();
-				obj.nodeKey = $('#nodeKey').val();
-				obj.start = d.start;
-				obj.length = d.length;
-				return obj;
-			}
-		},
-		"searching": false,
-		"ordering": false,
-		//"scrollX": true,	// X轴滚动条，取消自适应
-		"columns": [
-			{ "data": 'nodeGroup', "visible" : false},
-			{ "data": 'nodeKey', "visible" : false},
-			{ "data": 'groupKey', "visible" : true},
-			{
-				"data": 'nodeValue',
-				"visible" : true,
-				"render": function ( data, type, row ) {
-					if (row.nodeValue == row.nodeValueReal) {
-						var temp = (row.nodeValue.length > 20)? row.nodeValue.substring(0, 20)+'...' : row.nodeValue;
-						return "<span title='"+ row.nodeValue +"'>"+ temp +"</span>";;
-					} else {
-						var tips = "Mysql:<br>"+ row.nodeValue
-							+"<hr>ZK:<br>"+ row.nodeValueReal;
-						var html = "<span style='color: red'>数据未同步: <a href='javascript:;' class='tecTips' tips='"+ tips +"'>查看</a></span>";
-						return html;
-					}
-				}
-			},
-			{ "data": 'nodeValueReal', "visible" : false},
-			{ "data": 'nodeDesc', "visible" : true},
-			{ "data": '操作' ,
-				"render": function ( data, type, row ) {
-					return function(){
-						// html
-						var html = '<p id="'+ row.id +'" '+
-							' nodeGroup="'+ row.nodeGroup +'" '+
-							' nodeKey="'+ row.nodeKey +'" '+
-							' nodeValue="'+ row.nodeValue +'" '+
-							' nodeValueReal="'+ row.nodeValueReal +'" '+
-							' nodeDesc="'+ row.nodeDesc +'" '+
-							'>'+
-							'<textarea name="nodeValue" style="display:none;" >'+ row.nodeValue +'</textarea>  '+
-							'<button class="btn btn-warning btn-xs update" type="button">编辑</button>  '+
-							'<button class="btn btn-danger btn-xs delete" type="button">删除</button>  '+
-							'</p>';
-
-						return html;
-					};
-				}
-			}
-		],
-		"language" : {
-			"sProcessing" : "处理中...",
-			"sLengthMenu" : "每页 _MENU_ 条记录",
-			"sZeroRecords" : "没有匹配结果",
-			"sInfo" : "第 _PAGE_ 页 ( 总共 _PAGES_ 页 )",
-			"sInfoEmpty" : "无记录",
-			"sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
-			"sInfoPostFix" : "",
-			"sSearch" : "搜索:",
-			"sUrl" : "",
-			"sEmptyTable" : "表中数据为空",
-			"sLoadingRecords" : "载入中...",
-			"sInfoThousands" : ",",
-			"oPaginate" : {
-				"sFirst" : "首页",
-				"sPrevious" : "上页",
-				"sNext" : "下页",
-				"sLast" : "末页"
-			},
-			"oAria" : {
-				"sSortAscending" : ": 以升序排列此列",
-				"sSortDescending" : ": 以降序排列此列"
-			}
-		}
-	});
+	// var confTable = $("#conf_list").dataTable({
+	// 	"deferRender": true,
+	// 	"processing" : true,
+	// 	"serverSide": true,
+	// 	"ajax": {
+	// 		url: base_url + "/conf/pageList",
+	// 		type:"post",
+	// 		data : function ( d ) {
+	// 			var obj = {};
+	// 			// obj.nodeGroup = $('#nodeGroup').val();
+	// 			// obj.nodeKey = $('#nodeKey').val();
+     //            obj.appId = $('#appId').val();
+	// 			obj.start = d.start;
+	// 			obj.length = d.length;
+	// 			return obj;
+	// 		}
+	// 	},
+	// 	"searching": false,
+	// 	"ordering": false,
+	// 	//"scrollX": true,	// X轴滚动条，取消自适应
+	// 	"columns": [
+	// 		{ "data": 'confKey', "visible" : false},
+	// 		{ "data": 'confValue', "visible" : false},
+	// 		{ "data": 'confDesc', "visible" : true},
+	// 		{ "data": '操作' ,
+	// 			"render": function ( data, type, row ) {
+	// 				return function(){
+	// 					// html
+	// 					// var html = '<p id="'+ row.id +'" '+
+	// 					// 	' nodeGroup="'+ row.nodeGroup +'" '+
+	// 					// 	' nodeKey="'+ row.nodeKey +'" '+
+	// 					// 	' nodeValue="'+ row.nodeValue +'" '+
+	// 					// 	' nodeValueReal="'+ row.nodeValueReal +'" '+
+	// 					// 	' nodeDesc="'+ row.nodeDesc +'" '+
+	// 					// 	'>'+
+	// 					// 	'<textarea name="nodeValue" style="display:none;" >'+ row.nodeValue +'</textarea>  '+
+	// 					// 	'<button class="btn btn-warning btn-xs update" type="button">编辑</button>  '+
+	// 					// 	'<button class="btn btn-danger btn-xs delete" type="button">删除</button>  '+
+	// 					// 	'</p>';
+     //                    var html = '<p id="'+ row.id +'" '+
+     //                        ' nodeGroup="'+ row.confKey +'" '+
+     //                        ' nodeKey="'+ row.confValue +'" '+
+     //                        ' nodeValue="'+ row.confDesc +'" '+
+     //                        '>'+
+     //                        '<button class="btn btn-warning btn-xs update" type="button">编辑</button>  '+
+     //                        '<button class="btn btn-danger btn-xs delete" type="button">删除</button>  '+
+     //                        '</p>';
+	// 					return html;
+	// 				};
+	// 			}
+	// 		}
+	// 	],
+	// 	"language" : {
+	// 		"sProcessing" : "处理中...",
+	// 		"sLengthMenu" : "每页 _MENU_ 条记录",
+	// 		"sZeroRecords" : "没有匹配结果",
+	// 		"sInfo" : "第 _PAGE_ 页 ( 总共 _PAGES_ 页 )",
+	// 		"sInfoEmpty" : "无记录",
+	// 		"sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
+	// 		"sInfoPostFix" : "",
+	// 		"sSearch" : "搜索:",
+	// 		"sUrl" : "",
+	// 		"sEmptyTable" : "表中数据为空",
+	// 		"sLoadingRecords" : "载入中...",
+	// 		"sInfoThousands" : ",",
+	// 		"oPaginate" : {
+	// 			"sFirst" : "首页",
+	// 			"sPrevious" : "上页",
+	// 			"sNext" : "下页",
+	// 			"sLast" : "末页"
+	// 		},
+	// 		"oAria" : {
+	// 			"sSortAscending" : ": 以升序排列此列",
+	// 			"sSortDescending" : ": 以降序排列此列"
+	// 		}
+	// 	}
+	// });
 	
 	$("#searchBtn").click(function(){
 		confTable.fnDraw();
@@ -99,20 +90,23 @@ $(function(){
 	
 	// 删除
 	$("#conf_list").on('click', '.delete',function() {
-		var nodeGroup = $(this).parent('p').attr("nodeGroup");
-		var nodeKey = $(this).parent('p').attr("nodeKey");
-		ComConfirm.show("确定要删除配置：" + nodeKey, function(){
+		// var nodeGroup = $(this).parent('p').attr("nodeGroup");
+		// var nodeKey = $(this).parent('p').attr("nodeKey");
+        var confKey = $(this).attr("confKey");
+        // var confId = $(this).parent('p').attr("confId");
+        var confId = $(this).attr('confId');
+		ComConfirm.show("确定要删除配置：" + confKey, function() {
 			$.post(
 				base_url + "/conf/delete",
 				{
-					"nodeGroup" : nodeGroup,
-					"nodeKey" : nodeKey
+					"confId" : confId
 				},
 				function(data, status) {
 					if (data.code == "200") {
 						ComAlert.show(1, "删除成功", function(){
-							confTable.fnDraw();
+							// confTable.fnDraw();
 						});
+						window.reload();
 					} else {
 						ComAlert.show(2, data.msg);
 					}
@@ -151,13 +145,13 @@ $(function(){
             }
         }, 
         messages : {
-        	nodeKey : {
+        	confKey : {
         		required :'请输入"KEY".'  ,
                 minlength:'"KEY"不应低于4位',
                 maxlength:'"KEY"不应超过100位'
-            },  
-            nodeValue : {	},
-            nodeDesc : {	}
+            },
+            confValue : {	},
+            confDesc : {	}
         }, 
 		highlight : function(element) {  
             $(element).closest('.form-group').addClass('has-error');  
@@ -173,9 +167,10 @@ $(function(){
     		$.post(base_url + "/conf/add", $("#addModal .form").serialize(), function(data, status) {
     			if (data.code == "200") {
     				ComAlert.show(1, "新增配置成功", function(){
-						confTable.fnDraw();
+						// confTable.fnDraw();
 						$('#addModal').modal('hide');
     				});
+                    window.reload();
     			} else {
     				ComAlert.show(2, data.msg);
     			}
@@ -189,12 +184,18 @@ $(function(){
 	// 更新
 	$("#conf_list").on('click', '.update',function() {
 
-		$("#updateModal .form input[name='nodeGroup']").val( $(this).parent('p').attr("nodeGroup") );
-		$("#updateModal .form input[name='nodeKey']").val( $(this).parent('p').attr("nodeKey") );
-		//$("#updateModal .form input[name='nodeValueReal']").val( $(this).parent('p').attr("nodeValueReal") );
-		//$("#updateModal .form textarea[name='nodeValue']").val( $(this).parent('p').attr("nodeValue") );
-		$("#updateModal .form textarea[name='nodeValue']").val( $(this).parent('p').find("textarea[name='nodeValue']").val() );
-		$("#updateModal .form input[name='nodeDesc']").val( $(this).parent('p').attr("nodeDesc") );
+		// $("#updateModal .form input[name='nodeGroup']").val( $(this).parent('p').attr("nodeGroup") );
+		// $("#updateModal .form input[name='confKey']").val( $(this).parent('p').attr("confKey") );
+		// //$("#updateModal .form input[name='nodeValueReal']").val( $(this).parent('p').attr("nodeValueReal") );
+		// //$("#updateModal .form textarea[name='nodeValue']").val( $(this).parent('p').attr("nodeValue") );
+		// $("#updateModal .form textarea[name='confValue']").val( $(this).parent('p').find("textarea[name='confValue']").val() );
+		// $("#updateModal .form input[name='confDesc']").val( $(this).parent('p').attr("confDesc") );
+        // $("#updateModal .form textarea[name='confId']").val( $(this).parent('p').find("textarea[name='confId']").val() );
+
+        $("#updateModal .form input[name='confKey']").val($(this).attr("confKey"));
+        $("#updateModal .form textarea[name='confValue']").val($(this).attr("confValue"));
+        $("#updateModal .form input[name='confDesc']").val($(this).attr("confDesc"));
+        $("#updateModal .form textarea[name='id']").val($(this).attr("confId"));
 
 		$('#updateModal').modal('show');
 	});
@@ -238,9 +239,10 @@ $(function(){
     		$.post(base_url + "/conf/update", $("#updateModal .form").serialize(), function(data, status) {
     			if (data.code == "200") {
     				ComAlert.show(1, "更新配置成功", function(){
-						confTable.fnDraw();
+						// confTable.fnDraw();
 						$('#updateModal').modal('hide');
     				});
+    				window.reload();
     			} else {
     				ComAlert.show(2, data.msg);
     			}

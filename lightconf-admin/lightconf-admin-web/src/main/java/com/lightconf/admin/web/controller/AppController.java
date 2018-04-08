@@ -56,7 +56,17 @@ public class AppController extends BaseController {
     public LightConfResult deleteApp(String appId) {
         LOGGER.info("delete application , the appId is : {}",appId);
         LightConfResult result = appService.deleteApp(appId);
+        LOGGER.info("method deleteApp return value is : {}",result.toString());
         return result;
+    }
+
+    @RequestMapping("/get_app_conf")
+    @ResponseBody
+    public LightConfResult getAppConf(String appId) {
+        LOGGER.info("get app's conf , the appId is : {}",appId);
+//        LightConfResult result = appService.getAppConf(appId);
+//        LOGGER.info("method deleteApp return value is : {}",result.toString());
+        return LightConfResult.ok();
     }
 
     @RequestMapping("/get_app_list")
