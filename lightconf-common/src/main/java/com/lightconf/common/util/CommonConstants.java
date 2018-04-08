@@ -19,4 +19,8 @@ public class CommonConstants {
     public static final int THREAD_KEEP_ALIVE_TIME = 10;
 
     public static final int RETRY_DELAY = 10;
+
+    public static final String CONF_TYPE_ADD = "ADD";
+    public static final String CONF_TYPE_DELETE = "DELETE";
+    public static final String CONF_TYPE_UPDATE = "UPDATE";
 }
