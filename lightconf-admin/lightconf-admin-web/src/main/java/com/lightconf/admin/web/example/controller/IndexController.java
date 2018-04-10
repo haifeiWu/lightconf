@@ -45,7 +45,7 @@ public class IndexController {
 		 * 			- 支持设置配置默认值；
 		 * 			- 支持设置是否开启动态刷新;
 		 */
-		model.addAttribute("key02", demoConf.paramByAnno);
+//		model.addAttribute("key02", demoConf.paramByAnno);
 
         /**
          * 方式3: API方式

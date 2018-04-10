@@ -12,7 +12,7 @@
 
 
 	<mvc:annotation-driven />
-	<context:component-scan base-package="com.xxl.conf.example.controller" />
+	<context:component-scan base-package="com.lightconf.admin.web.example.controller" />
 
 
 	<mvc:resources mapping="/favicon.ico" location="/favicon.ico" />

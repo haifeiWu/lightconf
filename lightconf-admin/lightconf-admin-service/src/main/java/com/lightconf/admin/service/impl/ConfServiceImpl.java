@@ -6,8 +6,12 @@ import com.lightconf.admin.dal.dao.ConfMapper;
 import com.lightconf.admin.model.dataobj.*;
 import com.lightconf.admin.service.ConfService;
 import com.lightconf.common.model.Messages;
+import com.lightconf.common.model.MsgType;
+import com.lightconf.common.model.PushMsg;
+import com.lightconf.common.util.CommonConstants;
 import com.lightconf.common.util.LightConfResult;
 import com.lightconf.common.util.NettyChannelMap;
+import io.netty.channel.socket.SocketChannel;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,9 +66,9 @@ public class ConfServiceImpl implements ConfService {
             appConf.setAppId(String.valueOf(app.getId()));
             appConf.setConfId(String.valueOf(conf.getId()));
             appConfMapper.insert(appConf);
-//
-//            // 更新配置到客户端.
-//            NettyChannelMap.get(app.getUuid()).writeAndFlush(conf);
+
+            // 更新配置到客户端.
+            pushConfToApplication(conf,CommonConstants.CONF_TYPE_ADD,app.getUuid());
             LOGGER.info("add conf success");
             return LightConfResult.ok();
         } else {
@@ -98,12 +102,29 @@ public class ConfServiceImpl implements ConfService {
         App app = appMapper.selectByPrimaryKey(Integer.valueOf(appId));
         if (null != app) {
             confMapper.updateByPrimaryKeySelective(conf);
-            // 更新配置到客户端.
-//            NettyChannelMap.get(app.getUuid()).writeAndFlush(conf);
+
+            // 下发配置到应用
+            pushConfToApplication(conf,CommonConstants.CONF_TYPE_UPDATE,app.getUuid());
             LOGGER.info("update conf success");
             return LightConfResult.ok();
         } else {
             return LightConfResult.build(Messages.MISSING_INPUT_CODE,Messages.MISSING_INPUT_MSG);
+        }
+    }
+
+    private void pushConfToApplication(Conf conf, String confTypeUpdate, String uuid) {
+
+        SocketChannel socketChannel = (SocketChannel) NettyChannelMap.get(uuid);
+
+        // 若socketChanel不为空，更新配置到客户端.
+        if (socketChannel != null) {
+            PushMsg pushMsg = new PushMsg();
+            pushMsg.setConfType(confTypeUpdate);
+            pushMsg.setKey(conf.getConfKey());
+            pushMsg.setValue(conf.getConfValue());
+            pushMsg.setType(MsgType.PUSH_CONF);
+            socketChannel.writeAndFlush(pushMsg);
+            LOGGER.info(">>>>>> push conf value to application");
         }
     }
 

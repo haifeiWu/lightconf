@@ -32,7 +32,8 @@ public class IndexController {
 		 * 		- 缺点：不支持支持动态推送更新
          *
          */
-		model.addAttribute("key01", demoConf.paramByXml);
+//		model.addAttribute("key01", demoConf.paramByXml);
+		model.addAttribute("key1", demoConf.paramByLightConf);
 
 		/**
 		 * 方式2: “@XxlConf”注解方式
@@ -45,7 +46,7 @@ public class IndexController {
 		 * 			- 支持设置配置默认值；
 		 * 			- 支持设置是否开启动态刷新;
 		 */
-		model.addAttribute("key02", demoConf.paramByAnno);
+//		model.addAttribute("key02", demoConf.paramByAnno);
 
         /**
          * 方式3: API方式
@@ -57,7 +58,7 @@ public class IndexController {
 		 * 			- 支持动态推送更新；
 		 * 			- 支持多数据类型；
          */
-		model.addAttribute("key03", XxlConfClient.get("default.key03", null));
+//		model.addAttribute("key03", XxlConfClient.get("default.key03", null));
 
 		return "index";
 	}
