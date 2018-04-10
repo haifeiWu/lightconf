@@ -17,19 +17,9 @@
         </thead>
         <tbody>
             <tr>
-                <td>1、XML方式</td>
-                <td>default.key01</td>
-                <td>${key01}</td>
-            </tr>
-            <tr>
-                <td>2、@Value方式</td>
+                <td>@Value方式</td>
                 <td>default.key02</td>
-                <td>${key02}</td>
-            </tr>
-            <tr>
-                <td>2、API方式</td>
-                <td>default.key03</td>
-                <td>${key03}</td>
+                <td>${key1}</td>
             </tr>
         </tbody>
     </table>

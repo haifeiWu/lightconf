@@ -1,6 +1,5 @@
 package com.lightconf.admin.web.example.core.constant;
 
-import com.lightconf.core.annotaion.XxlConf;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -10,14 +9,18 @@ import org.springframework.beans.factory.annotation.Value;
  */
 public class DemoConf {
 
-	@XxlConf("default.key02")
-	public String paramByAnno;
+//	@XxlConf("default.key02")
+//	public String paramByAnno;
+//
+//	@Value("key01")
+//	public String paramByXml;
 
-	@Value("key01")
-	public String paramByXml;
+	@Value("key1")
+	public String paramByLightConf;
 
-	public void setParamByXml(String paramByXml) {
-		this.paramByXml = paramByXml;
-	}
+
+//	public void setParamByXml(String paramByXml) {
+//		this.paramByXml = paramByXml;
+//	}
 
 }
