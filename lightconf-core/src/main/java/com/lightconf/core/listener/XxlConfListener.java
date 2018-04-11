@@ -11,7 +11,8 @@ public interface XxlConfListener {
      * invoke when xxl conf change
      *
      * @param key
+     * @param value
      */
-    public void onChange(String key) throws Exception;
+    public void onChange(String key,String value) throws Exception;
 
 }

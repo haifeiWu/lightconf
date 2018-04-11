@@ -1,5 +1,6 @@
 package com.lightconf.core.core;
 
+import com.lightconf.core.LightConfClient;
 import com.lightconf.core.listener.LightConfListenerFactory;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
@@ -29,7 +30,6 @@ public class LightConfLocalCacheConf {
         cacheManager = CacheManagerBuilder.newCacheManagerBuilder().build(true);
 
         // default use ehcche.xml under src
-        // xxlConfLocalCache
         // .withExpiry、.withEvictionAdvisor （default lru）
         lightConfLocalCache = cacheManager.createCache("lightConfLocalCache", CacheConfigurationBuilder
                         .newCacheConfigurationBuilder(String.class, CacheNode.class, ResourcePoolsBuilder.heap(1000))
@@ -59,8 +59,8 @@ public class LightConfLocalCacheConf {
         }
         if (keySet.size() > 1) {
             for (String key: keySet) {
-                String zkData = XxlConfZkClient.getPathDataByKey(key);
-                lightConfLocalCache.put(key, new CacheNode(zkData));
+                String cacheData = LightConfClient.get(key);
+                lightConfLocalCache.put(key, new CacheNode(cacheData));
             }
         }
     }

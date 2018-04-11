@@ -47,5 +47,7 @@ public class Environment {
 //	public static final String CONF_DATA_PATH = "/xxl-conf";
 
 	public static final String CONF_DATA_PATH = "/light-conf";
+	
+    public static final String ZK_PATH = "";
 }
 
