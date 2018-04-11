@@ -118,9 +118,9 @@ public class LightConfFactory extends PropertySourcesPlaceholderConfigurer {
                     lightConfVisitor.visitBeanDefinition(beanDefinition);
 
 					// Annotation：resolves '@LightConf' annotations within bean definition fields
-					final Object beanWithLightConf = beanFactoryToProcess.getBean(beanName);
+//					final Object beanWithLightConf = beanFactoryToProcess.getBean(beanName);
                     // refresh bean with light conf
-                    refreshBeanWithLightConf(beanWithLightConf, null);
+//                    refreshBeanWithLightConf(beanWithLightConf, null);
 				}
 			}
 		}

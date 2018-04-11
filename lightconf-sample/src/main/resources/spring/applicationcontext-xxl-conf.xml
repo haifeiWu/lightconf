@@ -13,7 +13,7 @@
 	<bean id="lightConfListener" class="com.lightconf.core.listener.LightConfClientListener"></bean>
 
 	<!-- ********************************* 测试示例（可删除） ********************************* -->
-	<bean id="demoConf" class="com.lightconf.admin.web.example.core.constant.DemoConf"/>
+	<!--<bean id="demoConf" class="com.lightconf.admin.web.example.core.constant.DemoConf">-->
 		<!--<property name="paramByXml" value="${default.key01}" />-->
 	<!--</bean>-->
 

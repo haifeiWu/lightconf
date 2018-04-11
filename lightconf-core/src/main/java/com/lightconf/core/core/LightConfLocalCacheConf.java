@@ -1,6 +1,6 @@
 package com.lightconf.core.core;
 
-import com.lightconf.core.listener.XxlConfListenerFactory;
+import com.lightconf.core.listener.LightConfListenerFactory;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
 import org.ehcache.config.builders.CacheConfigurationBuilder;
@@ -76,7 +76,7 @@ public class LightConfLocalCacheConf {
         lightConfLocalCache.put(key, new CacheNode(value));
         logger.info(">>>>>>>>>> light-conf: SET: [{}={}]", key, value);
 
-        XxlConfListenerFactory.onChange(key);
+        LightConfListenerFactory.onChange(key,value);
     }
 
     /**
@@ -90,7 +90,7 @@ public class LightConfLocalCacheConf {
             lightConfLocalCache.put(key, new CacheNode(value));
             logger.info(">>>>>>>>>> light-conf: UPDATE: [{}={}]", key, value);
 
-            XxlConfListenerFactory.onChange(key);
+            LightConfListenerFactory.onChange(key,value);
         }
     }
 
