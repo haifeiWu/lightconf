@@ -55,7 +55,7 @@ public class XxlConfListenerFactory {
         }
         for (XxlConfListener listener:listeners) {
             try {
-                listener.onChange(key);
+                listener.onChange(key,"");
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);
             }

@@ -10,21 +10,23 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * xxl conf listener
+ * light conf listener
  *
- * @author xuxueli 2018-02-04 01:27:30
+ * @author wuhaifei
+ *
+ * @date 2018-04-11
  */
 public class LightConfListenerFactory {
     private static Logger logger = LoggerFactory.getLogger(LightConfListenerFactory.class);
 
     /**
-     * xxl conf listener repository
+     * light conf listener repository
      */
     private static ConcurrentHashMap<String, List<LightConfListener>> lightConfListenerRepository = new ConcurrentHashMap<>();
     private static List<LightConfListener> noKeyConfListener = new CopyOnWriteArrayList<>();
 
     /**
-     * add listener with xxl conf change
+     * add listener with light conf change
      *
      * @param key
      * @param lightConfListener
@@ -47,18 +49,10 @@ public class LightConfListenerFactory {
             listeners.add(lightConfListener);
             return true;
         }
-
-//        List<LightConfListener> listeners = lightConfListenerRepository.get(key);
-//        if (listeners == null) {
-//            listeners = new ArrayList<>();
-//        }
-//        listeners.add(lightConfListener);
-//        lightConfListenerRepository.put(key, listeners);
-//        return true;
     }
 
     /**
-     * invoke listener on xxl conf change
+     * invoke listener on light conf change
      *
      * @param key
      */
@@ -86,17 +80,6 @@ public class LightConfListenerFactory {
                 }
             }
         }
-//        List<LightConfListener> listeners = lightConfListenerRepository.get(key);
-//        if (listeners==null || listeners.size()<1) {
-//            return;
-//        }
-//        for (LightConfListener listener:listeners) {
-//            try {
-//                listener.onChange(key);
-//            } catch (Exception e) {
-//                logger.error(e.getMessage(), e);
-//            }
-//        }
     }
 
 }

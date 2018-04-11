@@ -1,7 +1,11 @@
 package com.lightconf.admin.web.example.controller;
 
+import com.lightconf.core.LightConfClient;
 import com.lightconf.core.XxlConfClient;
 import com.lightconf.admin.web.example.core.constant.DemoConf;
+import com.lightconf.core.listener.LightConfListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +22,26 @@ public class IndexController {
 //	@Resource
 //	private DemoConf demoConf;
 
-	@Value("${key1}")
+	private static Logger logger = LoggerFactory.getLogger(IndexController.class);
+
+//	@Value("${key1}")
 	protected String key1;
+
+	@Value("default.key01")
+	protected static String key01;
+
+	static {
+		/**
+		 * 配置变更监听示例：可开发Listener逻辑，监听配置变更事件；可据此实现动态刷新JDBC连接池等高级功能；
+		 */
+		LightConfClient.addListener("default.key01", new LightConfListener() {
+			@Override
+			public void onChange(String key, String value) throws Exception {
+				key01 = value;
+				logger.info("配置变更事件通知：{}={}", key, value);
+			}
+		});
+	}
 
 	@RequestMapping("")
 	public String index(Model model){
@@ -37,8 +59,10 @@ public class IndexController {
          *
          */
 //		model.addAttribute("key01", demoConf.paramByXml);
-		model.addAttribute("key1", key1);
-		System.err.println(">>>>>>" + key1);
+		model.addAttribute("key1", LightConfClient.get("key1"));
+		System.err.println(">>>>>>" + LightConfClient.get("key1"));
+
+		System.err.println(">>>>>>注解 " + key01);
 
 		/**
 		 * 方式2: “@XxlConf”注解方式

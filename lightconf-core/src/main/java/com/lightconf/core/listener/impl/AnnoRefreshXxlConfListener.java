@@ -52,10 +52,10 @@ public class AnnoRefreshXxlConfListener implements XxlConfListener {
     }
 
     @Override
-    public void onChange(String key) throws Exception {
+    public void onChange(String key,String value) throws Exception {
         if (objectList!=null && objectList.size()>0) {
             for (Object object: objectList) {
-                XxlConfFactory.refreshBeanWithXxlConf(object, key);
+//                XxlConfFactory.refreshBeanWithXxlConf(object, key);
             }
         }
     }
