@@ -3,6 +3,8 @@ package com.lightconf.core;
 import com.lightconf.core.core.LightConfLocalCacheConf;
 import com.lightconf.core.core.LightConfPropConf;
 import com.lightconf.core.exception.LightConfException;
+import com.lightconf.core.listener.LightConfListener;
+import com.lightconf.core.listener.LightConfListenerFactory;
 import com.lightconf.core.listener.XxlConfListener;
 import com.lightconf.core.listener.XxlConfListenerFactory;
 
@@ -91,11 +93,11 @@ public class LightConfClient {
 	 * add listener with xxl conf change
 	 *
 	 * @param key
-	 * @param xxlConfListener
+	 * @param lightConfListener
 	 * @return
 	 */
-	public static boolean addListener(String key, XxlConfListener xxlConfListener) {
-		return XxlConfListenerFactory.addListener(key, xxlConfListener);
+	public static boolean addListener(String key, LightConfListener lightConfListener) {
+		return LightConfListenerFactory.addListener(key, lightConfListener);
 	}
 	
 }

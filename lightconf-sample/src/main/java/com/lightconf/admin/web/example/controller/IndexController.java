@@ -2,6 +2,7 @@ package com.lightconf.admin.web.example.controller;
 
 import com.lightconf.core.XxlConfClient;
 import com.lightconf.admin.web.example.core.constant.DemoConf;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +15,11 @@ import javax.annotation.Resource;
 @Controller
 public class IndexController {
 	
-	@Resource
-	private DemoConf demoConf;
+//	@Resource
+//	private DemoConf demoConf;
+
+	@Value("${key1}")
+	protected String key1;
 
 	@RequestMapping("")
 	public String index(Model model){
@@ -33,7 +37,8 @@ public class IndexController {
          *
          */
 //		model.addAttribute("key01", demoConf.paramByXml);
-		model.addAttribute("key1", demoConf.paramByLightConf);
+		model.addAttribute("key1", key1);
+		System.err.println(">>>>>>" + key1);
 
 		/**
 		 * 方式2: “@XxlConf”注解方式

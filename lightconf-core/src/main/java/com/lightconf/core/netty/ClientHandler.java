@@ -50,6 +50,8 @@ public class ClientHandler extends SimpleChannelInboundHandler<BaseMsg> {
                     LightConfLocalCacheConf.remove(pushMsg.getKey());
                     logger.info("delete application conf");
                 }
+                // 刷新配置信息
+                LightConfLocalCacheConf.reloadAll();
                 break;
             case LOGIN: {
                 //向服务器发起登录
