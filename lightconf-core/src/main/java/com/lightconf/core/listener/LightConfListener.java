@@ -1,14 +1,14 @@
 package com.lightconf.core.listener;
 
 /**
- * xxl conf listener
+ * light conf listener
  *
- * @author xuxueli 2018-02-04 01:27:30
+ * @author wuhaifei
  */
 public interface LightConfListener {
 
     /**
-     * invoke when xxl conf change
+     * invoke when light conf change
      *
      * @param key
      */
