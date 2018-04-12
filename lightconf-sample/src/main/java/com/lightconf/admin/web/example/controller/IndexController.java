@@ -60,7 +60,6 @@ public class IndexController {
          */
 //		model.addAttribute("key01", demoConf.paramByXml);
 		model.addAttribute("key1", LightConfClient.get("key1"));
-		System.err.println(">>>>>>" + LightConfClient.get("key1"));
 
 		System.err.println(">>>>>>注解 " + key01);
 
