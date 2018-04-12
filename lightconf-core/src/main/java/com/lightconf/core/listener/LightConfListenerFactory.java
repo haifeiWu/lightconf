@@ -33,7 +33,7 @@ public class LightConfListenerFactory {
      * @return
      */
     public static boolean addListener(String key, LightConfListener lightConfListener){
-        if (key==null || key.trim().length()==0 || lightConfListener==null) {
+        if (lightConfListener == null) {
             return false;
         }
 
@@ -56,7 +56,7 @@ public class LightConfListenerFactory {
      *
      * @param key
      */
-    public static void onChange(String key,String value){
+    public static void onChange(String key,String value) {
         if (key==null || key.trim().length()==0) {
             return;
         }
