@@ -34,7 +34,7 @@ public class IndexController {
 		/**
 		 * 配置变更监听示例：可开发Listener逻辑，监听配置变更事件；可据此实现动态刷新JDBC连接池等高级功能；
 		 */
-		LightConfClient.addListener("default.key01", new LightConfListener() {
+		LightConfClient.addListener("", new LightConfListener() {
 			@Override
 			public void onChange(String key, String value) throws Exception {
 				key01 = value;
