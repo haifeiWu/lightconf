@@ -72,7 +72,7 @@ public class BeanRefreshLightConfListener implements LightConfListener {
         List<BeanField> beanFieldList = key2BeanField.get(key);
         if (beanFieldList!=null && beanFieldList.size()>0) {
             for (BeanField beanField: beanFieldList) {
-//                LightConfFactory.refreshBeanField(beanField, value);
+                LightConfFactory.refreshBeanField(beanField, value);
             }
         }
     }
