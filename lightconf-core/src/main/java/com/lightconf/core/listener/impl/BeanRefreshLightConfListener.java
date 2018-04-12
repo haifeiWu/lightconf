@@ -10,9 +10,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * xxl conf annotaltion refresh
+ * light conf annotaltion refresh
  *
- * @author xuxueli 2018-02-204 01:46:20
+ * @author wuhaifei
  */
 public class BeanRefreshLightConfListener implements LightConfListener {
 
