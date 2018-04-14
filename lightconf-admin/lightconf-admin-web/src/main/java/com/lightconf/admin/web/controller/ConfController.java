@@ -1,5 +1,6 @@
 package com.lightconf.admin.web.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.lightconf.admin.model.dataobj.AppWithBLOBs;
 import com.lightconf.admin.model.dataobj.Conf;
 import com.lightconf.admin.service.AppService;
@@ -22,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 配置管理
+ * 配置管理接口。
  *
  * @author whfstudio
  */
@@ -39,20 +40,17 @@ public class ConfController extends BaseController{
     @PermessionLimit
     public String index(Model model, String appId) {
         LOGGER.info("get app's conf , the appId is : {}",appId);
-        LightConfResult result = appService.getAppConf(appId);
-        LOGGER.info("method deleteApp return value is : {}",result.toString());
-        model.addAttribute("appId",appId);
-
         List<AppWithBLOBs> list = appService.getAllApp();
         AppWithBLOBs project = list.get(0);
-        for (AppWithBLOBs item: list) {
-            if (item.getId().equals(Integer.valueOf(appId))) {
-                project = item;
+        if (appId != null) {
+            for (AppWithBLOBs item: list) {
+                if (item.getId().equals(Integer.valueOf(appId))) {
+                    project = item;
+                }
             }
         }
         model.addAttribute("ProjectList", list);
         model.addAttribute("project", project);
-
         return "conf/conf.index";
     }
 
@@ -62,8 +60,17 @@ public class ConfController extends BaseController{
     public Map<String,Object> pageList(
             @RequestParam(required = false, defaultValue = "0") int start,
             @RequestParam(required = false, defaultValue = "10") int length, String appId,String confKey) {
-        LOGGER.info("get apps config list");
-        return appService.getAppConfByPage(start,length,appId,confKey);
+        Map<String,Object> result = new HashMap<>(16);
+        try {
+            LOGGER.info(">>>>>>get apps config list");
+            result = appService.getAppConfByPage(start,length,appId,confKey);
+            LOGGER.info(">>>>>> pageList method return value is : {}", JSON.toJSONString(result));
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            return result;
+        }
     }
 
     /**
@@ -75,9 +82,16 @@ public class ConfController extends BaseController{
     @ResponseBody
     @PermessionLimit
     public LightConfResult delete(String confId) {
-        LOGGER.info("delete config , the key is : {}",confId);
-        LightConfResult result = confService.deleteById(confId);
-        return result;
+        try {
+            LOGGER.info(">>>>>> delete config , the key is : {}",confId);
+            LightConfResult result = confService.deleteById(confId);
+            LOGGER.info(">>>>>> delete conf method return value is : {}",result.toString());
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            return LightConfResult.build(Messages.SERVER_ERROR_CODE,Messages.SERVER_ERROR_MSG);
+        }
     }
 
     /**
@@ -89,14 +103,15 @@ public class ConfController extends BaseController{
     @ResponseBody
     @PermessionLimit
     public LightConfResult add(Conf conf,String appId) {
-        LightConfResult result;
         try {
             LOGGER.info("add conf key is : {} , appId is :{}",conf.getConfKey(),appId);
-            result = confService.add(conf,appId);
+            LightConfResult result = confService.add(conf,appId);
             LOGGER.info("method add conf return value is :{}",result.toString());
             return result;
         } catch (Exception e) {
-            return LightConfResult.build(Messages.INPUT_ERROR_CODE,Messages.MISSING_INPUT_MSG);
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            return LightConfResult.build(Messages.SERVER_ERROR_CODE,Messages.SERVER_ERROR_MSG);
         }
     }
 
@@ -109,8 +124,14 @@ public class ConfController extends BaseController{
     @ResponseBody
     @PermessionLimit
     public LightConfResult update(Conf conf,String appId) {
-        LOGGER.info("update conf key is : {}",conf.getConfKey());
-        LightConfResult result = confService.update(conf,appId);
-        return result;
+        try {
+            LOGGER.info("update conf key is : {}",conf.getConfKey());
+            LightConfResult result = confService.update(conf,appId);
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            return LightConfResult.build(Messages.SERVER_ERROR_CODE,Messages.SERVER_ERROR_MSG);
+        }
     }
 }

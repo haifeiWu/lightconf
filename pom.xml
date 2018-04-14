@@ -91,16 +91,16 @@
 
 	<scm>
 		<tag>master</tag>
-		<url>https://github.com/xuxueli/xxl-conf.git</url>
-		<connection>scm:git:https://github.com/xuxueli/xxl-conf.git</connection>
-		<developerConnection>scm:git:git@github.com:xuxueli/xxl-conf.git</developerConnection>
+		<url>https://github.com/haifeiWu/lightconf.git</url>
+		<connection>scm:git:https://github.com/haifeiWu/lightconf.git</connection>
+		<developerConnection>scm:git:git@github.com:haifeiWu/lightconf.git</developerConnection>
 	</scm>
 	<developers>
 		<developer>
-			<id>XXL</id>
-			<name>xuxueli</name>
-			<email>931591021@qq.com</email>
-			<url>https://github.com/xuxueli</url>
+			<id>LIGHTCONF</id>
+			<name>wuhaifei</name>
+			<email>whfstudio@163.com</email>
+			<url>https://github.com/haifeiWu</url>
 		</developer>
 	</developers>
 

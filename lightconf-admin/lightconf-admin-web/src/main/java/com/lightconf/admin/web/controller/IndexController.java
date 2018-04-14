@@ -3,7 +3,7 @@ package com.lightconf.admin.web.controller;
 
 import com.lightconf.admin.web.controller.annotation.PermessionLimit;
 import com.lightconf.admin.web.core.util.ReturnT;
-import com.lightconf.admin.web.service.impl.LoginService;
+import com.lightconf.admin.web.loginservice.LoginService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,12 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 
 
 /**
- * Created by xuxueli on 16/7/30.
+ * @author wuhf
  */
-
 @Controller
-public class IndexController {
-    private static Logger logger = LoggerFactory.getLogger(IndexController.class.getName());
+public class IndexController extends BaseController {
 
     @Resource
     private LoginService loginService;
@@ -54,6 +52,7 @@ public class IndexController {
 
         // param
         if (StringUtils.isBlank(userName) || StringUtils.isBlank(password)){
+            LOGGER.error(">>>>>> login error : {}","账号或密码为空");
             return new ReturnT<String>(500, "账号或密码为空");
         }
         boolean ifRem = (StringUtils.isNotBlank(ifRemember) && "on".equals(ifRemember))?true:false;
@@ -61,6 +60,7 @@ public class IndexController {
         // do login
         boolean loginRet = loginService.login(response, userName, password, ifRem);
         if (!loginRet) {
+            LOGGER.error(">>>>>> login error : {}","账号或密码错误");
             return new ReturnT<String>(500, "账号或密码错误");
         }
         return ReturnT.SUCCESS;
@@ -73,6 +73,7 @@ public class IndexController {
         if (loginService.ifLogin(request)) {
             loginService.logout(request, response);
         }
+        LOGGER.info(">>>>>> logout success");
         return ReturnT.SUCCESS;
     }
 

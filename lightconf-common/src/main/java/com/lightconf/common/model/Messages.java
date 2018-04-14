@@ -13,4 +13,7 @@ public class Messages {
 
     public static int INPUT_ERROR_CODE = 10001;
     public static String INPUT_ERROR_MSG = "input error";
+
+    public static int SERVER_ERROR_CODE = 500;
+    public static String SERVER_ERROR_MSG = "server error";
 }
