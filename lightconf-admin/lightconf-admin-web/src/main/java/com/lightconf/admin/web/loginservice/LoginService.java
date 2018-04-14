@@ -1,4 +1,4 @@
-package com.lightconf.admin.web.service.impl;
+package com.lightconf.admin.web.loginservice;
 
 import com.lightconf.admin.web.core.util.CookieUtil;
 import org.springframework.beans.factory.annotation.Value;

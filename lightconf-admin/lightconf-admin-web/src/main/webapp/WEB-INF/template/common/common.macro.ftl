@@ -61,15 +61,15 @@
 <#macro commonHeader>
 	<header class="main-header">
 		<a href="${request.contextPath}/" class="logo">
-			<span class="logo-mini"><b>X</b>XL</span>
-			<span class="logo-lg"><b>LIGHTCONF配置管理平台</b></span>
+			<span class="logo-mini"><b>L</b>C</span>
+			<span class="logo-lg"><b>LC配置管理平台</b></span>
 		</a>
 		<nav class="navbar navbar-static-top" role="navigation">
-			<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"><span class="sr-only">切换导航</span></a>
+			<a href="" class="sidebar-toggle" data-toggle="offcanvas" role="button"><span class="sr-only-focusable"><b>LIGHTCONF</b></span></a>
           	<div class="navbar-custom-menu">
 				<ul class="nav navbar-nav">
 					<li class="dropdown user user-menu">
-	                    <a href=";" id="logoutBtn" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+	                    <a href="" id="logoutBtn" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                       		<span class="hidden-xs">注销</span>
 	                    </a>
 					</li>
@@ -86,9 +86,9 @@
         <section class="sidebar">
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
-                <li class="header">导航</li>
-                <li class="nav-click <#if pageName == "conf">active</#if>" ><a href="${request.contextPath}/app"><i class="fa fa-circle-o text-aqua"></i><span>应用管理</span></a></li>
-				<#--<li class="nav-click <#if pageName == "project">active</#if>" ><a href="${request.contextPath}/project"><i class="fa fa-circle-o text-yellow"></i><span>项目管理</span></a></li>-->
+                <li class="header" style="display: none">导航</li>
+                <li class="nav-click <#if pageName == "conf">active</#if>" ><a href="${request.contextPath}/app"><i class="fa fa-circle-o text-gray"></i><span>应用管理</span></a></li>
+				<li class="nav-click <#if pageName == "project">active</#if>" ><a href="${request.contextPath}/conf"><i class="fa fa-circle-o text-gray"></i><span>配置管理</span></a></li>
 				<#--<li class="nav-click <#if pageName == "user">active</#if>" ><a href="${request.contextPath}/user"><i class="fa fa-circle-o text-green"></i><span>用户管理</span></a></li>-->
                 <li class="nav-click <#if pageName == "help">active</#if>" ><a href="${request.contextPath}/help"><i class="fa fa-circle-o text-gray"></i><span>使用教程</span></a></li>
             </ul>

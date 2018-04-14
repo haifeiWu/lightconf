@@ -138,7 +138,7 @@
 			<version>${mybatis.version}</version>
 		</dependency>
 
-		<!-- xxl-conf-core -->
+		<!-- light-conf-core -->
 		<dependency>
 			<groupId>com.lightconf</groupId>
 			<artifactId>lightconf-core</artifactId>

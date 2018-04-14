@@ -10,12 +10,9 @@
 
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="fileEncoding" value="utf-8" />
-		<!--<property name="ignoreResourceNotFound" value="true" />
-		<property name="order" value="1"/>
-		<property name="ignoreUnresolvablePlaceholders" value="true" />-->
 		<property name="locations">
 			<list>
-				<value>classpath*:xxl-conf.properties</value>
+				<value>classpath*:light-conf.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -54,11 +51,6 @@
 		<!-- 配置监控统计拦截的filters -->
 		<property name="filters" value="stat" />
 	</bean>
-
-	<!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
-		<!--<property name="dataSource" ref="dataSource" />-->
-		<!--<property name="mapperLocations" value="classpath:mybatis-mapper/*.xml"/>-->
-	<!--</bean>-->
 
 	<!-- MyBatis begin -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

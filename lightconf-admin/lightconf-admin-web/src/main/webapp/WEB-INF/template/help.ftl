@@ -17,21 +17,15 @@
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
 			<h1>使用教程<small></small></h1>
-			<!--
-			<ol class="breadcrumb">
-				<li><a><i class="fa fa-dashboard"></i>调度中心</a></li>
-				<li class="active">使用教程</li>
-			</ol>
-			-->
 		</section>
 
 		<!-- Main content -->
 		<section class="content">
-			<div class="callout callout-info">
-				<h4>简介：LIGHTCONF</h4>
+			<div class="callout callout-success">
+				<h4>名称：LIGHTCONF</h4>
 				<br>
 				<p>
-                    <a target="_blank" href="https://github.com/xuxueli/xxl-conf">Github</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a target="_blank" href="https://github.com/haifeiWu/lightconf">Github</a>&nbsp;&nbsp;&nbsp;&nbsp;
 					<iframe src="https://ghbtns.com/github-btn.html?user=haifeiWu&repo=lightconf&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px" style="margin-bottom:-5px;"></iframe>
 					<br><br>
 					<a target="_blank" href="https://github.com/haifeiWu/lightconf">官方文档</a>

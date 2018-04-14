@@ -1,7 +1,7 @@
 package com.lightconf.admin.web.controller.interceptor;
 
 import com.lightconf.admin.web.controller.annotation.PermessionLimit;
-import com.lightconf.admin.web.service.impl.LoginService;
+import com.lightconf.admin.web.loginservice.LoginService;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 

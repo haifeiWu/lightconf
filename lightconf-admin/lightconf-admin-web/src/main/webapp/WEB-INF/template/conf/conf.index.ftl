@@ -70,7 +70,6 @@
 		                      	</tr>
 							</thead>
 		                    <tbody>
-
 		                    </tbody>
 	                  	</table>
 					</div><!-- /.box-body -->
@@ -96,6 +95,16 @@
 	         	</div>
 	         	<div class="modal-body">
 					<form class="form-horizontal form" role="form" >
+                        <#--<div class="form-group">-->
+                            <#--<label for="firstname" class="col-sm-2 control-label">分组</label>-->
+                            <#--<div class="col-sm-4">-->
+								<#--<select class="form-control" name="nodeGroup" >-->
+									<#--<#list XxlConfNodeGroup as group>-->
+                                        <#--<option value="${group.groupName}" >${group.groupTitle}</option>-->
+									<#--</#list>-->
+								<#--</select>-->
+                        	<#--</div>-->
+                        <#--</div>-->
 						<div class="form-group">
 							<label for="firstname" class="col-sm-2 control-label">KEY</label>
 							<div class="col-sm-10"><input type="text" class="form-control" name="confKey" placeholder="请输入KEY" maxlength="100" ></div>
@@ -135,6 +144,10 @@
 	         	</div>
 	         	<div class="modal-body">
 					<form class="form-horizontal form" role="form" >
+                        <#--<div class="form-group">-->
+                            <#--<label for="firstname" class="col-sm-2 control-label">GROUP</label>-->
+                            <#--<div class="col-sm-10"><input type="text" class="form-control" name="nodeGroup" placeholder="请输入KEY" maxlength="100" readonly></div>-->
+                        <#--</div>-->
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">KEY</label>
                             <div class="col-sm-10"><input type="text" class="form-control" name="confKey" placeholder="请输入KEY" maxlength="100" readonly></div>
