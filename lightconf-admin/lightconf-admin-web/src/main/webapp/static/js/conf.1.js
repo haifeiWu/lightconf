@@ -1,87 +1,81 @@
 $(function(){
 
+    // appname change
+    $('#appname').on('change', function(){
+        //reload
+        var appId = $('#appname').val();
+        window.location.href = base_url + "/conf?appId=" + appId;
+    });
+
 	// init date tables
-	// var confTable = $("#conf_list").dataTable({
-	// 	"deferRender": true,
-	// 	"processing" : true,
-	// 	"serverSide": true,
-	// 	"ajax": {
-	// 		url: base_url + "/conf/pageList",
-	// 		type:"post",
-	// 		data : function ( d ) {
-	// 			var obj = {};
-	// 			// obj.nodeGroup = $('#nodeGroup').val();
-	// 			// obj.nodeKey = $('#nodeKey').val();
-     //            obj.appId = $('#appId').val();
-	// 			obj.start = d.start;
-	// 			obj.length = d.length;
-	// 			return obj;
-	// 		}
-	// 	},
-	// 	"searching": false,
-	// 	"ordering": false,
-	// 	//"scrollX": true,	// X轴滚动条，取消自适应
-	// 	"columns": [
-	// 		{ "data": 'confKey', "visible" : false},
-	// 		{ "data": 'confValue', "visible" : false},
-	// 		{ "data": 'confDesc', "visible" : true},
-	// 		{ "data": '操作' ,
-	// 			"render": function ( data, type, row ) {
-	// 				return function(){
-	// 					// html
-	// 					// var html = '<p id="'+ row.id +'" '+
-	// 					// 	' nodeGroup="'+ row.nodeGroup +'" '+
-	// 					// 	' nodeKey="'+ row.nodeKey +'" '+
-	// 					// 	' nodeValue="'+ row.nodeValue +'" '+
-	// 					// 	' nodeValueReal="'+ row.nodeValueReal +'" '+
-	// 					// 	' nodeDesc="'+ row.nodeDesc +'" '+
-	// 					// 	'>'+
-	// 					// 	'<textarea name="nodeValue" style="display:none;" >'+ row.nodeValue +'</textarea>  '+
-	// 					// 	'<button class="btn btn-warning btn-xs update" type="button">编辑</button>  '+
-	// 					// 	'<button class="btn btn-danger btn-xs delete" type="button">删除</button>  '+
-	// 					// 	'</p>';
-     //                    var html = '<p id="'+ row.id +'" '+
-     //                        ' nodeGroup="'+ row.confKey +'" '+
-     //                        ' nodeKey="'+ row.confValue +'" '+
-     //                        ' nodeValue="'+ row.confDesc +'" '+
-     //                        '>'+
-     //                        '<button class="btn btn-warning btn-xs update" type="button">编辑</button>  '+
-     //                        '<button class="btn btn-danger btn-xs delete" type="button">删除</button>  '+
-     //                        '</p>';
-	// 					return html;
-	// 				};
-	// 			}
-	// 		}
-	// 	],
-	// 	"language" : {
-	// 		"sProcessing" : "处理中...",
-	// 		"sLengthMenu" : "每页 _MENU_ 条记录",
-	// 		"sZeroRecords" : "没有匹配结果",
-	// 		"sInfo" : "第 _PAGE_ 页 ( 总共 _PAGES_ 页 )",
-	// 		"sInfoEmpty" : "无记录",
-	// 		"sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
-	// 		"sInfoPostFix" : "",
-	// 		"sSearch" : "搜索:",
-	// 		"sUrl" : "",
-	// 		"sEmptyTable" : "表中数据为空",
-	// 		"sLoadingRecords" : "载入中...",
-	// 		"sInfoThousands" : ",",
-	// 		"oPaginate" : {
-	// 			"sFirst" : "首页",
-	// 			"sPrevious" : "上页",
-	// 			"sNext" : "下页",
-	// 			"sLast" : "末页"
-	// 		},
-	// 		"oAria" : {
-	// 			"sSortAscending" : ": 以升序排列此列",
-	// 			"sSortDescending" : ": 以降序排列此列"
-	// 		}
-	// 	}
-	// });
-	
-	$("#searchBtn").click(function(){
-		confTable.fnDraw();
+	var confTable = $("#conf_list").dataTable({
+		"deferRender": true,
+		"processing" : true,
+		"serverSide": true,
+		"ajax": {
+			url: base_url + "/conf/pageList",
+			type:"post",
+			data : function ( d ) {
+				var obj = {};
+                obj.appId = $('#appname').val();
+                obj.confKey = $('#confKey').val();
+				obj.start = d.start;
+				obj.length = d.length;
+				return obj;
+			}
+		},
+		"searching": false,
+		"ordering": false,
+		//"scrollX": true,	// X轴滚动条，取消自适应
+		"columns": [
+			{ "data": 'confKey', "visible" : true},
+			{ "data": 'confValue', "visible" : true},
+			{ "data": 'confDesc', "visible" : true},
+			{ "data": '操作' ,
+				"render": function ( data, type, row ) {
+					return function(){
+                        var html = '<p id="'+ row.id +'" '+
+                            ' confKey="'+ row.confKey +'" '+
+                            ' confValue="'+ row.confValue +'" '+
+                            ' confDesc="'+ row.confDesc +'" '+
+                            '>'+
+                            '<button class="btn btn-warning btn-xs update" type="button" confDesc="'+ row.confDesc +'" confId="'+ row.id +'" confKey="'+ row.confKey +'" confValue="'+ row.confValue +'">编辑</button>  '+
+                            '<button class="btn btn-danger btn-xs delete" type="button" confKey="'+ row.confKey +'" confId="'+ row.id +'">删除</button>  '+
+                            '</p>';
+						return html;
+					};
+				},"visible" : true
+			}
+		],
+		"language" : {
+			"sProcessing" : "处理中...",
+			"sLengthMenu" : "每页 _MENU_ 条记录",
+			"sZeroRecords" : "没有匹配结果",
+			"sInfo" : "第 _PAGE_ 页 ( 总共 _PAGES_ 页 )",
+			"sInfoEmpty" : "无记录",
+			"sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
+			"sInfoPostFix" : "",
+			"sSearch" : "搜索:",
+			"sUrl" : "",
+			"sEmptyTable" : "表中数据为空",
+			"sLoadingRecords" : "载入中...",
+			"sInfoThousands" : ",",
+			"oPaginate" : {
+				"sFirst" : "首页",
+				"sPrevious" : "上页",
+				"sNext" : "下页",
+				"sLast" : "末页"
+			},
+			"oAria" : {
+				"sSortAscending" : ": 以升序排列此列",
+				"sSortDescending" : ": 以降序排列此列"
+			}
+		}
 	});
+
+    $("#searchBtn").click(function(){
+        confTable.fnDraw();
+    });
 
 	$("#conf_list").on('click', '.tecTips',function() {
 		var tips = $(this).attr("tips");
@@ -90,29 +84,39 @@ $(function(){
 	
 	// 删除
 	$("#conf_list").on('click', '.delete',function() {
-		// var nodeGroup = $(this).parent('p').attr("nodeGroup");
-		// var nodeKey = $(this).parent('p').attr("nodeKey");
         var confKey = $(this).attr("confKey");
-        // var confId = $(this).parent('p').attr("confId");
         var confId = $(this).attr('confId');
-		ComConfirm.show("确定要删除配置：" + confKey, function() {
-			$.post(
-				base_url + "/conf/delete",
-				{
-					"confId" : confId
+        layer.confirm( "确定要删除配置：" + confKey , {
+            icon: 3,
+            title: '系统提示' ,
+            btn: [ '确定', '取消' ]
+        }, function(index){
+            layer.close(index);
+
+            $.post(
+                base_url + "/conf/delete",
+                {
+                	"confId" : confId
 				},
-				function(data, status) {
-					if (data.code == "200") {
-						ComAlert.show(1, "删除成功", function(){
-							// confTable.fnDraw();
-						});
-						window.reload();
-					} else {
-						ComAlert.show(2, data.msg);
-					}
-				}
-			);
-		});
+                function(data, status) {
+                    if (data.code == 200) {
+                        layer.open({
+                            icon: '1',
+                            content: '删除成功' ,
+                            end: function(layero, index){
+                                confTable.fnDraw();
+                            }
+                        });
+                    } else {
+                        layer.open({
+                            icon: '2',
+                            content: (data.msg||'删除失败')
+                        });
+                    }
+                }
+            );
+
+        });
 	});
 
     // jquery.validate 自定义校验 “英文字母开头，只含有英文字母、数字和下划线”
@@ -165,15 +169,21 @@ $(function(){
         },
         submitHandler : function(form) {
     		$.post(base_url + "/conf/add", $("#addModal .form").serialize(), function(data, status) {
-    			if (data.code == "200") {
-    				ComAlert.show(1, "新增配置成功", function(){
-						// confTable.fnDraw();
-						$('#addModal').modal('hide');
-    				});
-                    window.reload();
-    			} else {
-    				ComAlert.show(2, data.msg);
-    			}
+                if (data.code == 200) {
+                    layer.open({
+                        icon: '1',
+                        content: '新增成功' ,
+                        end: function(layero, index){
+                            confTable.fnDraw();
+                            $('#addModal').modal('hide');
+                        }
+                    });
+                } else {
+                    layer.open({
+                        icon: '2',
+                        content: (data.msg||'新增失败')
+                    });
+                }
     		});
 		}
 	});
@@ -183,15 +193,6 @@ $(function(){
 	
 	// 更新
 	$("#conf_list").on('click', '.update',function() {
-
-		// $("#updateModal .form input[name='nodeGroup']").val( $(this).parent('p').attr("nodeGroup") );
-		// $("#updateModal .form input[name='confKey']").val( $(this).parent('p').attr("confKey") );
-		// //$("#updateModal .form input[name='nodeValueReal']").val( $(this).parent('p').attr("nodeValueReal") );
-		// //$("#updateModal .form textarea[name='nodeValue']").val( $(this).parent('p').attr("nodeValue") );
-		// $("#updateModal .form textarea[name='confValue']").val( $(this).parent('p').find("textarea[name='confValue']").val() );
-		// $("#updateModal .form input[name='confDesc']").val( $(this).parent('p').attr("confDesc") );
-        // $("#updateModal .form textarea[name='confId']").val( $(this).parent('p').find("textarea[name='confId']").val() );
-
         $("#updateModal .form input[name='confKey']").val($(this).attr("confKey"));
         $("#updateModal .form textarea[name='confValue']").val($(this).attr("confValue"));
         $("#updateModal .form input[name='confDesc']").val($(this).attr("confDesc"));
@@ -237,15 +238,21 @@ $(function(){
         },
         submitHandler : function(form) {
     		$.post(base_url + "/conf/update", $("#updateModal .form").serialize(), function(data, status) {
-    			if (data.code == "200") {
-    				ComAlert.show(1, "更新配置成功", function(){
-						// confTable.fnDraw();
-						$('#updateModal').modal('hide');
-    				});
-    				window.reload();
-    			} else {
-    				ComAlert.show(2, data.msg);
-    			}
+                if (data.code == 200) {
+                    layer.open({
+                        icon: '1',
+                        content: '更新成功' ,
+                        end: function(layero, index){
+                            confTable.fnDraw();
+                            $('#updateModal').modal('hide');
+                        }
+                    });
+                } else {
+                    layer.open({
+                        icon: '2',
+                        content: (data.msg||'更新失败')
+                    });
+                }
     		});
 		}
 	});

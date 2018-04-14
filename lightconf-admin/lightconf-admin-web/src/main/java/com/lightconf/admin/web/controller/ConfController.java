@@ -1,5 +1,6 @@
 package com.lightconf.admin.web.controller;
 
+import com.lightconf.admin.model.dataobj.AppWithBLOBs;
 import com.lightconf.admin.model.dataobj.Conf;
 import com.lightconf.admin.service.AppService;
 import com.lightconf.admin.service.ConfService;
@@ -7,6 +8,7 @@ import com.lightconf.admin.web.controller.annotation.PermessionLimit;
 import com.lightconf.common.model.Messages;
 import com.lightconf.common.util.LightConfResult;
 import com.lightconf.core.annotaion.LightConf;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,21 +41,29 @@ public class ConfController extends BaseController{
         LOGGER.info("get app's conf , the appId is : {}",appId);
         LightConfResult result = appService.getAppConf(appId);
         LOGGER.info("method deleteApp return value is : {}",result.toString());
-        List<Conf> confList = (List<Conf>) result.getContent();
-        model.addAttribute("list", confList);
         model.addAttribute("appId",appId);
+
+        List<AppWithBLOBs> list = appService.getAllApp();
+        AppWithBLOBs project = list.get(0);
+        for (AppWithBLOBs item: list) {
+            if (item.getId().equals(Integer.valueOf(appId))) {
+                project = item;
+            }
+        }
+        model.addAttribute("ProjectList", list);
+        model.addAttribute("project", project);
+
         return "conf/conf.index";
     }
 
     @RequestMapping("/pageList")
     @ResponseBody
     @PermessionLimit
-    public LightConfResult pageList(
+    public Map<String,Object> pageList(
             @RequestParam(required = false, defaultValue = "0") int start,
-            @RequestParam(required = false, defaultValue = "10") int length, String appId) {
+            @RequestParam(required = false, defaultValue = "10") int length, String appId,String confKey) {
         LOGGER.info("get apps config list");
-        LightConfResult result = appService.getAppConfByPage(start,length,appId);
-        return result;
+        return appService.getAppConfByPage(start,length,appId,confKey);
     }
 
     /**

@@ -3,8 +3,13 @@ $(function() {
     // remove
     $('.remove').on('click', function(){
         var id = $(this).attr('id');
+        layer.confirm( "确认删除该项目?" , {
+            icon: 3,
+            title: '系统提示' ,
+            btn: [ '确定', '取消' ]
+        }, function(index){
+            layer.close(index);
 
-        ComConfirm.show("确认删除应用吗?", function(){
             $.ajax({
                 type : 'POST',
                 url : base_url + '/app/delete_app',
@@ -12,18 +17,23 @@ $(function() {
                 dataType : "json",
                 success : function(data){
                     if (data.code == 200) {
-                        ComAlert.show(1, '删除成功', function () {
-                            window.location.reload();
+                        layer.open({
+                            icon: '1',
+                            content: '删除成功' ,
+                            end: function(layero, index){
+                                window.location.reload();
+                            }
                         });
+
                     } else {
-                        if (data.msg) {
-                            ComAlert.show(2, data.msg);
-                        } else {
-                            ComAlert.show(2, '删除失败');
-                        }
+                        layer.open({
+                            icon: '2',
+                            content: (data.msg||'删除失败')
+                        });
                     }
                 },
             });
+
         });
     });
 
@@ -80,19 +90,36 @@ $(function() {
         },
         submitHandler : function(form) {
             $.post(base_url + "/app/add_app",  $("#addModal .form").serialize(), function(data, status) {
-                if (data.code == "200") {
+                // if (data.code == "200") {
+                //     $('#addModal').modal('hide');
+                //     setTimeout(function () {
+                //         ComAlert.show(1, "新增成功", function(){
+                //             window.location.reload();
+                //         });
+                //     }, 315);
+                // } else {
+                //     if (data.msg) {
+                //         ComAlert.show(2, data.msg);
+                //     } else {
+                //         ComAlert.show(2, "新增失败");
+                //     }
+                // }
+                if (data.code == 200) {
                     $('#addModal').modal('hide');
-                    setTimeout(function () {
-                        ComAlert.show(1, "新增成功", function(){
+
+                    layer.open({
+                        icon: '1',
+                        content: '新增成功' ,
+                        end: function(layero, index){
                             window.location.reload();
-                        });
-                    }, 315);
+                        }
+                    });
+
                 } else {
-                    if (data.msg) {
-                        ComAlert.show(2, data.msg);
-                    } else {
-                        ComAlert.show(2, "新增失败");
-                    }
+                    layer.open({
+                        icon: '2',
+                        content: (data.msg||'新增失败')
+                    });
                 }
             });
         }
@@ -148,19 +175,35 @@ $(function() {
         },
         submitHandler : function(form) {
             $.post(base_url + "/app/update_app",  $("#updateModal .form").serialize(), function(data, status) {
-                if (data.code == "200") {
+                // if (data.code == "200") {
+                //     $('#addModal').modal('hide');
+                //     setTimeout(function () {
+                //         ComAlert.show(1, "更新成功", function(){
+                //             window.location.reload();
+                //         });
+                //     }, 315);
+                // } else {
+                //     if (data.msg) {
+                //         ComAlert.show(2, data.msg);
+                //     } else {
+                //         ComAlert.show(2, "更新失败");
+                //     }
+                // }
+                if (data.code == 200) {
                     $('#addModal').modal('hide');
-                    setTimeout(function () {
-                        ComAlert.show(1, "更新成功", function(){
+
+                    layer.open({
+                        icon: '1',
+                        content: '更新成功' ,
+                        end: function(layero, index) {
                             window.location.reload();
-                        });
-                    }, 315);
+                        }
+                    });
                 } else {
-                    if (data.msg) {
-                        ComAlert.show(2, data.msg);
-                    } else {
-                        ComAlert.show(2, "更新失败");
-                    }
+                    layer.open({
+                        icon: '2',
+                        content: (data.msg||'更新失败')
+                    });
                 }
             });
         }

@@ -5,6 +5,7 @@ import com.lightconf.admin.model.dataobj.AppWithBLOBs;
 import com.lightconf.common.util.LightConfResult;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author wuhf
@@ -50,9 +51,10 @@ public interface AppService {
      * @param start start
      * @param length length
      * @param appId appId
+     * @param confKey
      * @return
      */
-    LightConfResult getAppConfByPage(int start, int length, String appId);
+    Map<String, Object> getAppConfByPage(int start, int length, String appId, String confKey);
 
     /**
      * 根据uuid查询应用信息！

@@ -1,8 +1,6 @@
 package com.lightconf.admin.web.example.controller;
 
 import com.lightconf.core.LightConfClient;
-import com.lightconf.core.XxlConfClient;
-import com.lightconf.admin.web.example.core.constant.DemoConf;
 import com.lightconf.core.listener.LightConfListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.annotation.Resource;
 
 /**
  * @author xuxueli 2018-02-04 01:27:30

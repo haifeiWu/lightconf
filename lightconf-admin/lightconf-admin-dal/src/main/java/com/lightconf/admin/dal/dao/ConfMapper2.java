@@ -19,7 +19,20 @@ public interface ConfMapper2 {
      * @param start
      * @param length
      * @param appId
+     * @param confKey
      * @return
      */
-    List<Conf> getAppConfByPage(@Param("start") int start,@Param("length") int length,@Param("appId") Integer appId);
+    List<Conf> getAppConfByPage(@Param("start") int start, @Param("length") int length,
+            @Param("appId") Integer appId, @Param("confKey") String confKey);
+
+    /**
+     * 统计条数.
+     * @param start
+     * @param length
+     * @param appId
+     * @param confKey
+     * @return
+     */
+    int countAppConfByPage(@Param("start") int start, @Param("length") int length,
+            @Param("appId") Integer appId, @Param("confKey") String confKey);
 }
