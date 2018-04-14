@@ -21,7 +21,7 @@
 
 		<!-- Main content -->
 		<section class="content">
-			<div class="callout callout-success">
+			<div class="callout callout-info">
 				<h4>名称：LIGHTCONF</h4>
 				<br>
 				<p>
