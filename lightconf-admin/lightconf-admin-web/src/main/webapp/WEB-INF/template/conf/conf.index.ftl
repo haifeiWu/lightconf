@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>分布式配置管理平台</title>
+<title>LIGHTCONF配置管理平台</title>
 
 <#import "/common/common.macro.ftl" as netCommon>
 <@netCommon.commonStyle />
@@ -33,15 +33,15 @@
 			
                 <div class="row">
                     <div class="col-xs-4">
-                        <#--<div class="input-group">-->
-                            <#--<span class="input-group-addon">分组</span>-->
-                            <#--<select class="form-control" id="nodeGroup" >-->
-                                <#--<option value="" >全部</option>-->
-								<#--<#list XxlConfNodeGroup as group>-->
-									<#--<option value="${group.groupName}" >${group.groupTitle}</option>-->
-								<#--</#list>-->
-                            <#--</select>-->
-                        <#--</div>-->
+						<div class="input-group">
+							<span class="input-group-addon">项目</span>
+							<select class="form-control" id="appname" >
+							<#--<option value="" >全部</option>-->
+							<#list ProjectList as item>
+								<option value="${item.id}" <#if item.id = project.id>selected</#if> >${item.appName}</option>
+							</#list>
+							</select>
+						</div>
                     </div>
                     <div class="col-xs-4">
                         <div class="input-group">
@@ -70,28 +70,7 @@
 		                      	</tr>
 							</thead>
 		                    <tbody>
-		                    	<#--<#if fileterData?exists>-->
 
-								<#if list?exists && list?size gt 0>
-		                    		<#--<#list fileterData as item>-->
-									<#list list as item>
-		                    			<tr>
-					                        <td>${item.confKey}</td>
-					                        <#--<td <#if item.znodeValue != item.znodeValueReal>style="color:red;font: italic bold"</#if> >${item.znodeValue}</td>
-					                        <td <#if item.znodeValue != item.znodeValueReal>style="color:red;font: italic bold"</#if> >${item.znodeValueReal}</td>-->
-					                        <td>${item.confValue}</td>
-                                            <td>${item.confDesc}</td>
-					                        <td>
-					                        	<div class="input-group">
-						                      		<#--<button class="btn btn-primary btn-xs update" type="button" nodeKey="${item.nodeKey}" znodeValue="${item.znodeValue}" znodeDesc="${item.znodeDesc}" >更新</button>&nbsp;-->
-														<#--<button class="btn btn-danger btn-xs delete" type="button" nodeKey="${item.nodeKey}">删除</button>-->
-                                                    <button class="btn btn-primary btn-xs update" type="button" confDesc="${item.confDesc}" confId="${item.id}" confKey="${item.confKey}" confValue="${item.confValue}" >更新</button>&nbsp;
-						                      		<button class="btn btn-danger btn-xs delete" type="button" confKey="${item.confKey}" confId="${item.id}">删除</button>
-					                        	</div>
-					                        </td>
-				                      	</tr>
-		                    		</#list>
-		                    	</#if>
 		                    </tbody>
 	                  	</table>
 					</div><!-- /.box-body -->
@@ -117,16 +96,6 @@
 	         	</div>
 	         	<div class="modal-body">
 					<form class="form-horizontal form" role="form" >
-                        <#--<div class="form-group">-->
-                            <#--<label for="firstname" class="col-sm-2 control-label">分组</label>-->
-                            <#--<div class="col-sm-4">-->
-								<#--<select class="form-control" name="nodeGroup" >-->
-									<#--<#list XxlConfNodeGroup as group>-->
-                                        <#--<option value="${group.groupName}" >${group.groupTitle}</option>-->
-									<#--</#list>-->
-								<#--</select>-->
-                        	<#--</div>-->
-                        <#--</div>-->
 						<div class="form-group">
 							<label for="firstname" class="col-sm-2 control-label">KEY</label>
 							<div class="col-sm-10"><input type="text" class="form-control" name="confKey" placeholder="请输入KEY" maxlength="100" ></div>
@@ -166,10 +135,6 @@
 	         	</div>
 	         	<div class="modal-body">
 					<form class="form-horizontal form" role="form" >
-                        <#--<div class="form-group">-->
-                            <#--<label for="firstname" class="col-sm-2 control-label">GROUP</label>-->
-                            <#--<div class="col-sm-10"><input type="text" class="form-control" name="nodeGroup" placeholder="请输入KEY" maxlength="100" readonly></div>-->
-                        <#--</div>-->
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">KEY</label>
                             <div class="col-sm-10"><input type="text" class="form-control" name="confKey" placeholder="请输入KEY" maxlength="100" readonly></div>

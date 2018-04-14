@@ -28,18 +28,16 @@
 	<link rel="stylesheet" href="${request.contextPath}/static/plugins/scrollup/image.css">
 	<!-- pace -->
 	<link rel="stylesheet" href="${request.contextPath}/static/plugins/pace/themes/pace-theme-flash.css">
-	<#-- toastr -->
-	<link rel="stylesheet" href="${request.contextPath}/static/plugins/toastr/toastr.css">
 
 </#macro>
 
 <#macro commonScript>
 	<!-- jQuery 2.1.4 -->
-	<script src="${request.contextPath}/static/adminlte/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+	<script src="${request.contextPath}/static/adminlte/plugins/jQuery/jquery-2.2.3.min.js"></script>
 	<!-- Bootstrap 3.3.5 -->
 	<script src="${request.contextPath}/static/adminlte/bootstrap/js/bootstrap.min.js"></script>
 	<!-- FastClick -->
-	<script src="${request.contextPath}/static/adminlte/plugins/fastclick/fastclick.js"></script>
+	<script src="${request.contextPath}/static/adminlte/plugins/fastclick/fastclick.min.js"></script>
 	<!-- AdminLTE App -->
 	<script src="${request.contextPath}/static/adminlte/dist/js/app.min.js"></script>
 
@@ -47,22 +45,24 @@
     <script src="${request.contextPath}/static/plugins/scrollup/jquery.scrollUp.min.js"></script>
     <!-- pace -->
     <script src="${request.contextPath}/static/plugins/pace/pace.min.js"></script>
-	<#-- jquery.cookie -->
+<#-- jquery.cookie -->
     <script src="${request.contextPath}/static/plugins/jquery/jquery.cookie.js"></script>
-	<#-- toastr -->
-	<script src="${request.contextPath}/static/plugins/toastr/toastr.js"></script>
+<#-- jquery.validate -->
+    <script src="${request.contextPath}/static/plugins/jquery/jquery.validate.min.js"></script>
 
-	<script src="${request.contextPath}/static/js/xxl.alert.1.js"></script>
+<#-- layer -->
+	<script src="${request.contextPath}/static/plugins/layer/layer.js"></script>
+
+	<script>var base_url = '${request.contextPath}';</script>
     <script src="${request.contextPath}/static/js/common.1.js"></script>
 
-    <script>var base_url = '${request.contextPath}';</script>
 </#macro>
 
 <#macro commonHeader>
 	<header class="main-header">
 		<a href="${request.contextPath}/" class="logo">
 			<span class="logo-mini"><b>X</b>XL</span>
-			<span class="logo-lg"><b>分布式配置管理平台</b></span>
+			<span class="logo-lg"><b>LIGHTCONF配置管理平台</b></span>
 		</a>
 		<nav class="navbar navbar-static-top" role="navigation">
 			<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"><span class="sr-only">切换导航</span></a>
@@ -79,22 +79,22 @@
 	</header>
 </#macro>
 
-<#macro commonLeft>
+<#macro commonLeft pageName >
 	<!-- Left side column. contains the logo and sidebar -->
 	<aside class="main-sidebar">
-		<!-- sidebar: style can be found in sidebar.less -->
-		<section class="sidebar">
-			<!-- sidebar menu: : style can be found in sidebar.less -->
-			<ul class="sidebar-menu">
-				<li class="header">常用模块</li>
-                <li class="nav-click" ><a href="${request.contextPath}/app"><i class="fa fa-circle-o text-red"></i> <span>应用管理</span></a></li>
-				<#--<li class="nav-click" ><a href="${request.contextPath}/conf"><i class="fa fa-circle-o text-red"></i> <span>配置管理</span></a></li>-->
-                <#--<li class="nav-click" ><a href="${request.contextPath}/group"><i class="fa fa-circle-o text-red"></i> <span>分组管理</span></a></li>-->
-				<li class="nav-click" ><a href="${request.contextPath}/help"><i class="fa fa-circle-o text-yellow"></i><span>使用教程</span></a></li>
-			</ul>
-		</section>
-		<!-- /.sidebar -->
-	</aside>
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu">
+                <li class="header">导航</li>
+                <li class="nav-click <#if pageName == "conf">active</#if>" ><a href="${request.contextPath}/app"><i class="fa fa-circle-o text-aqua"></i><span>应用管理</span></a></li>
+				<#--<li class="nav-click <#if pageName == "project">active</#if>" ><a href="${request.contextPath}/project"><i class="fa fa-circle-o text-yellow"></i><span>项目管理</span></a></li>-->
+				<#--<li class="nav-click <#if pageName == "user">active</#if>" ><a href="${request.contextPath}/user"><i class="fa fa-circle-o text-green"></i><span>用户管理</span></a></li>-->
+                <li class="nav-click <#if pageName == "help">active</#if>" ><a href="${request.contextPath}/help"><i class="fa fa-circle-o text-gray"></i><span>使用教程</span></a></li>
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
 </#macro>
 
 <#macro commonFooter >

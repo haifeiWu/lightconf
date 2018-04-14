@@ -15,8 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author wuhf
@@ -101,13 +100,26 @@ public class AppServiceImpl implements AppService {
     }
 
     @Override
-    public LightConfResult getAppConfByPage(int start, int length, String appId) {
+    public Map<String, Object> getAppConfByPage(int start, int length, String appId, String confKey) {
         if (StringUtils.isBlank(appId)) {
             LOGGER.info(">>>>>> params is not be null");
-            return LightConfResult.build(Messages.INPUT_ERROR_CODE,Messages.MISSING_INPUT_MSG);
+            Map<String, Object> emptyMap = new HashMap<String, Object>(16);
+            emptyMap.put("data", new ArrayList<>());
+            emptyMap.put("recordsTotal", 0);
+            emptyMap.put("recordsFiltered", 0);
+            return emptyMap;
         }
-        List<Conf> confList = confMapper2.getAppConfByPage(start,length,Integer.valueOf(appId));
-        return LightConfResult.build(Messages.SUCCESS_CODE,Messages.SUCCESS_MSG,confList);
+        List<Conf> confList = confMapper2.getAppConfByPage(start,length,Integer.valueOf(appId),confKey);
+        int list_count = confMapper2.countAppConfByPage(start,length,Integer.valueOf(appId),confKey);
+
+        // package result
+        Map<String, Object> maps = new HashMap<String, Object>(16);
+        maps.put("data", confList);
+        // 总记录数
+        maps.put("recordsTotal", list_count);
+        // 过滤后的总记录数
+        maps.put("recordsFiltered", list_count);
+        return maps;
     }
 
     @Override
