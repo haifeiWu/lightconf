@@ -3,6 +3,8 @@ package com.lightconf.core.netty;
 import com.lightconf.common.model.*;
 import com.lightconf.common.util.CommonConstants;
 import com.lightconf.core.core.LightConfLocalCacheConf;
+import com.lightconf.core.core.LightConfPropConf;
+import com.lightconf.core.env.Environment;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleStateEvent;
@@ -33,10 +35,25 @@ public class ClientHandler extends SimpleChannelInboundHandler<BaseMsg> {
     }
 
     @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        super.channelActive(ctx);
+        // 连接建立处理逻辑
+        String appId = LightConfPropConf.get(Environment.APPLICATION_UUID);
+
+        // 1，读取本地持久化的配置信息
+        // 2，上报配置信息到远程
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        super.channelInactive(ctx);
+        // 连接断开处理逻辑
+    }
+
+    @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, BaseMsg baseMsg) throws Exception {
         MsgType msgType = baseMsg.getType();
         switch (msgType) {
-
             case PUSH_CONF:
                 // 将server推送过来的数据放在本地缓存中
                 PushMsg pushMsg = (PushMsg) baseMsg;
