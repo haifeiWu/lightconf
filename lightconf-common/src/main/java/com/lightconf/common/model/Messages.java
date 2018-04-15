@@ -16,4 +16,7 @@ public class Messages {
 
     public static int SERVER_ERROR_CODE = 500;
     public static String SERVER_ERROR_MSG = "server error";
+
+    public static int API_ERROR_CODE = 90000;
+    public static String API_ERROR_MSG = "接口繁忙，请稍后重试";
 }
