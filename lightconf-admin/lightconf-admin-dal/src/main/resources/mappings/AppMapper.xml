@@ -6,6 +6,7 @@
     <result column="uuid" jdbcType="VARCHAR" property="uuid" />
     <result column="app_name" jdbcType="VARCHAR" property="appName" />
     <result column="app_desc" jdbcType="VARCHAR" property="appDesc" />
+    <result column="is_connected" jdbcType="BIT" property="isConnected" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.lightconf.admin.model.dataobj.AppWithBLOBs">
     <result column="private_key" jdbcType="LONGVARCHAR" property="privateKey" />
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, uuid, app_name, app_desc
+    id, uuid, app_name, app_desc, is_connected
   </sql>
   <sql id="Blob_Column_List">
     private_key, public_key
@@ -131,9 +132,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into light_conf_app (uuid, app_name, app_desc, 
-      private_key, public_key)
+      is_connected, private_key, public_key
+      )
     values (#{uuid,jdbcType=VARCHAR}, #{appName,jdbcType=VARCHAR}, #{appDesc,jdbcType=VARCHAR}, 
-      #{privateKey,jdbcType=LONGVARCHAR}, #{publicKey,jdbcType=LONGVARCHAR})
+      #{isConnected,jdbcType=BIT}, #{privateKey,jdbcType=LONGVARCHAR}, #{publicKey,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.lightconf.admin.model.dataobj.AppWithBLOBs">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -149,6 +152,9 @@
       </if>
       <if test="appDesc != null">
         app_desc,
+      </if>
+      <if test="isConnected != null">
+        is_connected,
       </if>
       <if test="privateKey != null">
         private_key,
@@ -166,6 +172,9 @@
       </if>
       <if test="appDesc != null">
         #{appDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="isConnected != null">
+        #{isConnected,jdbcType=BIT},
       </if>
       <if test="privateKey != null">
         #{privateKey,jdbcType=LONGVARCHAR},
@@ -196,6 +205,9 @@
       <if test="record.appDesc != null">
         app_desc = #{record.appDesc,jdbcType=VARCHAR},
       </if>
+      <if test="record.isConnected != null">
+        is_connected = #{record.isConnected,jdbcType=BIT},
+      </if>
       <if test="record.privateKey != null">
         private_key = #{record.privateKey,jdbcType=LONGVARCHAR},
       </if>
@@ -213,6 +225,7 @@
       uuid = #{record.uuid,jdbcType=VARCHAR},
       app_name = #{record.appName,jdbcType=VARCHAR},
       app_desc = #{record.appDesc,jdbcType=VARCHAR},
+      is_connected = #{record.isConnected,jdbcType=BIT},
       private_key = #{record.privateKey,jdbcType=LONGVARCHAR},
       public_key = #{record.publicKey,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
@@ -224,7 +237,8 @@
     set id = #{record.id,jdbcType=INTEGER},
       uuid = #{record.uuid,jdbcType=VARCHAR},
       app_name = #{record.appName,jdbcType=VARCHAR},
-      app_desc = #{record.appDesc,jdbcType=VARCHAR}
+      app_desc = #{record.appDesc,jdbcType=VARCHAR},
+      is_connected = #{record.isConnected,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -241,6 +255,9 @@
       <if test="appDesc != null">
         app_desc = #{appDesc,jdbcType=VARCHAR},
       </if>
+      <if test="isConnected != null">
+        is_connected = #{isConnected,jdbcType=BIT},
+      </if>
       <if test="privateKey != null">
         private_key = #{privateKey,jdbcType=LONGVARCHAR},
       </if>
@@ -255,6 +272,7 @@
     set uuid = #{uuid,jdbcType=VARCHAR},
       app_name = #{appName,jdbcType=VARCHAR},
       app_desc = #{appDesc,jdbcType=VARCHAR},
+      is_connected = #{isConnected,jdbcType=BIT},
       private_key = #{privateKey,jdbcType=LONGVARCHAR},
       public_key = #{publicKey,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
@@ -263,7 +281,8 @@
     update light_conf_app
     set uuid = #{uuid,jdbcType=VARCHAR},
       app_name = #{appName,jdbcType=VARCHAR},
-      app_desc = #{appDesc,jdbcType=VARCHAR}
+      app_desc = #{appDesc,jdbcType=VARCHAR},
+      is_connected = #{isConnected,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectForUpdate" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">

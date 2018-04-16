@@ -22,10 +22,6 @@
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 				<h1>配置管理 <small></small></h1>
-				<#--<ol class="breadcrumb">
-					<li><a><i class="fa fa-dashboard"></i>配置中心</a></li>
-					<li class="active">配置管理</li>
-				</ol>-->
 			</section>
 
 			<!-- Main content -->
@@ -95,16 +91,6 @@
 	         	</div>
 	         	<div class="modal-body">
 					<form class="form-horizontal form" role="form" >
-                        <#--<div class="form-group">-->
-                            <#--<label for="firstname" class="col-sm-2 control-label">分组</label>-->
-                            <#--<div class="col-sm-4">-->
-								<#--<select class="form-control" name="nodeGroup" >-->
-									<#--<#list XxlConfNodeGroup as group>-->
-                                        <#--<option value="${group.groupName}" >${group.groupTitle}</option>-->
-									<#--</#list>-->
-								<#--</select>-->
-                        	<#--</div>-->
-                        <#--</div>-->
 						<div class="form-group">
 							<label for="firstname" class="col-sm-2 control-label">KEY</label>
 							<div class="col-sm-10"><input type="text" class="form-control" name="confKey" placeholder="请输入KEY" maxlength="100" ></div>
@@ -165,7 +151,7 @@
 
                         <div class="form-group" style="display: none">
                             <label for="lastname" class="col-sm-2 control-label">appId</label>
-                            <div class="col-sm-10"><input type="text" class="form-control" name="appId" value="${appId}" placeholder="请输入描述" maxlength="100" ></div>
+                            <div class="col-sm-10"><input type="text" class="form-control" name="appId" placeholder="请输入描述" maxlength="100" ></div>
                         </div>
 
                         <div class="form-group" style="display:none;">

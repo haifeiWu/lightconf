@@ -49,6 +49,7 @@ public class ConfController extends BaseController{
                 }
             }
         }
+        model.addAttribute("appId",appId);
         model.addAttribute("ProjectList", list);
         model.addAttribute("project", project);
         return "conf/conf.index";
@@ -81,10 +82,10 @@ public class ConfController extends BaseController{
     @RequestMapping("/delete")
     @ResponseBody
     @PermessionLimit
-    public LightConfResult delete(String confId) {
+    public LightConfResult delete(String confId,String appId) {
         try {
             LOGGER.info(">>>>>> delete config , the key is : {}",confId);
-            LightConfResult result = confService.deleteById(confId);
+            LightConfResult result = confService.deleteById(confId,appId);
             LOGGER.info(">>>>>> delete conf method return value is : {}",result.toString());
             return result;
         } catch (Exception e) {

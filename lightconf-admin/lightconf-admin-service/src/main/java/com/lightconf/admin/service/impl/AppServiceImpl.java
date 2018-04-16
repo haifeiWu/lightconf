@@ -47,8 +47,8 @@ public class AppServiceImpl implements AppService {
     }
 
     @Override
-    public LightConfResult updateApp(AppWithBLOBs app) {
-        appMapper.updateByPrimaryKeySelective(app);
+    public LightConfResult updateApp(App app) {
+        appMapper.updateByPrimaryKeySelective((AppWithBLOBs) app);
         return LightConfResult.ok();
     }
 
@@ -109,6 +109,12 @@ public class AppServiceImpl implements AppService {
             emptyMap.put("recordsFiltered", 0);
             return emptyMap;
         }
+
+        // 当key不为空的时候，进行模糊查找
+        if (StringUtils.isNotBlank(confKey)) {
+            confKey = "%" + confKey + "%";
+        }
+
         List<Conf> confList = confMapper2.getAppConfByPage(start,length,Integer.valueOf(appId),confKey);
         int list_count = confMapper2.countAppConfByPage(start,length,Integer.valueOf(appId),confKey);
 
@@ -131,5 +137,11 @@ public class AppServiceImpl implements AppService {
             return appList.get(0);
         }
         return null;
+    }
+
+    @Override
+    public LightConfResult updateAppWithBLOBs(AppWithBLOBs app) {
+        appMapper.updateByPrimaryKeySelective(app);
+        return LightConfResult.ok();
     }
 }

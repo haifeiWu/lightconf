@@ -396,6 +396,66 @@ public class AppExample implements Serializable {
             addCriterion("app_desc not between", value1, value2, "appDesc");
             return (Criteria) this;
         }
+
+        public Criteria andIsConnectedIsNull() {
+            addCriterion("is_connected is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsConnectedIsNotNull() {
+            addCriterion("is_connected is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsConnectedEqualTo(Boolean value) {
+            addCriterion("is_connected =", value, "isConnected");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsConnectedNotEqualTo(Boolean value) {
+            addCriterion("is_connected <>", value, "isConnected");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsConnectedGreaterThan(Boolean value) {
+            addCriterion("is_connected >", value, "isConnected");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsConnectedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_connected >=", value, "isConnected");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsConnectedLessThan(Boolean value) {
+            addCriterion("is_connected <", value, "isConnected");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsConnectedLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_connected <=", value, "isConnected");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsConnectedIn(List<Boolean> values) {
+            addCriterion("is_connected in", values, "isConnected");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsConnectedNotIn(List<Boolean> values) {
+            addCriterion("is_connected not in", values, "isConnected");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsConnectedBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_connected between", value1, value2, "isConnected");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsConnectedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_connected not between", value1, value2, "isConnected");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria implements Serializable {

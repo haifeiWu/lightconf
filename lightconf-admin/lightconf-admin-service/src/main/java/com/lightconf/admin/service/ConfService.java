@@ -22,7 +22,8 @@ public interface ConfService {
     /**
      * 根据id删除conf信息。
      * @param confId confId
+     * @param appId
      * @return
      */
-    LightConfResult deleteById(String confId);
+    LightConfResult deleteById(String confId, String appId);
 }

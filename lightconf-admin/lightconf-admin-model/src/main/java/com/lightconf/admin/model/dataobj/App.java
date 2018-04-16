@@ -11,6 +11,8 @@ public class App implements Serializable {
 
     private String appDesc;
 
+    private Boolean isConnected;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -43,5 +45,13 @@ public class App implements Serializable {
 
     public void setAppDesc(String appDesc) {
         this.appDesc = appDesc == null ? null : appDesc.trim();
+    }
+
+    public Boolean getIsConnected() {
+        return isConnected;
+    }
+
+    public void setIsConnected(Boolean isConnected) {
+        this.isConnected = isConnected;
     }
 }

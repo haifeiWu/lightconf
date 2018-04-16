@@ -48,6 +48,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<BaseMsg> {
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         super.channelInactive(ctx);
         // 连接断开处理逻辑
+
     }
 
     @Override
@@ -59,13 +60,20 @@ public class ClientHandler extends SimpleChannelInboundHandler<BaseMsg> {
                 PushMsg pushMsg = (PushMsg) baseMsg;
                 if (CommonConstants.CONF_TYPE_ADD.equals(pushMsg.getConfType())) {
                     LightConfLocalCacheConf.set(pushMsg.getKey(),pushMsg.getValue());
-                    logger.info("add application conf");
+                    logger.info(">>>>>> add application conf,the value is : {}",pushMsg.getValue());
                 } else if (CommonConstants.CONF_TYPE_UPDATE.equals(pushMsg.getConfType())) {
-                    LightConfLocalCacheConf.update(pushMsg.getKey(),pushMsg.getValue());
-                    logger.info("update application conf");
+                    if (null != LightConfLocalCacheConf.get(pushMsg.getKey())) {
+                        LightConfLocalCacheConf.update(pushMsg.getKey(),pushMsg.getValue());
+                        logger.info("update application conf");
+                    } else {
+                        LightConfLocalCacheConf.set(pushMsg.getKey(),pushMsg.getValue());
+                        logger.info(">>>>>> update application but key is null,so add application conf value is : {}",pushMsg.getValue());
+                    }
                 } else {
-                    LightConfLocalCacheConf.remove(pushMsg.getKey());
-                    logger.info("delete application conf");
+                    if (null != LightConfLocalCacheConf.get(pushMsg.getKey())) {
+                        LightConfLocalCacheConf.remove(pushMsg.getKey());
+                        logger.info("delete application conf,the key is : {}",pushMsg.getKey());
+                    }
                 }
                 // 刷新配置信息
                 LightConfLocalCacheConf.reloadAll();

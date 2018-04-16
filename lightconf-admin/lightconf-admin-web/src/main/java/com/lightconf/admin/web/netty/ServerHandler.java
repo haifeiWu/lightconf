@@ -27,7 +27,14 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        logger.error("in channelInactive.");
+        // 连接断开，应该将应用的连接状态重新置为未连接
+        String appUUid = NettyChannelMap.getClientId((SocketChannel) ctx.channel());
+        logger.error(">>>channel is in channelInactive,the appUUid is : {}",appUUid);
+        App app = appService.getAppByUUID(appUUid);
+        if (null != app) {
+            app.setIsConnected(false);
+            appService.updateApp(app);
+        }
         NettyChannelMap.remove((SocketChannel) ctx.channel());
     }
 
@@ -96,6 +103,8 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
         }
         App app = appService.getAppByUUID(appUUid);
         if (null != app) {
+            app.setIsConnected(true);
+            appService.updateApp(app);
             // 登录成功,把channel存到服务端的map中.
             NettyChannelMap.add(loginMsg.getClientId(), (SocketChannel) channelHandlerContext.channel());
             logger.info("client" + loginMsg.getClientId() + " 登录成功");

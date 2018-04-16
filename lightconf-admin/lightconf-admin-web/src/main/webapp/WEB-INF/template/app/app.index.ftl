@@ -40,7 +40,7 @@
                                     <th name="appName" >应用名</th>
                                     <th name="appDesc" >应用描述</th>
                                     <th name="uuid" >UUID</th>
-                                    <th name="publicKey" >publicKey</th>
+                                    <th name="isConnected" >连接状态</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -50,7 +50,14 @@
                                         <td>${app.appName}</td>
                                         <td>${app.appDesc}</td>
                                         <td>${app.uuid}</td>
-                                        <td>${app.publicKey}</td>
+                                        <td>
+                                             <#if '${app.isConnected}' == false >
+                                                 <span style="color: #FF0000">应用未启动</span>
+                                             </#if>
+                                            <#if '${app.isConnected}' == true >
+                                                <span style="color: #00e765">应用启动</span>
+                                            </#if>
+                                        </td>
                                         <td>
                                             <button class="btn btn-warning btn-xs update" id="${app.id}" appName = "${app.appName}" appDesc = "${app.appDesc}" >编辑</button>
                                             <button class="btn btn-danger btn-xs remove" id="${app.id}" >删除</button>
