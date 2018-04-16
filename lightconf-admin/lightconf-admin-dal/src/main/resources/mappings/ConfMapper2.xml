@@ -15,7 +15,7 @@
     SELECT
     <include refid="Base_Column_List" />
     FROM light_conf_conf conf INNER JOIN light_conf_app_conf app_conf ON conf.id = app_conf.conf_id
-    WHERE app_conf.app_id = #{appId,jdbcType=INTEGER}
+    WHERE app_conf.app_id = #{appId,jdbcType=INTEGER};
   </select>
 
   <select id="getAppConfByPage" parameterType="java.util.Map" resultMap="BaseResultMap">
@@ -24,7 +24,7 @@
     FROM light_conf_conf conf INNER JOIN light_conf_app_conf app_conf ON conf.id = app_conf.conf_id
     WHERE app_conf.app_id = #{appId,jdbcType=INTEGER}
     <if test="confKey != null and confKey != ''">
-      AND conf.conf_key = #{confKey,jdbcType=VARCHAR}
+      AND conf.conf_key LIKE #{confKey,jdbcType=VARCHAR}
     </if>
     limit #{start},#{length}
   </select>
@@ -34,7 +34,7 @@
     FROM light_conf_conf conf INNER JOIN light_conf_app_conf app_conf ON conf.id = app_conf.conf_id
     WHERE app_conf.app_id = #{appId,jdbcType=INTEGER}
     <if test="confKey != null and confKey != ''">
-      AND conf.conf_key = #{confKey,jdbcType=VARCHAR}
+      AND conf.conf_key LIKE #{confKey,jdbcType=VARCHAR}
     </if>
   </select>
 </mapper>

@@ -25,7 +25,7 @@ public interface AppService {
      * @param app
      * @return
      */
-    LightConfResult updateApp(AppWithBLOBs app);
+    LightConfResult updateApp(App app);
 
     LightConfResult deleteApp(String appId);
 
@@ -62,4 +62,6 @@ public interface AppService {
      * @return
      */
     App getAppByUUID(String appUUid);
+
+    LightConfResult updateAppWithBLOBs(AppWithBLOBs app);
 }

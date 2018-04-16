@@ -55,7 +55,7 @@ public class AppController extends BaseController {
     public LightConfResult updateApp(AppWithBLOBs app) {
         try {
             LOGGER.info("update application , the name is : {}",app.getAppName());
-            LightConfResult result = appService.updateApp(app);
+            LightConfResult result = appService.updateAppWithBLOBs(app);
             return result;
         } catch (Exception e) {
             e.printStackTrace();

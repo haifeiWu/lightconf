@@ -86,6 +86,7 @@ $(function(){
 	$("#conf_list").on('click', '.delete',function() {
         var confKey = $(this).attr("confKey");
         var confId = $(this).attr('confId');
+        var appId = $('#appname').val();
         layer.confirm( "确定要删除配置：" + confKey , {
             icon: 3,
             title: '系统提示' ,
@@ -96,7 +97,8 @@ $(function(){
             $.post(
                 base_url + "/conf/delete",
                 {
-                	"confId" : confId
+                	"confId" : confId,
+                    "appId" : appId
 				},
                 function(data, status) {
                     if (data.code == 200) {
@@ -127,7 +129,8 @@ $(function(){
     }, "KEY只能由小写字母、数字和.组成,须以小写字母开头");
 
 	// 新增
-	$("#add").click(function(){
+	$("#add").click(function() {
+        $("#addModal .form textarea[name='appId']").val($(this).attr($('#appname').val()));
 		$('#addModal').modal('show');
 	});
 	var addModalValidate = $("#addModal .form").validate({
@@ -193,10 +196,14 @@ $(function(){
 	
 	// 更新
 	$("#conf_list").on('click', '.update',function() {
+
+        var appId = $('#appname').val();
+
         $("#updateModal .form input[name='confKey']").val($(this).attr("confKey"));
         $("#updateModal .form textarea[name='confValue']").val($(this).attr("confValue"));
         $("#updateModal .form input[name='confDesc']").val($(this).attr("confDesc"));
         $("#updateModal .form textarea[name='id']").val($(this).attr("confId"));
+        $("#updateModal .form textarea[name='appId']").val($(this).attr(appId));
 
 		$('#updateModal').modal('show');
 	});

@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -55,7 +54,7 @@ public class ConfServiceImpl implements ConfService {
     public LightConfResult add(Conf conf, String appId) {
 
         if (StringUtils.isBlank(appId)) {
-            LOGGER.info("appUuid is not allow be null");
+            LOGGER.info(">>>>>> appUuid is not allow be null");
             return LightConfResult.build(Messages.MISSING_INPUT_CODE,Messages.MISSING_INPUT_MSG);
         }
 
@@ -67,28 +66,16 @@ public class ConfServiceImpl implements ConfService {
             appConf.setConfId(String.valueOf(conf.getId()));
             appConfMapper.insert(appConf);
 
-            // 更新配置到客户端.
-            pushConfToApplication(conf,CommonConstants.CONF_TYPE_ADD,app.getUuid());
-            LOGGER.info("add conf success");
+            // 若应用与admin连接，则更新配置到客户端.
+            if (app.getIsConnected()) {
+                LOGGER.info(">>>>>> add conf，push conf to client！the client name is : {}",app.getAppName());
+                pushConfToApplication(conf,CommonConstants.CONF_TYPE_ADD,app.getUuid());
+            }
+            LOGGER.info(">>>>>> add conf success");
             return LightConfResult.ok();
         } else {
             return LightConfResult.build(Messages.MISSING_INPUT_CODE,Messages.MISSING_INPUT_MSG);
         }
-    }
-
-    /**
-     * 根据AppUuid获取App信息.
-     * @param appUuid appUuid
-     * @return App信息.
-     */
-    private App getAppByUuid(String appUuid) {
-        AppExample appExample = new AppExample();
-        appExample.createCriteria().andUuidEqualTo(appUuid);
-        List<App> appList = appMapper.selectByExample(appExample);
-        if (null != appList && appList.size() > 0) {
-            return appList.get(0);
-        }
-        return null;
     }
 
     @Override
@@ -104,8 +91,11 @@ public class ConfServiceImpl implements ConfService {
             confMapper.updateByPrimaryKeySelective(conf);
 
             // 下发配置到应用
-            pushConfToApplication(conf,CommonConstants.CONF_TYPE_UPDATE,app.getUuid());
-            LOGGER.info("update conf success");
+            if (app.getIsConnected()) {
+                LOGGER.info(">>>>>> update conf , push conf to client! client name is : {}",app.getAppName());
+                pushConfToApplication(conf,CommonConstants.CONF_TYPE_UPDATE,app.getUuid());
+            }
+            LOGGER.info(">>>>>> update conf success");
             return LightConfResult.ok();
         } else {
             return LightConfResult.build(Messages.MISSING_INPUT_CODE,Messages.MISSING_INPUT_MSG);
@@ -129,8 +119,8 @@ public class ConfServiceImpl implements ConfService {
     }
 
     @Override
-    public LightConfResult deleteById(String confId) {
-        if (StringUtils.isBlank(confId)) {
+    public LightConfResult deleteById(String confId, String appId) {
+        if (StringUtils.isBlank(confId) ) {
             LOGGER.error("confId is not allow be null");
             return LightConfResult.build(Messages.MISSING_INPUT_CODE,Messages.MISSING_INPUT_MSG);
         }
