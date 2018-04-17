@@ -130,7 +130,7 @@ $(function(){
 
 	// 新增
 	$("#add").click(function() {
-        $("#addModal .form textarea[name='appId']").val($(this).attr($('#appname').val()));
+        $("#addModal .form input[name='appId']").val($('#appname').val());
 		$('#addModal').modal('show');
 	});
 	var addModalValidate = $("#addModal .form").validate({
@@ -197,13 +197,13 @@ $(function(){
 	// 更新
 	$("#conf_list").on('click', '.update',function() {
 
+	    // 获取appId
         var appId = $('#appname').val();
-
         $("#updateModal .form input[name='confKey']").val($(this).attr("confKey"));
         $("#updateModal .form textarea[name='confValue']").val($(this).attr("confValue"));
         $("#updateModal .form input[name='confDesc']").val($(this).attr("confDesc"));
         $("#updateModal .form textarea[name='id']").val($(this).attr("confId"));
-        $("#updateModal .form textarea[name='appId']").val($(this).attr(appId));
+        $("#updateModal .form input[name='appId']").val(appId);
 
 		$('#updateModal').modal('show');
 	});
@@ -244,6 +244,7 @@ $(function(){
             element.parent('div').append(error);  
         },
         submitHandler : function(form) {
+            alert($("#updateModal .form").serialize());
     		$.post(base_url + "/conf/update", $("#updateModal .form").serialize(), function(data, status) {
                 if (data.code == 200) {
                     layer.open({
