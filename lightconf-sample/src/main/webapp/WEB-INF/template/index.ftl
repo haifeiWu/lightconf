@@ -10,16 +10,27 @@
     <table border=1 bordercolor="#000000" style="border-collapse:collapse" >
         <thead>
             <tr>
-                <td>方式</td>
+                <td>序号</td>
                 <td>Key</td>
                 <td>Value</td>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>@Value方式</td>
-                <td>default.key02</td>
-                <td>${key1}</td>
+                <td>1,</td>
+                <td>key01</td>
+                <td>${key01}</td>
+            </tr>
+            <tr>
+                <td>2,</td>
+                <td>key02</td>
+                <td>${key02}</td>
+            </tr>
+
+            <tr>
+                <td>3,</td>
+                <td>default.key01</td>
+                <td>${defaultkey01}</td>
             </tr>
         </tbody>
     </table>

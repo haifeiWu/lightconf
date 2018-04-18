@@ -244,7 +244,6 @@ $(function(){
             element.parent('div').append(error);  
         },
         submitHandler : function(form) {
-            alert($("#updateModal .form").serialize());
     		$.post(base_url + "/conf/update", $("#updateModal .form").serialize(), function(data, status) {
                 if (data.code == 200) {
                     layer.open({

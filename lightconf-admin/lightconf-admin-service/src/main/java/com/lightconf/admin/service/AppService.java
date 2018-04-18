@@ -61,7 +61,7 @@ public interface AppService {
      * @param appUUid
      * @return
      */
-    App getAppByUUID(String appUUid);
+    AppWithBLOBs getAppByUUID(String appUUid);
 
     LightConfResult updateAppWithBLOBs(AppWithBLOBs app);
 }

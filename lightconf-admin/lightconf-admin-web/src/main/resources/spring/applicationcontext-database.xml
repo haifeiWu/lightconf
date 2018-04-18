@@ -77,4 +77,5 @@
 
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 
+	<bean id="lightConfServerListener" class="com.lightconf.admin.web.listener.LightConfServerListener" />
 </beans>
