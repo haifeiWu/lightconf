@@ -1,6 +1,7 @@
 package com.lightconf.admin.web.netty;
 
 import com.lightconf.admin.model.dataobj.App;
+import com.lightconf.admin.model.dataobj.AppWithBLOBs;
 import com.lightconf.admin.service.AppService;
 import com.lightconf.admin.service.impl.SpringContextHolder;
 import com.lightconf.common.model.*;
@@ -101,10 +102,10 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
         if (StringUtils.isBlank(appUUid)) {
             ReferenceCountUtil.release("应用的uuid配置有误，请检查配置！");
         }
-        App app = appService.getAppByUUID(appUUid);
+        AppWithBLOBs app = appService.getAppByUUID(appUUid);
         if (null != app) {
             app.setIsConnected(true);
-            appService.updateApp(app);
+            appService.updateAppWithBLOBs(app);
             // 登录成功,把channel存到服务端的map中.
             NettyChannelMap.add(loginMsg.getClientId(), (SocketChannel) channelHandlerContext.channel());
             logger.info("client" + loginMsg.getClientId() + " 登录成功");

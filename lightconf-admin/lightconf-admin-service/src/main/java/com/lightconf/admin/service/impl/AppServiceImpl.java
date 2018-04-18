@@ -129,10 +129,10 @@ public class AppServiceImpl implements AppService {
     }
 
     @Override
-    public App getAppByUUID(String appUUid) {
+    public AppWithBLOBs getAppByUUID(String appUUid) {
         AppExample appExample = new AppExample();
         appExample.createCriteria().andUuidEqualTo(appUUid);
-        List<App> appList = appMapper.selectByExample(appExample);
+        List<AppWithBLOBs> appList = appMapper.selectByExampleWithBLOBs(appExample);
         if (appList.size() > 0 && null != appList) {
             return appList.get(0);
         }

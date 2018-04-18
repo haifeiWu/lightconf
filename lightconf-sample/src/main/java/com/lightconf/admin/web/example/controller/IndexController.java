@@ -15,22 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class IndexController {
 	
-//	@Resource
-//	private DemoConf demoConf;
-
 	private static Logger logger = LoggerFactory.getLogger(IndexController.class);
 
-//	@Value("${key1}")
-	protected String key1;
-
-	@Value("default.key01")
 	protected static String key01;
 
 	static {
 		/**
 		 * 配置变更监听示例：可开发Listener逻辑，监听配置变更事件；可据此实现动态刷新JDBC连接池等高级功能；
 		 */
-		LightConfClient.addListener("", new LightConfListener() {
+		LightConfClient.addListener("key01", new LightConfListener() {
 			@Override
 			public void onChange(String key, String value) throws Exception {
 				key01 = value;
@@ -54,8 +47,8 @@ public class IndexController {
 		 * 		- 缺点：不支持支持动态推送更新
          *
          */
-//		model.addAttribute("key01", demoConf.paramByXml);
-		model.addAttribute("key1", LightConfClient.get("key1"));
+		model.addAttribute("key01",key01);
+		model.addAttribute("key02", LightConfClient.get("key1"));
 
 		System.err.println(">>>>>>注解 " + key01);
 
@@ -82,7 +75,7 @@ public class IndexController {
 		 * 			- 支持动态推送更新；
 		 * 			- 支持多数据类型；
          */
-//		model.addAttribute("key03", XxlConfClient.get("default.key03", null));
+		model.addAttribute("defaultkey01", LightConfClient.get("default.key01"));
 
 		return "index";
 	}
