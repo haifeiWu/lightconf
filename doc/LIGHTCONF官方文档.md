@@ -1,7 +1,6 @@
 ## 《多应用配置管理平台LIGHTCONF》
 
 [![Build Status](https://travis-ci.org/xuxueli/xxl-conf.svg?branch=master)](https://travis-ci.org/xuxueli/xxl-conf)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.xuxueli/xxl-conf/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.xuxueli/xxl-conf/)
 [![GitHub release](https://img.shields.io/github/release/haifeiWu/lightconf.svg)](https://github.com/haifeiWu/lightconf/releases)
 [![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0.html)
 
