@@ -124,3 +124,16 @@ LIGHTCONF 是一个配置管理平台，其核心设计目标是“为业务提�
     
     ## 接入应用的uuid
     application.uuid=8705d6c8-bbe0-420c-9853-f780de4cb5ea
+ 
+#### C、LIGHTCONF 配置初始化[必须]
+    可参考配置文件：
+    
+    lightconf/lightconf-sample/src/main/resources/spring/applicationcontext-light-conf.xml
+    
+    配置项说明：
+    
+    <!-- ********************************* 核心配置[必须]：LIGHTCONF 配置 ********************************* -->
+    <bean id="xxlConf" class="com.lightconf.core.spring.LightConfFactory" init-method="init" destroy-method="destroy" />
+
+    <!-- ********************************* 核心配置[必须]：LIGHTCONF netty client监听 ********************************* -->
+    <bean id="lightConfListener" class="com.lightconf.core.listener.LightConfClientListener"></bean>
