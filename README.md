@@ -70,3 +70,57 @@ LIGHTCONF 是一个配置管理平台，其核心设计目标是“为业务提�
 配置文件位置：
 
     lightconf/lightconf-admin/lightconf-admin-web/src/main/resources/light-conf.properties
+    
+配置项目说明：
+    
+    # 配置登录lightconf的用户名，密码
+    light.conf.login.username=admin
+    light.conf.login.password=123456
+    
+    # mysql database setting
+    jdbc.type=mysql
+    jdbc.driver=com.mysql.jdbc.Driver
+    
+    jdbc.url=jdbc:mysql://localhost:3306/light-conf?useUnicode=true&characterEncoding=utf-8
+    jdbc.username=root
+    jdbc.password=root_pwd
+    
+    # pool settings
+    jdbc.pool.init=2
+    jdbc.pool.minIdle=3
+    jdbc.pool.maxActive=20
+    
+    # jdbc.testSql=SELECT 'x'
+    jdbc.testSql=SELECT 'x' FROM DUAL
+    
+    # 服务端启动监听端口
+    netty.server.port=9998
+
+### 2.4 “接入LIGHTCONF的示例项目” 项目配置
+
+    项目：lightconf-sample
+    作用：接入LIGHTCONF的示例项目，供用户参考学习
+    
+#### A、引入maven依赖
+
+    <!-- lightconf-client -->
+    <dependency>
+        <groupId>com.lightconf</groupId>
+        <artifactId>lightconf-core</artifactId>
+        <version>${project.parent.version}</version>
+    </dependency>
+    
+#### B、添加 LIGHTCONF 配置文件
+
+    可参考配置文件：
+    lightconf/lightconf-sample/src/main/resources/light-conf.properties
+    
+    配置项说明:
+    
+    # 连接light-conf-admin的IP地址
+    light.conf.host=127.0.0.1
+    # 连接light-conf-admin的端口号
+    light.conf.port=9998
+    
+    ## 接入应用的uuid
+    application.uuid=8705d6c8-bbe0-420c-9853-f780de4cb5ea
