@@ -38,7 +38,7 @@ public class IndexController {
         /**
          * 方式1: XML占位符方式
          *
-		 * 		- 参考 "applicationcontext-xxl-conf.xml" 中 "DemoConf.paramByXml" 属性配置 ""；示例代码 "<property name="paramByXml" value="${default.key01}" />"；
+		 * 		- 参考 "applicationcontext-light-conf.xml" 中 "DemoConf.paramByXml" 属性配置 ""；示例代码 "<property name="paramByXml" value="${default.key01}" />"；
 		 * 		- 用法：占位符方式 "${default.key01}"，支持嵌套占位符；
 		 * 		- 优点：
 		 * 			- 配置从配置中心自动加载；

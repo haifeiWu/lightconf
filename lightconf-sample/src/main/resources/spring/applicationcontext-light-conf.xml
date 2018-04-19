@@ -5,8 +5,7 @@
            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 
-	<!-- ********************************* 核心配置[必须]：XXL-CONF 配置工厂 ********************************* -->
-	<!--<bean id="xxlConf" class="com.xxl.conf.core.spring.XxlConfFactory" init-method="init" destroy-method="destroy" />-->
+	<!-- ********************************* 核心配置[必须]：LIGHTCONF 配置 ********************************* -->
 	<bean id="xxlConf" class="com.lightconf.core.spring.LightConfFactory" init-method="init" destroy-method="destroy" />
 
 	<!--LightConfClientListener bean-->
