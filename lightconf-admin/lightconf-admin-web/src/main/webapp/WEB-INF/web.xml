@@ -52,6 +52,16 @@
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 
+	<!--允许跨域访问的过滤器-->
+	<filter>
+		<filter-name>crossDomainRequestFilter</filter-name>
+		<filter-class>com.lightconf.admin.web.filter.CrossDomainRequestFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>crossDomainRequestFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
 	<!-- druid 数据库监控 -->
 	<filter>
 		<filter-name>DruidWebStatFilter</filter-name>
