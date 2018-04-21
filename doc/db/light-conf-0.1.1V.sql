@@ -4,15 +4,6 @@ MySQL - 5.6.17 : Database - light-conf
 *********************************************************************
 */
 
-
-/*!40101 SET NAMES utf8 */;
-
-/*!40101 SET SQL_MODE=''*/;
-
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`light-conf` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
 USE `light-conf`;
@@ -67,7 +58,31 @@ CREATE TABLE `light_conf_conf` (
 
 insert  into `light_conf_conf`(`id`,`conf_key`,`conf_value`,`conf_desc`) values (2,'dbsize','1234','测试'),(3,'key1','1234','test'),(5,'dbsize','890','890'),(13,'default.key01','请问而退','测试'),(14,'key1','去玩儿体育欧派','测试'),(19,'key02','sdfgjkl12345','测试'),(26,'key01','微软微软','234');
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+/*light-conf v0.1.x end */
+
+/*light-conf v0.2.0 start */
+CREATE TABLE `light_conf_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(100) NOT NULL COMMENT '账号',
+  `password` varchar(100) NOT NULL COMMENT '密码',
+  `permission` tinyint(4) NOT NULL DEFAULT '0' COMMENT '权限：0-普通用户、1-管理员',
+  `permission_projects` varchar(1000) DEFAULT NULL COMMENT '权限项目列表，多个逗号分隔',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `light_conf_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `conf_key` varchar(200) NOT NULL COMMENT '配置Key',
+  `conf_desc` varchar(100) NOT NULL COMMENT '配置描述',
+  `conf_value` varchar(2000) DEFAULT NULL COMMENT '配置Value',
+  `opt_time` datetime NOT NULL COMMENT '操作时间',
+  `opt_user` varchar(100) NOT NULL COMMENT '操作人',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `light_conf_conf_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `log_id` int(11) DEFAULT NULL COMMENT 'log表的id',
+  `conf_id` int(11) DEFAULT NULL COMMENT '配置Key的id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
