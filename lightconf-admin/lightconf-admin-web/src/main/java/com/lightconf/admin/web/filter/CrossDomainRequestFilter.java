@@ -19,7 +19,7 @@ public class CrossDomainRequestFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         // TODO Auto-generated method stub
-        HttpServletResponse res = (HttpServletResponse) response;
+        HttpServletResponse res = (HttpServletResponse) request;
         res.setContentType("text/html;charset=UTF-8");
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");

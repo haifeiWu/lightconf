@@ -1,4 +1,4 @@
-package com.lightconf.admin.web.interceptor;
+package com.lightconf.admin.web.controller.interceptor;
 
 import com.lightconf.admin.dal.dao.rest.TokenApi;
 import org.apache.commons.lang3.StringUtils;
