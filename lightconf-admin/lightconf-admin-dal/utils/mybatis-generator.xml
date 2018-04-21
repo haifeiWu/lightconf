@@ -21,7 +21,7 @@
         </commentGenerator>
         <!-- 数据库连接信息 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/xxl-conf?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;autoReconnectForPools=true&amp;zeroDateTimeBehavior=convertToNull"
+                        connectionURL="jdbc:mysql://localhost:3306/light-conf?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;autoReconnectForPools=true&amp;zeroDateTimeBehavior=convertToNull"
                         userId="root"
                         password="123">
         </jdbcConnection>
@@ -67,6 +67,18 @@
         </table>
 
         <table tableName="light_conf_conf" domainObjectName="Conf">
+            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+        </table>
+
+        <table tableName="light_conf_conf_log" domainObjectName="ConfLog">
+            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+        </table>
+
+        <table tableName="light_conf_log" domainObjectName="Log">
+            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+        </table>
+
+        <table tableName="light_conf_user" domainObjectName="User">
             <generatedKey column="ID" sqlStatement="MySql" identity="true" />
         </table>
 
