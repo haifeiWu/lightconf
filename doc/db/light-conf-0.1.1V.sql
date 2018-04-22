@@ -86,3 +86,5 @@ CREATE TABLE `light_conf_conf_log` (
   `conf_id` int(11) DEFAULT NULL COMMENT '配置Key的id',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+
+ALTER TABLE `light_conf_user` ADD UNIQUE(`user_name`);
