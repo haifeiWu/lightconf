@@ -1,6 +1,10 @@
 package com.lightconf.admin.web.loginservice;
 
+import com.lightconf.admin.service.UserService;
 import com.lightconf.admin.web.core.util.CookieUtil;
+import com.lightconf.common.model.Messages;
+import com.lightconf.common.util.LightConfResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.DigestUtils;
@@ -25,6 +29,9 @@ public class LoginService {
     @Value("${light.conf.login.password}")
     private String password;
 
+    @Autowired
+    UserService userService;
+
     private String makeToken(String username, String password){
         String tokenTmp = DigestUtils.md5DigestAsHex(String.valueOf(username + "_" + password).getBytes());	// md5
         tokenTmp = new BigInteger(1, tokenTmp.getBytes()).toString(16);	// md5-hex
@@ -33,23 +40,29 @@ public class LoginService {
 
     public boolean login(HttpServletResponse response, String usernameParam, String passwordParam, boolean ifRemember){
 
-        String loginTolen = makeToken(username, password);
-        String paramToken = makeToken(usernameParam, passwordParam);
+        LightConfResult result = userService.userLogin(usernameParam,passwordParam);
 
-        if (!loginTolen.equals(paramToken)){
-            return false;
+        if (result.getCode() == Messages.SUCCESS_CODE) {
+            // do login
+            String paramToken = makeToken(usernameParam, passwordParam);
+            CookieUtil.set(response, LOGIN_IDENTITY_KEY, paramToken, ifRemember);
+            return true;
         }
 
-        // do login
-        CookieUtil.set(response, LOGIN_IDENTITY_KEY, loginTolen, ifRemember);
-        return true;
+        return false;
+
+//        String loginTolen = makeToken(username, password);
+//
+//        if (!loginTolen.equals(paramToken)){
+//            return false;
+//        }
     }
 
     public void logout(HttpServletRequest request, HttpServletResponse response){
         CookieUtil.remove(request, response, LOGIN_IDENTITY_KEY);
     }
 
-    public boolean ifLogin(HttpServletRequest request){
+    public boolean ifLogin(HttpServletRequest request) {
 
         String loginTolen = makeToken(username, password);
         String paramToken = CookieUtil.getValue(request, LOGIN_IDENTITY_KEY);

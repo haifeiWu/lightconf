@@ -14,9 +14,14 @@ public class Messages {
     public static int INPUT_ERROR_CODE = 10001;
     public static String INPUT_ERROR_MSG = "input error";
 
+    public static int USER_LOGIN_ERROR_CODE = 10002;
+    public static String USER_LOGIN_ERROR_MSG = "用户名密码错误";
+
     public static int SERVER_ERROR_CODE = 500;
     public static String SERVER_ERROR_MSG = "server error";
 
     public static int API_ERROR_CODE = 90000;
     public static String API_ERROR_MSG = "接口繁忙，请稍后重试";
+
+
 }
