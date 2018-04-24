@@ -35,7 +35,7 @@ LIGHTCONF 是一个配置管理平台，其核心设计目标是“为业务提�
 - 3、不需要 (重启线上服务器) : 配置更新后, 实时推送新配置信息至项目中, 实时生效, 不需要重启线上机器; 
 - 4、配置生效 "非常及时" : 点击更新按钮, 新的配置信息将会即可推送到项目中, 瞬间生效, 非常及时。比如一些开关类型的配置, 配置变更后, 将会立刻推送至项目中并生效, 相对常规配置修改繁琐的流程, 及时性可谓天壤之别; 
 
-### 1.4 项目在线预览地址
+#### 项目在线预览地址
 配置中心预览 | Release Download
 --- | ---
 http://58.87.84.211/lightconf-admin-web/toLogin | http://58.87.84.211/lightconf-sample/
@@ -45,6 +45,7 @@ http://58.87.84.211/lightconf-admin-web/toLogin | http://58.87.84.211/lightconf-
 
 源码仓库地址 | 接入LIGHTCONF的Demo项目预览
 --- | ---
+[https://github.com/haifeiWu/lightconf](https://github.com/haifeiWu/lightconf) | [Download](https://github.com/haifeiWu/lightconf/releases)  
  
 ### 1.5 环境
 - Maven3+
