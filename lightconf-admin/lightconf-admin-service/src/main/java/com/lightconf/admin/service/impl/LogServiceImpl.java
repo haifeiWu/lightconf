@@ -7,4 +7,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor = Exception.class)
 @Service
 public class LogServiceImpl implements LogService {
+
 }
