@@ -91,10 +91,10 @@ public class ClientHandler extends SimpleChannelInboundHandler<BaseMsg> {
                 // 上传配置
                 Map<String,String> localCache = LightConfPropConf.getLocalCacheMap();
                 List<Config> configList = new ArrayList<>();
-                for (Map.Entry<String,String> entry : localCache) {
+                for (String key : localCache.keySet()) {
                     Config config = new Config();
-                    config.setKey(entry.getKey());
-                    config.setValue(entry.getValue());
+                    config.setKey(key);
+                    config.setValue(localCache.get(key));
                     configList.add(config);
                 }
 
