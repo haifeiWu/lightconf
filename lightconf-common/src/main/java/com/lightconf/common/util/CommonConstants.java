@@ -23,4 +23,5 @@ public class CommonConstants {
     public static final String CONF_TYPE_ADD = "ADD";
     public static final String CONF_TYPE_DELETE = "DELETE";
     public static final String CONF_TYPE_UPDATE = "UPDATE";
+    public static final String CONF_TYPE_SEND_OUT = "SEND_OUT";
 }

@@ -125,14 +125,32 @@ public class ConfServiceImpl implements ConfService {
             return LightConfResult.build(Messages.MISSING_INPUT_CODE,Messages.MISSING_INPUT_MSG);
         }
 
-        int id = Integer.valueOf(confId);
-        // 删除配置信息。
-        confMapper.deleteByPrimaryKey(id);
+        App app = appMapper.selectByPrimaryKey(Integer.valueOf(appId));
+        if (null != app) {
 
-        // 删除关系表数据。
-        AppConfExample appConfExample = new AppConfExample();
-        appConfExample.createCriteria().andConfIdEqualTo(confId);
-        appConfMapper.deleteByExample(appConfExample);
-        return LightConfResult.ok();
+            int id = Integer.valueOf(confId);
+
+            // 获取要删除的配置信息.
+            Conf conf = confMapper.selectByPrimaryKey(id);
+
+            // 删除配置信息。
+            confMapper.deleteByPrimaryKey(id);
+
+            // 删除关系表数据。
+            AppConfExample appConfExample = new AppConfExample();
+            appConfExample.createCriteria().andConfIdEqualTo(confId);
+            appConfMapper.deleteByExample(appConfExample);
+            return LightConfResult.ok();
+
+            // 下发配置到应用
+            if (app.getIsConnected()) {
+                LOGGER.info(">>>>>> update conf , push conf to client! client name is : {}",app.getAppName());
+                pushConfToApplication(conf,CommonConstants.CONF_TYPE_DELETE,app.getUuid());
+            }
+            LOGGER.info(">>>>>> update conf success");
+            return LightConfResult.ok();
+        } else {
+            return LightConfResult.build(Messages.MISSING_INPUT_CODE,Messages.MISSING_INPUT_MSG);
+        }
     }
 }
