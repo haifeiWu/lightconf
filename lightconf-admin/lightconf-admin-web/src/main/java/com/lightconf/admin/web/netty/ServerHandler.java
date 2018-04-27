@@ -2,9 +2,13 @@ package com.lightconf.admin.web.netty;
 
 import com.lightconf.admin.model.dataobj.App;
 import com.lightconf.admin.model.dataobj.AppWithBLOBs;
+import com.lightconf.admin.model.dataobj.Conf;
 import com.lightconf.admin.service.AppService;
+import com.lightconf.admin.service.ConfService;
 import com.lightconf.admin.service.impl.SpringContextHolder;
 import com.lightconf.common.model.*;
+import com.lightconf.common.util.CommonConstants;
+import com.lightconf.common.util.LightConfResult;
 import com.lightconf.common.util.NettyChannelMap;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -13,7 +17,9 @@ import io.netty.util.ReferenceCountUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author wuhf
@@ -23,8 +29,9 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
 
     private static final Logger logger = LoggerFactory.getLogger(ServerHandler.class);
 
-    @Autowired
     private AppService appService = SpringContextHolder.getBean(AppService.class);
+
+    private ConfService confService = SpringContextHolder.getBean(ConfService.class);
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
@@ -43,7 +50,12 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
     protected void channelRead0(ChannelHandlerContext channelHandlerContext,
             BaseMsg baseMsg) throws Exception {
         if (MsgType.LOGIN.equals(baseMsg.getType())) {
-            lightConfClientLogin(channelHandlerContext, baseMsg);
+            boolean loginSuccess = lightConfClientLogin(channelHandlerContext, baseMsg);
+
+//            // 若登录成功，通知客户端上报配置信息
+//            if (loginSuccess) {
+//                String appUUid = loginMsg.getClientId();
+//            }
         }
 
         switch (baseMsg.getType()) {
@@ -92,7 +104,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
      * @param channelHandlerContext
      * @param baseMsg
      */
-    private void lightConfClientLogin(ChannelHandlerContext channelHandlerContext,
+    private boolean lightConfClientLogin(ChannelHandlerContext channelHandlerContext,
             BaseMsg baseMsg) {
         /**
          * 实现登录成功的逻辑.
@@ -107,16 +119,50 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
             app.setIsConnected(true);
             appService.updateAppWithBLOBs(app);
             // 登录成功,把channel存到服务端的map中.
-            NettyChannelMap.add(loginMsg.getClientId(), (SocketChannel) channelHandlerContext.channel());
+            SocketChannel socketChannel = (SocketChannel) channelHandlerContext.channel();
+            NettyChannelMap.add(loginMsg.getClientId(), socketChannel);
             logger.info("client" + loginMsg.getClientId() + " 登录成功");
+
+            if (app.getIsPushConf()) {
+                // 配置信息已经上报
+                if (app.getIsChange()) {
+                    // 下发该应用对应的配置信息.
+                    LightConfResult result = appService.getAppConf(String.valueOf(app.getId()));
+                    List<Conf> confList = (List<Conf>) result.getContent();
+                    if (confList != null && confList.size() > 0) {
+                        List<Config> configList = new ArrayList<>();
+                        for (Conf conf : confList) {
+                            Config config = new Config();
+                            config.setKey(conf.getConfKey());
+                            config.setValue(conf.getConfValue());
+                            configList.add(config);
+                        }
+
+                        PushMsg pushMsg = new PushMsg();
+                        pushMsg.setConfType(CommonConstants.CONF_TYPE_SEND_OUT);
+                        pushMsg.setConfigList(configList);
+                        pushMsg.setType(MsgType.SEND_OUT);
+                        socketChannel.writeAndFlush(pushMsg);
+                        logger.info(">>>>>> send out config success!");
+                    }
+                }
+            } else {
+                // 通知客户端上报配置信息
+                PushMsg pushMsg = new PushMsg();
+                pushMsg.setType(MsgType.UPLOAD_CONF);
+                socketChannel.writeAndFlush(pushMsg);
+                logger.info(">>>>>> server say ...... client upload conf");
+            }
+            return true;
         } else {
             if (NettyChannelMap.get(baseMsg.getClientId()) == null) {
                 // 说明未登录，或者连接断了，服务器向客户端发起登录请求，让客户端重新登录.
                 ReferenceCountUtil.release("应用的uuid配置有误，请检查配置！");
                 logger.error(">>>>>>应用的uuid配置有误，请检查配置！");
-                return;
+                return false;
             }
         }
+        return false;
     }
 
     @Override

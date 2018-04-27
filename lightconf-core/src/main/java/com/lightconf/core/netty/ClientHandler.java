@@ -55,7 +55,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<BaseMsg> {
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, BaseMsg baseMsg) throws Exception {
         MsgType msgType = baseMsg.getType();
         switch (msgType) {
-            case PUSH_CONF:
+            case PUSH_CONF: {
                 // 将server推送过来的数据放在本地缓存中
                 PushMsg pushMsg = (PushMsg) baseMsg;
                 if (CommonConstants.CONF_TYPE_ADD.equals(pushMsg.getConfType())) {
@@ -77,7 +77,17 @@ public class ClientHandler extends SimpleChannelInboundHandler<BaseMsg> {
                 }
                 // 刷新配置信息
                 LightConfLocalCacheConf.reloadAll();
-                break;
+            }
+            break;
+
+            case UPLOAD_CONF: {
+                // 上传配置
+            }
+            break;
+            case SEND_OUT: {
+                // 配置下发
+            }
+            break;
             case LOGIN: {
                 //向服务器发起登录
                 LoginMsg loginMsg = new LoginMsg();
