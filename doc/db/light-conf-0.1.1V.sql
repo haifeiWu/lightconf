@@ -88,3 +88,6 @@ CREATE TABLE `light_conf_conf_log` (
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 ALTER TABLE `light_conf_user` ADD UNIQUE(`user_name`);
+
+ADD COLUMN `is_change` TINYINT(1) DEFAULT 0  NULL  COMMENT '配置是否更新过',
+ADD COLUMN `is_push_conf` TINYINT(1) DEFAULT 0  NULL  COMMENT '配置是否上传';

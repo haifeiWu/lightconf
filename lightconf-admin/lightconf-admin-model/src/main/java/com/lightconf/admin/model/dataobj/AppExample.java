@@ -456,6 +456,126 @@ public class AppExample implements Serializable {
             addCriterion("is_connected not between", value1, value2, "isConnected");
             return (Criteria) this;
         }
+
+        public Criteria andIsChangeIsNull() {
+            addCriterion("is_change is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsChangeIsNotNull() {
+            addCriterion("is_change is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsChangeEqualTo(Boolean value) {
+            addCriterion("is_change =", value, "isChange");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsChangeNotEqualTo(Boolean value) {
+            addCriterion("is_change <>", value, "isChange");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsChangeGreaterThan(Boolean value) {
+            addCriterion("is_change >", value, "isChange");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsChangeGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_change >=", value, "isChange");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsChangeLessThan(Boolean value) {
+            addCriterion("is_change <", value, "isChange");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsChangeLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_change <=", value, "isChange");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsChangeIn(List<Boolean> values) {
+            addCriterion("is_change in", values, "isChange");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsChangeNotIn(List<Boolean> values) {
+            addCriterion("is_change not in", values, "isChange");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsChangeBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_change between", value1, value2, "isChange");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsChangeNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_change not between", value1, value2, "isChange");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPushConfIsNull() {
+            addCriterion("is_push_conf is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPushConfIsNotNull() {
+            addCriterion("is_push_conf is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPushConfEqualTo(Boolean value) {
+            addCriterion("is_push_conf =", value, "isPushConf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPushConfNotEqualTo(Boolean value) {
+            addCriterion("is_push_conf <>", value, "isPushConf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPushConfGreaterThan(Boolean value) {
+            addCriterion("is_push_conf >", value, "isPushConf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPushConfGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_push_conf >=", value, "isPushConf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPushConfLessThan(Boolean value) {
+            addCriterion("is_push_conf <", value, "isPushConf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPushConfLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_push_conf <=", value, "isPushConf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPushConfIn(List<Boolean> values) {
+            addCriterion("is_push_conf in", values, "isPushConf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPushConfNotIn(List<Boolean> values) {
+            addCriterion("is_push_conf not in", values, "isPushConf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPushConfBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_push_conf between", value1, value2, "isPushConf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPushConfNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_push_conf not between", value1, value2, "isPushConf");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria implements Serializable {
