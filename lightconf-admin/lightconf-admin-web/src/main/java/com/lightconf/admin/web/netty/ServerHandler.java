@@ -50,12 +50,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
     protected void channelRead0(ChannelHandlerContext channelHandlerContext,
             BaseMsg baseMsg) throws Exception {
         if (MsgType.LOGIN.equals(baseMsg.getType())) {
-            boolean loginSuccess = lightConfClientLogin(channelHandlerContext, baseMsg);
-
-//            // 若登录成功，通知客户端上报配置信息
-//            if (loginSuccess) {
-//                String appUUid = loginMsg.getClientId();
-//            }
+            lightConfClientLogin(channelHandlerContext, baseMsg);
         }
 
         switch (baseMsg.getType()) {
@@ -64,6 +59,35 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
                 logger.info("do nothing");
                 break;
 
+            case UPLOAD_CONF: {
+                PushMsg pushMsg = (PushMsg) baseMsg;
+                final String appUUID = pushMsg.getClientId();
+                List<Config> configList = pushMsg.getConfigList();
+                final List<Conf> confList = new ArrayList<>();
+                if (configList != null && configList.size() > 0) {
+                    for (Config config : configList) {
+                        Conf conf = new Conf();
+                        conf.setConfKey(config.getKey());
+                        conf.setConfValue(config.getValue());
+                        confList.add(conf);
+                    }
+                }
+
+                // 耗时操作另起一个线程来做！
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        App app = appService.getAppByUUID(appUUID);
+                        if (null != app) {
+                            for (Conf conf : confList) {
+                                confService.add(conf,app.getUuid());
+                            }
+                        }
+                    }
+                }).start();
+                
+            }
+            break;
             case PING: {
                 PingMsg pingMsg = (PingMsg) baseMsg;
                 PingMsg replyPing = new PingMsg();

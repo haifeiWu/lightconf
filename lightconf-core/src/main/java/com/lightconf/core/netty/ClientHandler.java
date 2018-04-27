@@ -9,8 +9,13 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.ReferenceCountUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author wuhf
@@ -55,6 +60,8 @@ public class ClientHandler extends SimpleChannelInboundHandler<BaseMsg> {
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, BaseMsg baseMsg) throws Exception {
         MsgType msgType = baseMsg.getType();
         switch (msgType) {
+            case REQUEST:
+                break;
             case PUSH_CONF: {
                 // 将server推送过来的数据放在本地缓存中
                 PushMsg pushMsg = (PushMsg) baseMsg;
@@ -82,10 +89,36 @@ public class ClientHandler extends SimpleChannelInboundHandler<BaseMsg> {
 
             case UPLOAD_CONF: {
                 // 上传配置
+                Map<String,String> localCache = LightConfPropConf.getLocalCacheMap();
+                List<Config> configList = new ArrayList<>();
+                for (Map.Entry<String,String> entry : localCache) {
+                    Config config = new Config();
+                    config.setKey(entry.getKey());
+                    config.setValue(entry.getValue());
+                    configList.add(config);
+                }
+
+                // 获取应用的uuid
+                String appId = LightConfPropConf.get(Environment.APPLICATION_UUID);
+
+                PushMsg pushMsg = new PushMsg();
+                pushMsg.setClientId(appId);
+                pushMsg.setConfigList(configList);
+                pushMsg.setType(MsgType.UPLOAD_CONF);
+                pushMsg.setConfType(CommonConstants.CONF_TYPE_UPLOAD);
+                channelHandlerContext.channel().writeAndFlush(pushMsg);
             }
             break;
             case SEND_OUT: {
                 // 配置下发
+                PushMsg pushMsg = (PushMsg) baseMsg;
+                List<Config> configList = pushMsg.getConfigList();
+                if (null != configList && configList.size() > 0) {
+                    for (Config config : configList) {
+                        LightConfLocalCacheConf.set(config.getKey(),config.getValue());
+                        logger.info(">>>>>> add application conf,the key is : {}, value is : {}",config.getKey(),config.getValue());
+                    }
+                }
             }
             break;
             case LOGIN: {

@@ -85,4 +85,8 @@ public class LightConfPropConf {
     public static String get(String key) {
         return propConf.get(key);
     }
+
+    public static ConcurrentHashMap<String, String> getLocalCacheMap() {
+        return propConf;
+    }
 }

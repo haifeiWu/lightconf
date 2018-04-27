@@ -31,7 +31,5 @@ public class Environment {
 	 */
 	public static final String APPLICATION_UUID = "application.uuid";
 
-
-	public static final String CONF_DATA_PATH = "/light-conf";
 }
 
