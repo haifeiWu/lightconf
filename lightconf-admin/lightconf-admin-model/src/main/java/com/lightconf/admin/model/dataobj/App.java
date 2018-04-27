@@ -13,6 +13,10 @@ public class App implements Serializable {
 
     private Boolean isConnected;
 
+    private Boolean isChange;
+
+    private Boolean isPushConf;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -53,5 +57,21 @@ public class App implements Serializable {
 
     public void setIsConnected(Boolean isConnected) {
         this.isConnected = isConnected;
+    }
+
+    public Boolean getIsChange() {
+        return isChange;
+    }
+
+    public void setIsChange(Boolean isChange) {
+        this.isChange = isChange;
+    }
+
+    public Boolean getIsPushConf() {
+        return isPushConf;
+    }
+
+    public void setIsPushConf(Boolean isPushConf) {
+        this.isPushConf = isPushConf;
     }
 }
