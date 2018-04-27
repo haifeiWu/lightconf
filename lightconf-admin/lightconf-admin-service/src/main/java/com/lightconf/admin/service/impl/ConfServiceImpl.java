@@ -140,13 +140,13 @@ public class ConfServiceImpl implements ConfService {
             AppConfExample appConfExample = new AppConfExample();
             appConfExample.createCriteria().andConfIdEqualTo(confId);
             appConfMapper.deleteByExample(appConfExample);
-            return LightConfResult.ok();
 
             // 下发配置到应用
             if (app.getIsConnected()) {
                 LOGGER.info(">>>>>> update conf , push conf to client! client name is : {}",app.getAppName());
                 pushConfToApplication(conf,CommonConstants.CONF_TYPE_DELETE,app.getUuid());
             }
+
             LOGGER.info(">>>>>> update conf success");
             return LightConfResult.ok();
         } else {
