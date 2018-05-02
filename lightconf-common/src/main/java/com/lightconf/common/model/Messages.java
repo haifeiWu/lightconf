@@ -17,6 +17,9 @@ public class Messages {
     public static int USER_LOGIN_ERROR_CODE = 10002;
     public static String USER_LOGIN_ERROR_MSG = "用户名密码错误";
 
+    public static int CONF_ALREADY_EXISTS_CODE = 20001;
+    public static String CONF_ALREADY_EXISTS_MSG = "该配置信息已经存在！";
+
     public static int SERVER_ERROR_CODE = 500;
     public static String SERVER_ERROR_MSG = "server error";
 

@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -60,6 +61,11 @@ public class ConfServiceImpl implements ConfService {
 
         App app = appMapper.selectByPrimaryKey(Integer.valueOf(appId));
         if (null != app) {
+
+            Conf dbConf = getConfByKey(conf.getConfKey());
+            if (dbConf  != null) {
+                return LightConfResult.build(Messages.CONF_ALREADY_EXISTS_CODE,Messages.CONF_ALREADY_EXISTS_MSG);
+            }
             confMapper.insert(conf);
             AppConf appConf = new AppConf();
             appConf.setAppId(String.valueOf(app.getId()));
@@ -76,6 +82,16 @@ public class ConfServiceImpl implements ConfService {
         } else {
             return LightConfResult.build(Messages.MISSING_INPUT_CODE,Messages.MISSING_INPUT_MSG);
         }
+    }
+
+    private Conf getConfByKey(String confKey) {
+        ConfExample confExample = new ConfExample();
+        confExample.createCriteria().andConfKeyEqualTo(confKey);
+        List<Conf> confList = confMapper.selectByExample(confExample);
+        if (confList != null && confList.size() > 0) {
+            return confList.get(0);
+        }
+        return null;
     }
 
     @Override
