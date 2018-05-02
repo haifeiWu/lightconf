@@ -78,11 +78,17 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
                     @Override
                     public void run() {
                         App app = appService.getAppByUUID(appUUID);
+                        LightConfResult result = null;
                         if (null != app) {
                             for (Conf conf : confList) {
-                                confService.add(conf,app.getUuid());
+                                result = confService.add(conf, String.valueOf(app.getId()));
                             }
                         }
+                        if (result.getCode() == Messages.SUCCESS_CODE) {
+                            app.setIsPushConf(true);
+                            appService.updateApp(app);
+                        }
+
                     }
                 }).start();
 
