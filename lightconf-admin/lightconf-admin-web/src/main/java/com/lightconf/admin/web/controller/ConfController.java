@@ -86,7 +86,7 @@ public class ConfController extends BaseController{
         try {
             LOGGER.info(">>>>>> delete config , the key is : {}",confId);
             LightConfResult result = confService.deleteById(confId,appId);
-            LOGGER.info(">>>>>> delete conf method return value is : {}",result.toString());
+            LOGGER.info(">>>>>> delete conf method return value is : {}",JSON.toJSONString(result));
             return result;
         } catch (Exception e) {
             e.printStackTrace();
@@ -107,7 +107,7 @@ public class ConfController extends BaseController{
         try {
             LOGGER.info("add conf key is : {} , appId is :{}",conf.getConfKey(),appId);
             LightConfResult result = confService.add(conf,appId);
-            LOGGER.info("method add conf return value is :{}",result.toString());
+            LOGGER.info("method add conf return value is :{}",JSON.toJSONString(result));
             return result;
         } catch (Exception e) {
             e.printStackTrace();
@@ -128,6 +128,7 @@ public class ConfController extends BaseController{
         try {
             LOGGER.info("update conf key is : {}",conf.getConfKey());
             LightConfResult result = confService.update(conf,appId);
+            LOGGER.info("method update conf return value is :{}",JSON.toJSONString(result));
             return result;
         } catch (Exception e) {
             e.printStackTrace();
