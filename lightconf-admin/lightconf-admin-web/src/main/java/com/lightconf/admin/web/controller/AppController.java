@@ -1,5 +1,6 @@
 package com.lightconf.admin.web.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.lightconf.admin.model.dataobj.AppWithBLOBs;
 import com.lightconf.admin.service.AppService;
 import com.lightconf.admin.web.controller.annotation.PermessionLimit;
@@ -36,6 +37,7 @@ public class AppController extends BaseController {
     public String index(Model model) {
         List<AppWithBLOBs> appList = appService.getAllApp();
 		model.addAttribute("list", appList);
+        LOGGER.info("method index return value is : {}",JSON.toJSONString(appList));
         return "app/app.index";
     }
 
@@ -43,9 +45,9 @@ public class AppController extends BaseController {
     @ResponseBody
     public LightConfResult addApp(AppWithBLOBs app) {
         try {
-            LOGGER.info("add application , the name is : {}",app.getAppName());
+            LOGGER.info("add application , the params is : {}",JSON.toJSONString(app));
             LightConfResult result = appService.addApp(app);
-            LOGGER.info(result.toString());
+            LOGGER.info("method addApp return value is : {}",JSON.toJSONString(result));
             return result;
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,8 +60,9 @@ public class AppController extends BaseController {
     @ResponseBody
     public LightConfResult updateApp(AppWithBLOBs app) {
         try {
-            LOGGER.info("update application , the name is : {}",app.getAppName());
+            LOGGER.info("update application , the params is : {}",JSON.toJSONString(app));
             LightConfResult result = appService.updateAppWithBLOBs(app);
+            LOGGER.info("method updateApp return value is : {}",JSON.toJSONString(result));
             return result;
         } catch (Exception e) {
             e.printStackTrace();
@@ -74,7 +77,7 @@ public class AppController extends BaseController {
         try {
             LOGGER.info("delete application , the appId is : {}",appId);
             LightConfResult result = appService.deleteApp(appId);
-            LOGGER.info("method deleteApp return value is : {}",result.toString());
+            LOGGER.info("method deleteApp return value is : {}",JSON.toJSONString(result));
             return result;
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,7 +100,7 @@ public class AppController extends BaseController {
         try {
             LOGGER.info("delete application , the appId is : {}");
             LightConfResult result = appService.getAppList(pageSize,pageNum);
-            LOGGER.info("getAppList return data : {}",result);
+            LOGGER.info("getAppList return data : {}", JSON.toJSONString(result));
             return result;
         } catch (Exception e) {
             e.printStackTrace();
