@@ -10,6 +10,7 @@ import com.lightconf.common.model.*;
 import com.lightconf.common.util.CommonConstants;
 import com.lightconf.common.util.LightConfResult;
 import com.lightconf.common.util.NettyChannelMap;
+import com.lightconf.common.util.ThreadPoolUtils;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.SocketChannel;
@@ -50,6 +51,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
     protected void channelRead0(ChannelHandlerContext channelHandlerContext,
             BaseMsg baseMsg) throws Exception {
         if (MsgType.LOGIN.equals(baseMsg.getType())) {
+            // 客户端登录
             lightConfClientLogin(channelHandlerContext, baseMsg);
         }
 
@@ -74,7 +76,25 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
                 }
 
                 // 耗时操作另起一个线程来做！
-                new Thread(new Runnable() {
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        App app = appService.getAppByUUID(appUUID);
+//                        LightConfResult result = null;
+//                        if (null != app) {
+//                            for (Conf conf : confList) {
+//                                result = confService.add(conf, String.valueOf(app.getId()));
+//                            }
+//                        }
+//                        if (result.getCode() == Messages.SUCCESS_CODE) {
+//                            app.setIsPushConf(true);
+//                            appService.updateApp(app);
+//                        }
+//
+//                    }
+//                }).start();
+                // 耗时操作另起一个线程来做，提交线程池
+                ThreadPoolUtils.getInstance().getThreadPool().submit(new Runnable() {
                     @Override
                     public void run() {
                         App app = appService.getAppByUUID(appUUID);
@@ -88,9 +108,8 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
                             app.setIsPushConf(true);
                             appService.updateApp(app);
                         }
-
                     }
-                }).start();
+                });
 
             }
             break;
@@ -200,8 +219,9 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
             throws Exception {
         super.exceptionCaught(ctx, cause);
         NettyChannelMap.remove((SocketChannel) ctx.channel());
-        logger.error(
-                "channel is exception over. (SocketChannel)ctx.channel()=" + (SocketChannel) ctx
-                        .channel());
+
+        //终止线程池
+        ThreadPoolUtils.getInstance().getThreadPool().shutdown();
+        logger.error(">>>>>> channel is exception over. (SocketChannel)ctx.channel()=" + ctx.channel());
     }
 }
