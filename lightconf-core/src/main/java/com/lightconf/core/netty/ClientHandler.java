@@ -39,22 +39,22 @@ public class ClientHandler extends SimpleChannelInboundHandler<BaseMsg> {
         }
     }
 
-    @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        super.channelActive(ctx);
-        // 连接建立处理逻辑
-        String appId = LightConfPropConf.get(Environment.APPLICATION_UUID);
-
-        // 1，读取本地持久化的配置信息
-        // 2，上报配置信息到远程
-    }
-
-    @Override
-    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        super.channelInactive(ctx);
-        // 连接断开处理逻辑
-
-    }
+//    @Override
+//    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+//        super.channelActive(ctx);
+//        // 连接建立处理逻辑
+//        String appId = LightConfPropConf.get(Environment.APPLICATION_UUID);
+//
+//        // 1，读取本地持久化的配置信息
+//        // 2，上报配置信息到远程
+//    }
+//
+//    @Override
+//    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+//        super.channelInactive(ctx);
+//        // 连接断开处理逻辑
+//
+//    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, BaseMsg baseMsg) throws Exception {

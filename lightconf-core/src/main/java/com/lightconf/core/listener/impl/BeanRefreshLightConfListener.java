@@ -19,7 +19,9 @@ public class BeanRefreshLightConfListener implements LightConfListener {
 
     // ---------------------- listener ----------------------
 
-    // object + field
+    /**
+     * object + field
+     */
     public static class BeanField{
         private String beanName;
         private String property;
@@ -49,8 +51,11 @@ public class BeanRefreshLightConfListener implements LightConfListener {
         }
     }
 
-    // key : object-field[]
+    /**
+     * key : object-field[]
+     */
     private static Map<String, List<BeanField>> key2BeanField = new ConcurrentHashMap<String, List<BeanField>>();
+
     public static void addBeanField(String key, BeanField beanField){
         List<BeanField> beanFieldList = key2BeanField.get(key);
         if (beanFieldList == null) {
