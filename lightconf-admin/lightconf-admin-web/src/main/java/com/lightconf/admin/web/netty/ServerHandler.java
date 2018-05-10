@@ -75,24 +75,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
                     }
                 }
 
-                // 耗时操作另起一个线程来做！
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        App app = appService.getAppByUUID(appUUID);
-//                        LightConfResult result = null;
-//                        if (null != app) {
-//                            for (Conf conf : confList) {
-//                                result = confService.add(conf, String.valueOf(app.getId()));
-//                            }
-//                        }
-//                        if (result.getCode() == Messages.SUCCESS_CODE) {
-//                            app.setIsPushConf(true);
-//                            appService.updateApp(app);
-//                        }
-//
-//                    }
-//                }).start();
                 // 耗时操作另起一个线程来做，提交线程池
                 ThreadPoolUtils.getInstance().getThreadPool().submit(new Runnable() {
                     @Override
