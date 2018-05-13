@@ -1,5 +1,6 @@
 package com.lightconf.admin.web.netty;
 
+import com.alibaba.fastjson.JSON;
 import com.lightconf.admin.model.dataobj.App;
 import com.lightconf.admin.model.dataobj.AppWithBLOBs;
 import com.lightconf.admin.model.dataobj.Conf;
@@ -37,13 +38,23 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         // 连接断开，应该将应用的连接状态重新置为未连接
-        String appUUid = NettyChannelMap.getClientId((SocketChannel) ctx.channel());
-        logger.error(">>>channel is in channelInactive,the appUUid is : {}",appUUid);
-        App app = appService.getAppByUUID(appUUid);
-        if (null != app) {
-            app.setIsConnected(false);
-            appService.updateApp(app);
-        }
+        final String appUUid = NettyChannelMap.getClientId((SocketChannel) ctx.channel());
+        logger.error(">>>>>> channel is in channelInactive,the appUUid is : {}",appUUid);
+
+
+        // 耗时操作另起一个线程来做，提交线程池
+        ThreadPoolUtils.getInstance().getThreadPool().submit(new Runnable() {
+            @Override
+            public void run() {
+                App app = appService.getAppByUUID(appUUid);
+                if (null != app) {
+                    app.setIsConnected(false);
+                    appService.updateApp(app);
+                    logger.error(">>>>>> update app connection status : {}", JSON.toJSONString(app));
+                }
+            }
+        });
+
         NettyChannelMap.remove((SocketChannel) ctx.channel());
     }
 
