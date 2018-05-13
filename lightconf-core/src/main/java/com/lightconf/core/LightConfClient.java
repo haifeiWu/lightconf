@@ -5,8 +5,6 @@ import com.lightconf.core.core.LightConfPropConf;
 import com.lightconf.core.exception.LightConfException;
 import com.lightconf.core.listener.LightConfListener;
 import com.lightconf.core.listener.LightConfListenerFactory;
-//import com.lightconf.core.listener.XxlConfListener;
-//import com.lightconf.core.listener.XxlConfListenerFactory;
 
 /**
  * lightconf client
