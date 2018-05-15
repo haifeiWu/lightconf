@@ -38,7 +38,7 @@ LIGHTCONF 是一个配置管理平台，其核心设计目标是“为业务提�
 #### 项目在线预览地址
 配置中心预览 | 接入LIGHTCONF的Demo项目预览
 --- | ---
-http://58.87.84.211/lightconf-admin-web/toLogin | http://58.87.84.211/lightconf-sample/
+http://www.whforever.cn/lightconf-admin-web/ | http://www.whforever.cn/lightconf-sample/
 
 
 #### 源码仓库地址

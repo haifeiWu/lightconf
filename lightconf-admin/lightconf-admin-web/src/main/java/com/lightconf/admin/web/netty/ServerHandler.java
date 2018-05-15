@@ -41,7 +41,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
         final String appUUid = NettyChannelMap.getClientId((SocketChannel) ctx.channel());
         logger.error(">>>>>> channel is in channelInactive,the appUUid is : {}",appUUid);
 
-
         // 耗时操作另起一个线程来做，提交线程池
         ThreadPoolUtils.getInstance().getThreadPool().submit(new Runnable() {
             @Override
