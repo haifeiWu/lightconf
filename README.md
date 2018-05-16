@@ -8,7 +8,7 @@
 ## 一、简介
 
 ### 1.1 概述
-LIGHTCONF 是一个配置管理平台，其核心设计目标是“为业务提供统一的配置管理服务”。
+LIGHTCONF 是一个基于Netty实现的一个配置管理平台，其核心设计目标是“为业务提供统一的配置管理服务”，可以做到开箱即用。
 
 ### 1.2 特性
 - 1、简单易用: 上手非常简单, 只需要引入maven依赖和一行配置即可;
@@ -143,3 +143,24 @@ http://www.whforever.cn/lightconf-admin-web/ | http://www.whforever.cn/lightconf
 
     <!-- ********************************* 核心配置[必须]：LIGHTCONF netty client监听 ********************************* -->
     <bean id="lightConfListener" class="com.lightconf.core.listener.LightConfClientListener"></bean>
+    
+## 三、配置管理中心操作指南
+
+### 3.1、应用管理
+系统以 "应用" 为维度进行配置隔离。可进入 "配置管理界面" 操作和维护应用，应用属性说明如下：
+
+- UUID：每个应用拥有唯一的UUID，作为应用标示。
+- 应用名称：该应用的名称；
+
+![light-conf-app](http://img.hchstudio.cn/light-conf-app.png "light-conf-app")
+
+### 3.2 配置管理
+进入"配置管理" 界面, 选择应用，然后可查看和操作该应用下配置数据，同时也可以通过应用管理页面的"应用配置信息"的button来进入该应用的配置信息页面，如下图所示。
+
+![light-conf-conf](http://img.hchstudio.cn/light-conf-conf.png "light-conf-conf")
+
+新增配置：点击 "新增配置" 按钮可添加配置数据，配置属性说明如下：
+
+- KEY：配置的KEY，创建时将会自动添加所属项目的APPName所谓前缀，生成最终的Key。可通过客户端使用最终的Key获取配置；
+- 描述：该配置的描述信息；
+- VALUE：配置的值；
