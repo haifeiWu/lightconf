@@ -147,7 +147,7 @@ http://www.whforever.cn/lightconf-admin-web/ | http://www.whforever.cn/lightconf
 ## 三、配置管理中心操作指南
 
 ### 3.1、应用管理
-系统以 "应用" 为维度进行配置隔离。可进入 "配置管理界面" 操作和维护应用，应用属性说明如下：
+系统以 "应用" 为维度进行配置;隔离。可进入 "配置管理界面" 操作和维护应用，应用属性说明如下：
 
 - UUID：每个应用拥有唯一的UUID，作为应用标示。
 - 应用名称：该应用的名称；
@@ -164,3 +164,6 @@ http://www.whforever.cn/lightconf-admin-web/ | http://www.whforever.cn/lightconf
 - KEY：配置的KEY，创建时将会自动添加所属项目的APPName所谓前缀，生成最终的Key。可通过客户端使用最终的Key获取配置；
 - 描述：该配置的描述信息；
 - VALUE：配置的值；
+
+
+## 四、客户端配置获取
