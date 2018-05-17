@@ -42,6 +42,7 @@ public class LoginService {
 
         LightConfResult result = userService.userLogin(usernameParam,passwordParam);
 
+        lo
         if (result.getCode() == Messages.SUCCESS_CODE) {
             // do login
             String paramToken = makeToken(usernameParam, passwordParam);
