@@ -23,11 +23,11 @@ public class LoginService {
 
     public static final String LOGIN_IDENTITY_KEY = "XXL_CONF_LOGIN_IDENTITY";
 
-    @Value("${light.conf.login.username}")
-    private String username;    // can not user @Value or XML in mvc inteceptor，because inteceptor work with mvc, init before service
-
-    @Value("${light.conf.login.password}")
-    private String password;
+//    @Value("${light.conf.login.username}")
+//    private String username;    // can not user @Value or XML in mvc inteceptor，because inteceptor work with mvc, init before service
+//
+//    @Value("${light.conf.login.password}")
+//    private String password;
 
     @Autowired
     UserService userService;
@@ -42,7 +42,7 @@ public class LoginService {
 
         LightConfResult result = userService.userLogin(usernameParam,passwordParam);
 
-        lo
+//        lo
         if (result.getCode() == Messages.SUCCESS_CODE) {
             // do login
             String paramToken = makeToken(usernameParam, passwordParam);
@@ -65,12 +65,12 @@ public class LoginService {
 
     public boolean ifLogin(HttpServletRequest request) {
 
-        String loginTolen = makeToken(username, password);
-        String paramToken = CookieUtil.getValue(request, LOGIN_IDENTITY_KEY);
-
-        if (paramToken==null || !loginTolen.equals(paramToken.trim())) {
-            return false;
-        }
+//        String loginTolen = makeToken(username, password);
+//        String paramToken = CookieUtil.getValue(request, LOGIN_IDENTITY_KEY);
+//
+//        if (paramToken==null || !loginTolen.equals(paramToken.trim())) {
+//            return false;
+//        }
         return true;
     }
 
