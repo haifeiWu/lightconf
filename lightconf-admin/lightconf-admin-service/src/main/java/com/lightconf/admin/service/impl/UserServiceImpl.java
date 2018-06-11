@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author wuhf
@@ -37,5 +38,10 @@ public class UserServiceImpl implements UserService {
         }
 
         return LightConfResult.build(Messages.USER_LOGIN_ERROR_CODE,Messages.USER_LOGIN_ERROR_MSG);
+    }
+
+    @Override
+    public Map<String, Object> getUserList(int start, int length, String username, int permission) {
+        return null;
     }
 }
