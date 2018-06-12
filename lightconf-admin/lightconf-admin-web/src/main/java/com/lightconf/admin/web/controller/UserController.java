@@ -1,11 +1,13 @@
 package com.lightconf.admin.web.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.lightconf.admin.model.dataobj.User;
 import com.lightconf.admin.service.UserService;
 import com.lightconf.admin.web.controller.annotation.PermessionLimit;
 import com.lightconf.admin.web.loginservice.LoginService;
 import com.lightconf.common.model.Messages;
 import com.lightconf.common.util.LightConfResult;
+import com.lightconf.common.util.ResultCode;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -65,15 +67,7 @@ public class UserController extends BaseController {
                                         String username,
                                         int permission) {
 
-        // xxlConfNode in mysql
         Map<String, Object> maps = userService.getUserList(start, length, username, permission);
-//        int list_count = xxlConfUserDao.pageListCount(start, length, username, permission);
-
-        // package result
-//        Map<String, Object> maps = new HashMap<String, Object>();
-//        maps.put("data", data);
-//        maps.put("recordsTotal", list_count);		// 总记录数
-//        maps.put("recordsFiltered", list_count);	// 过滤后的总记录数
         return maps;
     }
 
@@ -85,26 +79,19 @@ public class UserController extends BaseController {
     @RequestMapping("/add")
     @PermessionLimit()
     @ResponseBody
-    public LightConfResult add(User confUser){
-
-        // valid
-        if (StringUtils.isBlank(confUser.getUserName())){
-//            return new ReturnT<String>(ReturnT.FAIL.getCode(), "用户名不可为空");
+    public ResultCode addUser(User confUser){
+        ResultCode<User> result = new ResultCode<>();
+        try {
+            LOGGER.info(">>>>>> params is :{}", JSON.toJSONString(confUser));
+            result = userService.addUser(confUser);
+            LOGGER.info(">>>>>> method addUser return value : {}",JSON.toJSONString(result));
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            result.setCode(Messages.API_ERROR_CODE);
+            result.setMsg(Messages.API_ERROR_MSG);
         }
-        if (StringUtils.isBlank(confUser.getPassword())){
-//            return new ReturnT<String>(ReturnT.FAIL.getCode(), "密码不可为空");
-        }
-        if (!(confUser.getPassword().length()>=4 && confUser.getPassword().length()<=100)) {
-//            return new ReturnT<String>(ReturnT.FAIL.getCode(), "密码长度限制为4~50");
-        }
-
-        // passowrd md5
-        String md5Password = DigestUtils.md5DigestAsHex(confUser.getPassword().getBytes());
-        confUser.setPassword(md5Password);
-
-//        int ret = xxlConfUserDao.add(xxlConfUser);
-//        return ret>0? ReturnT.SUCCESS: ReturnT.FAIL;
-        return null;
+        return result;
     }
 
     /**
@@ -115,20 +102,19 @@ public class UserController extends BaseController {
     @RequestMapping("/delete")
     @PermessionLimit()
     @ResponseBody
-    public LightConfResult delete(HttpServletRequest request, String username){
-
-//        XxlConfUser loginUser = (XxlConfUser) request.getAttribute(LoginService.LOGIN_IDENTITY_KEY);
-//        if (loginUser.getUsername().equals(username)) {
-//            return new ReturnT<String>(ReturnT.FAIL.getCode(), "禁止操作当前登录账号");
-//        }
-//
-//        /*List<XxlConfUser> adminList = xxlConfUserDao.pageList(0, 1 , null, 1);
-//        if (adminList.size()<2) {
-//        }*/
-//
-//        xxlConfUserDao.delete(username);
-//        return ReturnT.SUCCESS;
-        return null;
+    public ResultCode deleteUser(HttpServletRequest request, String username){
+        ResultCode<User> result = new ResultCode<>();
+        try {
+            LOGGER.info(">>>>>> params is :{}", username);
+            result = userService.deleteUser(username);
+            LOGGER.info(">>>>>> method addUser return value : {}",JSON.toJSONString(result));
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            result.setCode(Messages.API_ERROR_CODE);
+            result.setMsg(Messages.API_ERROR_MSG);
+        }
+        return result;
     }
 
     /**
@@ -139,36 +125,19 @@ public class UserController extends BaseController {
     @RequestMapping("/update")
     @PermessionLimit()
     @ResponseBody
-    public LightConfResult update(HttpServletRequest request, User confUser){
-
-//        XxlConfUser loginUser = (XxlConfUser) request.getAttribute(LoginService.LOGIN_IDENTITY);
-//        if (loginUser.getUsername().equals(xxlConfUser.getUsername())) {
-//            return new ReturnT<String>(ReturnT.FAIL.getCode(), "禁止操作当前登录账号");
-//        }
-//
-//        // valid
-//        if (StringUtils.isBlank(xxlConfUser.getUsername())){
-//            return new ReturnT<String>(ReturnT.FAIL.getCode(), "用户名不可为空");
-//        }
-//
-//        XxlConfUser existUser = xxlConfUserDao.load(xxlConfUser.getUsername());
-//        if (existUser == null) {
-//            return new ReturnT<String>(ReturnT.FAIL.getCode(), "用户名非法");
-//        }
-//
-//        if (StringUtils.isNotBlank(xxlConfUser.getPassword())) {
-//            if (!(xxlConfUser.getPassword().length()>=4 && xxlConfUser.getPassword().length()<=50)) {
-//                return new ReturnT<String>(ReturnT.FAIL.getCode(), "密码长度限制为4~50");
-//            }
-//            // passowrd md5
-//            String md5Password = DigestUtils.md5DigestAsHex(xxlConfUser.getPassword().getBytes());
-//            existUser.setPassword(md5Password);
-//        }
-//        existUser.setPermission(xxlConfUser.getPermission());
-//
-//        int ret = xxlConfUserDao.update(existUser);
-//        return ret>0? ReturnT.SUCCESS: ReturnT.FAIL;
-        return null;
+    public ResultCode update(HttpServletRequest request, User confUser){
+        ResultCode<User> result = new ResultCode<>();
+        try {
+            LOGGER.info(">>>>>> params is :{}", JSON.toJSONString(confUser));
+            result = userService.updateUser(confUser);
+            LOGGER.info(">>>>>> method addUser return value : {}",JSON.toJSONString(result));
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            result.setCode(Messages.API_ERROR_CODE);
+            result.setMsg(Messages.API_ERROR_MSG);
+        }
+        return result;
     }
 
     @RequestMapping("/updatePermissionProjects")

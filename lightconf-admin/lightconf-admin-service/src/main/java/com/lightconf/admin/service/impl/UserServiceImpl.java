@@ -6,9 +6,12 @@ import com.lightconf.admin.model.dataobj.UserExample;
 import com.lightconf.admin.service.UserService;
 import com.lightconf.common.model.Messages;
 import com.lightconf.common.util.LightConfResult;
+import com.lightconf.common.util.ResultCode;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -42,6 +45,35 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<String, Object> getUserList(int start, int length, String username, int permission) {
+        return null;
+    }
+
+    @Override
+    public ResultCode<User> addUser(User confUser) {
+        // valid
+        if (StringUtils.isBlank(confUser.getUserName())){
+//            return new ReturnT<String>(ReturnT.FAIL.getCode(), "用户名不可为空");
+        }
+        if (StringUtils.isBlank(confUser.getPassword())){
+//            return new ReturnT<String>(ReturnT.FAIL.getCode(), "密码不可为空");
+        }
+        if (!(confUser.getPassword().length()>=4 && confUser.getPassword().length()<=100)) {
+//            return new ReturnT<String>(ReturnT.FAIL.getCode(), "密码长度限制为4~50");
+        }
+
+        // passowrd md5
+        String md5Password = DigestUtils.md5DigestAsHex(confUser.getPassword().getBytes());
+        confUser.setPassword(md5Password);
+        return null;
+    }
+
+    @Override
+    public ResultCode<User> deleteUser(String username) {
+        return null;
+    }
+
+    @Override
+    public ResultCode<User> updateUser(User confUser) {
         return null;
     }
 }
