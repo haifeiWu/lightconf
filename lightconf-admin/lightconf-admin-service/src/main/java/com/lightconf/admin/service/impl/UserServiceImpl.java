@@ -50,30 +50,71 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultCode<User> addUser(User confUser) {
+
+        ResultCode<User> resultCode = new ResultCode();
+
         // valid
-        if (StringUtils.isBlank(confUser.getUserName())){
-//            return new ReturnT<String>(ReturnT.FAIL.getCode(), "用户名不可为空");
-        }
-        if (StringUtils.isBlank(confUser.getPassword())){
-//            return new ReturnT<String>(ReturnT.FAIL.getCode(), "密码不可为空");
+        if (StringUtils.isBlank(confUser.getUserName()) || StringUtils.isBlank(confUser.getPassword())){
+            resultCode.setCode(Messages.INPUT_ERROR_CODE);
+            resultCode.setMsg(Messages.INPUT_ERROR_MSG);
+            return resultCode;
         }
         if (!(confUser.getPassword().length()>=4 && confUser.getPassword().length()<=100)) {
-//            return new ReturnT<String>(ReturnT.FAIL.getCode(), "密码长度限制为4~50");
+            resultCode.setCode(Messages.INPUT_ERROR_CODE);
+            resultCode.setMsg(Messages.INPUT_ERROR_MSG);
+            return resultCode;
         }
 
         // passowrd md5
         String md5Password = DigestUtils.md5DigestAsHex(confUser.getPassword().getBytes());
         confUser.setPassword(md5Password);
-        return null;
+        userMapper.insert(confUser);
+        resultCode.setData(confUser);
+        return resultCode;
     }
 
     @Override
     public ResultCode<User> deleteUser(String username) {
-        return null;
+        ResultCode<User> resultCode = new ResultCode();
+        if (StringUtils.isBlank(username)) {
+            resultCode.setCode(Messages.INPUT_ERROR_CODE);
+            resultCode.setMsg(Messages.INPUT_ERROR_MSG);
+            return resultCode;
+        }
+
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andUserNameEqualTo(username);
+        userMapper.deleteByExample(userExample);
+        return resultCode;
     }
 
     @Override
     public ResultCode<User> updateUser(User confUser) {
-        return null;
+
+
+        ResultCode<User> resultCode = new ResultCode();
+
+        // valid
+        if (StringUtils.isBlank(confUser.getUserName()) || StringUtils.isBlank(confUser.getPassword())){
+            resultCode.setCode(Messages.INPUT_ERROR_CODE);
+            resultCode.setMsg(Messages.INPUT_ERROR_MSG);
+            return resultCode;
+        }
+
+        if (!(confUser.getPassword().length()>=4 && confUser.getPassword().length()<=100)) {
+            resultCode.setCode(Messages.INPUT_ERROR_CODE);
+            resultCode.setMsg(Messages.INPUT_ERROR_MSG);
+            return resultCode;
+        }
+
+        // update password
+        // passowrd md5
+        if (StringUtils.isNotBlank(confUser.getPassword())) {
+            String md5Password = DigestUtils.md5DigestAsHex(confUser.getPassword().getBytes());
+            confUser.setPassword(md5Password);
+        }
+        userMapper.updateByPrimaryKey(confUser);
+        resultCode.setData(confUser);
+        return resultCode;
     }
 }
