@@ -23,7 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 登录接口。
+ * 用户相关接口.
+ *
  * @author wuhaifei
  * @date 2018/04/21
  */
@@ -52,10 +53,7 @@ public class UserController extends BaseController {
     @RequestMapping("")
     @PermessionLimit()
     public String index(Model model){
-
-//        List<XxlConfProject> projectList = xxlConfProjectDao.findAll();
-//        model.addAttribute("projectList", projectList);
-
+        LOGGER.info(">>>>>> /user/index");
         return "user/user.index";
     }
 
@@ -66,8 +64,15 @@ public class UserController extends BaseController {
                                         @RequestParam(required = false, defaultValue = "10") int length,
                                         String username,
                                         int permission) {
-
-        Map<String, Object> maps = userService.getUserList(start, length, username, permission);
+        Map<String, Object> maps = null;
+        try {
+            LOGGER.info(">>>>>> params is :{}", username);
+            maps = userService.getUserList(start, length, username, permission);
+            LOGGER.info(">>>>>> method addUser return value : {}",JSON.toJSONString(maps));
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+        }
         return maps;
     }
 
@@ -152,30 +157,6 @@ public class UserController extends BaseController {
 //            return new ReturnT<String>(ReturnT.FAIL.getCode(), "参数非法");
 //        }
 //        existUser.setPermissionProjects(permissionProjectsStr);
-//        xxlConfUserDao.update(existUser);
-//
-//        return ReturnT.SUCCESS;
-        return null;
-    }
-
-    @RequestMapping("/updatePwd")
-    @ResponseBody
-    public LightConfResult updatePwd(HttpServletRequest request, String password){
-
-//        // new password(md5)
-//        if (StringUtils.isBlank(password)){
-//            return new ReturnT<String>(ReturnT.FAIL.getCode(), "密码不可为空");
-//        }
-//        if (!(password.length()>=4 && password.length()<=100)) {
-//            return new ReturnT<String>(ReturnT.FAIL.getCode(), "密码长度限制为4~50");
-//        }
-//        String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
-//
-//        // update pwd
-//        XxlConfUser loginUser = (XxlConfUser) request.getAttribute(LoginService.LOGIN_IDENTITY);
-//
-//        XxlConfUser existUser = xxlConfUserDao.load(loginUser.getUsername());
-//        existUser.setPassword(md5Password);
 //        xxlConfUserDao.update(existUser);
 //
 //        return ReturnT.SUCCESS;
