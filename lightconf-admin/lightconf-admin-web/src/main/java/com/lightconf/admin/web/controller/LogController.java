@@ -1,4 +1,4 @@
-package com.lightconf.admin.web;
+package com.lightconf.admin.web.controller;
 
 import com.lightconf.admin.web.controller.BaseController;
 import org.springframework.stereotype.Controller;
