@@ -164,6 +164,3 @@ http://www.whforever.cn/lightconf-admin-web/ | http://www.whforever.cn/lightconf
 - KEY：配置的KEY，创建时将会自动添加所属项目的APPName所谓前缀，生成最终的Key。可通过客户端使用最终的Key获取配置；
 - 描述：该配置的描述信息；
 - VALUE：配置的值；
-
-
-## 四、客户端配置获取
