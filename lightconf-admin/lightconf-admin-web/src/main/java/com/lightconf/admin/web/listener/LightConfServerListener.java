@@ -4,6 +4,7 @@ import com.lightconf.admin.web.netty.LightConfServerBootstrap;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.stereotype.Component;
 
 /**
  * lightConf服务端启动bean.
@@ -11,6 +12,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
  * @author wuhf
  * @date 2018/02/26
  */
+@Component
 public class LightConfServerListener implements ApplicationListener<ContextRefreshedEvent> {
 
     @Value("${netty.server.port}")
