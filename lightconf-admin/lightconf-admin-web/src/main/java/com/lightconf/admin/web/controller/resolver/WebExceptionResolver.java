@@ -2,11 +2,9 @@ package com.lightconf.admin.web.controller.resolver;
 
 import com.lightconf.admin.web.core.util.JacksonUtil;
 import com.lightconf.admin.web.core.util.ReturnT;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,14 +18,14 @@ import java.io.IOException;
  * @author xuxueli 2016-1-6 19:22:18
  */
 @Component
+@Slf4j
 public class WebExceptionResolver implements HandlerExceptionResolver {
-	private static transient Logger logger = LoggerFactory.getLogger(WebExceptionResolver.class);
 
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request,
 			HttpServletResponse response, Object handler, Exception ex) {
 
-		logger.error("WebExceptionResolver:{}", ex);
+		log.error("WebExceptionResolver:{}", ex);
 
 		// if json
 		boolean isJson = false;
@@ -47,7 +45,7 @@ public class WebExceptionResolver implements HandlerExceptionResolver {
 				response.setContentType("application/json;charset=utf-8");
 				response.getWriter().print(JacksonUtil.writeValueAsString(errorResult));
 			} catch (IOException e) {
-				logger.error(e.getMessage(), e);
+				log.error(e.getMessage(), e);
 			}
 			return mv;
 		} else {

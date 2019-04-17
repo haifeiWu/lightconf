@@ -12,6 +12,7 @@ import com.lightconf.common.util.CommonConstants;
 import com.lightconf.common.util.LightConfResult;
 import com.lightconf.common.util.NettyChannelMap;
 import io.netty.channel.socket.SocketChannel;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,9 +29,10 @@ import java.util.Map;
  */
 @Transactional(rollbackFor = Exception.class)
 @Service
+@Slf4j
 public class ConfServiceImpl implements ConfService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConfServiceImpl.class);
+    private static final Logger LOGGER = log;
 
     @Autowired
     AppMapper appMapper;

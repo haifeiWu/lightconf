@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration status="WARN">
+    <!--变量配置-->
+    <Properties>
+        <!-- 定义日志存储的路径，不要配置相对路径 -->
+        <property name="FILE_PATH" value="${sys:logDir}" />
+    </Properties>
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout>
+                <Pattern>%d [%t] %-5p %c - %m%n</Pattern>
+            </PatternLayout>
+        </Console>
+
+        <RollingFile name="info" fileName="${FILE_PATH}/info.log"
+                     filePattern="${FILE_PATH}/history/info.%d.log.gz">
+            <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
+            <PatternLayout charset="UTF-8">
+                <Pattern>%d %-5p %c.%M:%L -%m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="error" fileName="${FILE_PATH}/error.log"
+                     filePattern="${FILE_PATH}/history/error-%d{yyyy-MM-dd}.log.gz">
+            <ThresholdFilter level="WARN" onMatch="NEUTRAL" onMismatch="DENY"/>
+            <PatternLayout charset="UTF-8">
+                <Pattern>%d [%t] %-5p %c - %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="warn" fileName="${FILE_PATH}/warn.log"
+                     filePattern="${FILE_PATH}/history/warn-%d{yyyy-MM-dd}.log.gz">
+            <ThresholdFilter level="WARN" onMatch="NEUTRAL" onMismatch="DENY"/>
+            <PatternLayout charset="UTF-8">
+                <Pattern>%d [%t] %-5p %c - %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+        </RollingFile>
+    </appenders>
+
+    <loggers>
+        <AsyncRoot level="info" additivity="false">
+            <AppenderRef ref="Console" level="info"/>
+            <AppenderRef ref="info" level="info"/>
+            <AppenderRef ref="error" level="info"/>
+            <AppenderRef ref="warn" level="warn"/>
+        </AsyncRoot>
+
+        <logger name="org.apache.ibatis" level="INFO"></logger>
+    </loggers>
+
+</configuration>

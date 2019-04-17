@@ -16,9 +16,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.util.ReferenceCountUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +26,9 @@ import java.util.List;
  * @author wuhf
  * @date 2018/02/09
  */
+@Slf4j
 public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
 
-    private static final Logger logger = LoggerFactory.getLogger(ServerHandler.class);
 
     private AppService appService = SpringContextHolder.getBean(AppService.class);
 
@@ -39,7 +38,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         // 连接断开，应该将应用的连接状态重新置为未连接
         final String appUUid = NettyChannelMap.getClientId((SocketChannel) ctx.channel());
-        logger.error(">>>>>> channel is in channelInactive,the appUUid is : {}",appUUid);
+        log.error(">>>>>> channel is in channelInactive,the appUUid is : {}",appUUid);
 
         // 耗时操作另起一个线程来做，提交线程池
         ThreadPoolUtils.getInstance().getThreadPool().submit(new Runnable() {
@@ -49,7 +48,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
                 if (null != app) {
                     app.setIsConnected(false);
                     appService.updateApp(app);
-                    logger.error(">>>>>> update app connection status : {}", JSON.toJSONString(app));
+                    log.error(">>>>>> update app connection status : {}", JSON.toJSONString(app));
                 }
             }
         });
@@ -68,7 +67,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
         switch (baseMsg.getType()) {
 
             case PUSH_CONF:
-                logger.info("do nothing");
+                log.info("do nothing");
                 break;
 
             case UPLOAD_CONF: {
@@ -126,7 +125,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
                 //收到客户端回复
                 ReplyMsg replyMsg = (ReplyMsg) baseMsg;
                 ReplyClientBody clientBody = (ReplyClientBody) replyMsg.getBody();
-                logger.info("receive util msg: " + clientBody.getClientInfo());
+                log.info("receive util msg: " + clientBody.getClientInfo());
             }
             break;
             case LOGIN:
@@ -162,7 +161,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
             // 登录成功,把channel存到服务端的map中.
             SocketChannel socketChannel = (SocketChannel) channelHandlerContext.channel();
             NettyChannelMap.add(loginMsg.getClientId(), socketChannel);
-            logger.info("client" + loginMsg.getClientId() + " 登录成功");
+            log.info("client" + loginMsg.getClientId() + " 登录成功");
 
             if (app.getIsPushConf()) {
                 // 配置信息已经上报
@@ -184,7 +183,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
                         pushMsg.setConfigList(configList);
                         pushMsg.setType(MsgType.SEND_OUT);
                         socketChannel.writeAndFlush(pushMsg);
-                        logger.info(">>>>>> send out config success!");
+                        log.info(">>>>>> send out config success!");
                     }
                 }
             } else {
@@ -192,14 +191,14 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
                 PushMsg pushMsg = new PushMsg();
                 pushMsg.setType(MsgType.UPLOAD_CONF);
                 socketChannel.writeAndFlush(pushMsg);
-                logger.info(">>>>>> server say ...... client upload conf");
+                log.info(">>>>>> server say ...... client upload conf");
             }
             return true;
         } else {
             if (NettyChannelMap.get(baseMsg.getClientId()) == null) {
                 // 说明未登录，或者连接断了，服务器向客户端发起登录请求，让客户端重新登录.
                 ReferenceCountUtil.release("应用的uuid配置有误，请检查配置！");
-                logger.error(">>>>>>应用的uuid配置有误，请检查配置！");
+                log.error(">>>>>>应用的uuid配置有误，请检查配置！");
                 return false;
             }
         }
@@ -214,6 +213,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
 
         //终止线程池
         ThreadPoolUtils.getInstance().getThreadPool().shutdown();
-        logger.error(">>>>>> channel is exception over. (SocketChannel)ctx.channel()=" + ctx.channel());
+        log.error(">>>>>> channel is exception over. (SocketChannel)ctx.channel()=" + ctx.channel());
     }
 }
