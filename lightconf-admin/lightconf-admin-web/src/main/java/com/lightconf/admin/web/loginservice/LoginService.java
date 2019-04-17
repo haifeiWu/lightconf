@@ -7,6 +7,7 @@ import com.lightconf.common.util.LightConfResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +19,7 @@ import java.math.BigInteger;
  *
  * @author xuxueli 2018-02-04 03:25:55
  */
-@Configuration
+@Component
 public class LoginService {
 
     public static final String LOGIN_IDENTITY_KEY = "XXL_CONF_LOGIN_IDENTITY";

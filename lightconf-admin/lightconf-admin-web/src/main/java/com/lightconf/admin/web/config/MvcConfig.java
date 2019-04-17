@@ -3,16 +3,16 @@ package com.lightconf.admin.web.config;
 import com.lightconf.admin.web.controller.interceptor.CookieInterceptor;
 import com.lightconf.admin.web.controller.interceptor.PermissionInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
  * @author wuhf
  * @Date 2019/1/5 14:39
  **/
-@SpringBootConfiguration
-public class MvcConfig implements WebMvcConfigurer {
+@Configuration
+public class MvcConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
     CookieInterceptor cookieInterceptor;

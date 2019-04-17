@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 /**
  * @author wuhaifei
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.lightconf.admin")
 @PropertySource("classpath:light-conf.properties")
 @MapperScan(basePackages = "com.lightconf.admin.dal.dao")
 public class LightConfApplication {

@@ -8,6 +8,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,9 +18,8 @@ import org.slf4j.LoggerFactory;
  * @author wuhf
  * @date 2018/02/26
  */
+@Slf4j
 public class LightConfServerBootstrap {
-
-    private static final Logger logger = LoggerFactory.getLogger(LightConfServerBootstrap.class);
 
     private int port;
 
@@ -49,7 +49,7 @@ public class LightConfServerBootstrap {
 
         ChannelFuture f = bootstrap.bind(port).sync();
         if (f.isSuccess()) {
-            logger.info(String.format(">>>>>>>>>>>> ligthconf server started, port:%s", port));
+            log.info(String.format(">>>>>>>>>>>> ligthconf server started, port:%s", port));
         }
     }
 }

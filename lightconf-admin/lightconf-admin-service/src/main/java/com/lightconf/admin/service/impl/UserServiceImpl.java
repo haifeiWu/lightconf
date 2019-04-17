@@ -7,6 +7,7 @@ import com.lightconf.admin.service.UserService;
 import com.lightconf.common.model.Messages;
 import com.lightconf.common.util.LightConfResult;
 import com.lightconf.common.util.ResultCode;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import java.util.Map;
  */
 @Transactional(rollbackFor = Exception.class)
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Autowired

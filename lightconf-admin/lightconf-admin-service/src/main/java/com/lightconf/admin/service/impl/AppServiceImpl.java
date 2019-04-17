@@ -8,6 +8,7 @@ import com.lightconf.admin.model.dataobj.*;
 import com.lightconf.admin.service.AppService;
 import com.lightconf.common.model.Messages;
 import com.lightconf.common.util.LightConfResult;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,9 +24,10 @@ import java.util.*;
  */
 @Transactional(rollbackFor = Exception.class)
 @Service
+@Slf4j
 public class AppServiceImpl implements AppService {
 
-    protected Logger LOGGER = LoggerFactory.getLogger(getClass());
+    protected Logger LOGGER =log;
 
     @Autowired
     AppMapper appMapper;
