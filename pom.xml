@@ -117,6 +117,31 @@
 			<id>release</id>
 			<build>
 				<plugins>
+					<plugin>
+						<groupId>com.google.cloud.tools</groupId>
+						<artifactId>jib-maven-plugin</artifactId>
+						<version>1.1.1</version>
+						<configuration>
+							<from>
+								<!--base image-->
+								<image>openjdk:alpine</image>
+							</from>
+							<to>
+								<!--<image>registry.cn-hangzhou.aliyuncs.com/m65536/jibtest</image>-->
+								<!--目标镜像registry地址，为了方便测试，你需要换成自己的地址，如果你的网络不好，可以选用国内加速器，比如阿里云的-->
+								<image>registry.hub.docker.com/haifeiwu/jibtest</image>
+							</to>
+						</configuration>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>build</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
 					<!-- Source -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
