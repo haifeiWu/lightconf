@@ -164,6 +164,56 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>1.1.1</version>
+				<configuration>
+<!--					<container>-->
+<!--						<jvmFlags>-->
+<!--							<jvmFlag>-Xms512m</jvmFlag>-->
+<!--						</jvmFlags>-->
+<!--						<ports>-->
+<!--							<port>8080</port>-->
+<!--						</ports>-->
+<!--						<useCurrentTimestamp>true</useCurrentTimestamp>-->
+<!--					</container>-->
+<!--					<from>-->
+<!--						<image>java:8u172-jre-alpine</image>-->
+<!--					</from>-->
+<!--					<to>-->
+<!--						<image>jib-demo</image>-->
+<!--					</to>-->
+<!--					<allowInsecureRegistries>false</allowInsecureRegistries>-->
+						<to>
+							<image>myimage</image>
+						</to>
+					<extraDirectory>${project.basedir}/src/main/jib</extraDirectory>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<!--<version>0.4.12</version>-->
+				<configuration>
+					<!-- 注意imageName一定要是符合正则[a-z0-9-_.]的，否则构建不会成功 -->
+					<!-- 详见：https://github.com/spotify/docker-maven-plugin    Invalid repository name ... only [a-z0-9-_.] are allowed-->
+					<dockerHost>http://127.0.0.1:2375</dockerHost>
+					<!--<dockerCertPath>C:\Users\Administrator\.docker\machine\machines\default</dockerCertPath>-->
+					<imageName>docker-springboot</imageName>
+					<baseImage>java</baseImage>
+					<entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
+					<resources>
+						<resource>
+							<targetPath>/</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.jar</include>
+						</resource>
+					</resources>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
