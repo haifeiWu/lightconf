@@ -33,3 +33,6 @@ nbdist/
 **/target/
 **/{sys:logDir}/
 
+###
+
+**/resources/application.properties
