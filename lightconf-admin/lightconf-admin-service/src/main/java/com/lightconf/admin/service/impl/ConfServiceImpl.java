@@ -57,15 +57,15 @@ public class ConfServiceImpl implements ConfService {
 
         if (StringUtils.isBlank(appId)) {
             LOGGER.info(">>>>>> appUuid is not allow be null");
-            return LightConfResult.build(Messages.MISSING_INPUT_CODE,Messages.MISSING_INPUT_MSG);
+            return LightConfResult.build(Messages.MISSING_INPUT_CODE, Messages.MISSING_INPUT_MSG);
         }
 
         App app = appMapper.selectByPrimaryKey(Integer.valueOf(appId));
         if (null != app) {
 
             Conf dbConf = getConfByKey(conf.getConfKey());
-            if (dbConf  != null) {
-                return LightConfResult.build(Messages.CONF_ALREADY_EXISTS_CODE,Messages.CONF_ALREADY_EXISTS_MSG);
+            if (dbConf != null) {
+                return LightConfResult.build(Messages.CONF_ALREADY_EXISTS_CODE, Messages.CONF_ALREADY_EXISTS_MSG);
             }
             confMapper.insert(conf);
             AppConf appConf = new AppConf();
@@ -75,13 +75,13 @@ public class ConfServiceImpl implements ConfService {
 
             // 若应用与admin连接，则更新配置到客户端.
             if (app.getIsConnected()) {
-                LOGGER.info(">>>>>> add conf，push conf to client！the client name is : {}",app.getAppName());
-                pushConfToApplication(conf,CommonConstants.CONF_TYPE_ADD,app.getUuid());
+                LOGGER.info(">>>>>> add conf，push conf to client！the client name is : {}", app.getAppName());
+                pushConfToApplication(conf, CommonConstants.CONF_TYPE_ADD, app.getUuid());
             }
             LOGGER.info(">>>>>> add conf success");
             return LightConfResult.ok();
         } else {
-            return LightConfResult.build(Messages.MISSING_INPUT_CODE,Messages.MISSING_INPUT_MSG);
+            return LightConfResult.build(Messages.MISSING_INPUT_CODE, Messages.MISSING_INPUT_MSG);
         }
     }
 
@@ -100,7 +100,7 @@ public class ConfServiceImpl implements ConfService {
 
         if (StringUtils.isBlank(appId)) {
             LOGGER.error("appUuid is not allow be null");
-            return LightConfResult.build(Messages.MISSING_INPUT_CODE,Messages.MISSING_INPUT_MSG);
+            return LightConfResult.build(Messages.MISSING_INPUT_CODE, Messages.MISSING_INPUT_MSG);
         }
 
         App app = appMapper.selectByPrimaryKey(Integer.valueOf(appId));
@@ -109,13 +109,13 @@ public class ConfServiceImpl implements ConfService {
 
             // 下发配置到应用
             if (app.getIsConnected()) {
-                LOGGER.info(">>>>>> update conf , push conf to client! client name is : {}",app.getAppName());
-                pushConfToApplication(conf,CommonConstants.CONF_TYPE_UPDATE,app.getUuid());
+                LOGGER.info(">>>>>> update conf , push conf to client! client name is : {}", app.getAppName());
+                pushConfToApplication(conf, CommonConstants.CONF_TYPE_UPDATE, app.getUuid());
             }
             LOGGER.info(">>>>>> update conf success");
             return LightConfResult.ok();
         } else {
-            return LightConfResult.build(Messages.MISSING_INPUT_CODE,Messages.MISSING_INPUT_MSG);
+            return LightConfResult.build(Messages.MISSING_INPUT_CODE, Messages.MISSING_INPUT_MSG);
         }
     }
 
@@ -137,9 +137,9 @@ public class ConfServiceImpl implements ConfService {
 
     @Override
     public LightConfResult deleteById(String confId, String appId) {
-        if (StringUtils.isBlank(confId) ) {
+        if (StringUtils.isBlank(confId)) {
             LOGGER.error("confId is not allow be null");
-            return LightConfResult.build(Messages.MISSING_INPUT_CODE,Messages.MISSING_INPUT_MSG);
+            return LightConfResult.build(Messages.MISSING_INPUT_CODE, Messages.MISSING_INPUT_MSG);
         }
 
         App app = appMapper.selectByPrimaryKey(Integer.valueOf(appId));
@@ -160,14 +160,14 @@ public class ConfServiceImpl implements ConfService {
 
             // 下发配置到应用
             if (app.getIsConnected()) {
-                LOGGER.info(">>>>>> update conf , push conf to client! client name is : {}",app.getAppName());
-                pushConfToApplication(conf,CommonConstants.CONF_TYPE_DELETE,app.getUuid());
+                LOGGER.info(">>>>>> update conf , push conf to client! client name is : {}", app.getAppName());
+                pushConfToApplication(conf, CommonConstants.CONF_TYPE_DELETE, app.getUuid());
             }
 
             LOGGER.info(">>>>>> update conf success");
             return LightConfResult.ok();
         } else {
-            return LightConfResult.build(Messages.MISSING_INPUT_CODE,Messages.MISSING_INPUT_MSG);
+            return LightConfResult.build(Messages.MISSING_INPUT_CODE, Messages.MISSING_INPUT_MSG);
         }
     }
 }

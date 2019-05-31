@@ -1,303 +1,307 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lightconf.admin.dal.dao.AppMapper">
-  <resultMap id="BaseResultMap" type="com.lightconf.admin.model.dataobj.App">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
-    <result column="app_name" jdbcType="VARCHAR" property="appName" />
-    <result column="app_desc" jdbcType="VARCHAR" property="appDesc" />
-    <result column="is_connected" jdbcType="BIT" property="isConnected" />
-    <result column="is_change" jdbcType="BIT" property="isChange" />
-    <result column="is_push_conf" jdbcType="BIT" property="isPushConf" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.lightconf.admin.model.dataobj.AppWithBLOBs">
-    <result column="private_key" jdbcType="LONGVARCHAR" property="privateKey" />
-    <result column="public_key" jdbcType="LONGVARCHAR" property="publicKey" />
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+    <resultMap id="BaseResultMap" type="com.lightconf.admin.model.dataobj.App">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="uuid" jdbcType="VARCHAR" property="uuid"/>
+        <result column="app_name" jdbcType="VARCHAR" property="appName"/>
+        <result column="app_desc" jdbcType="VARCHAR" property="appDesc"/>
+        <result column="is_connected" jdbcType="BIT" property="isConnected"/>
+        <result column="is_change" jdbcType="BIT" property="isChange"/>
+        <result column="is_push_conf" jdbcType="BIT" property="isPushConf"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.lightconf.admin.model.dataobj.AppWithBLOBs">
+        <result column="private_key" jdbcType="LONGVARCHAR" property="privateKey"/>
+        <result column="public_key" jdbcType="LONGVARCHAR" property="publicKey"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
     id, uuid, app_name, app_desc, is_connected, is_change, is_push_conf
   </sql>
-  <sql id="Blob_Column_List">
+    <sql id="Blob_Column_List">
     private_key, public_key
   </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.lightconf.admin.model.dataobj.AppExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from light_conf_app
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByExample" parameterType="com.lightconf.admin.model.dataobj.AppExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from light_conf_app
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-    <if test="limitStart != null and limitStart>=0">
-      limit #{limitStart} , #{limitEnd}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from light_conf_app
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByExampleWithBLOBs" parameterType="com.lightconf.admin.model.dataobj.AppExample"
+            resultMap="ResultMapWithBLOBs">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from light_conf_app
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByExample" parameterType="com.lightconf.admin.model.dataobj.AppExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from light_conf_app
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limitStart != null and limitStart>=0">
+            limit #{limitStart} , #{limitEnd}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from light_conf_app
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from light_conf_app
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.lightconf.admin.model.dataobj.AppExample">
-    delete from light_conf_app
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.lightconf.admin.model.dataobj.AppWithBLOBs">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into light_conf_app (uuid, app_name, app_desc, 
-      is_connected, is_change, is_push_conf, 
-      private_key, public_key)
-    values (#{uuid,jdbcType=VARCHAR}, #{appName,jdbcType=VARCHAR}, #{appDesc,jdbcType=VARCHAR}, 
-      #{isConnected,jdbcType=BIT}, #{isChange,jdbcType=BIT}, #{isPushConf,jdbcType=BIT}, 
-      #{privateKey,jdbcType=LONGVARCHAR}, #{publicKey,jdbcType=LONGVARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.lightconf.admin.model.dataobj.AppWithBLOBs">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into light_conf_app
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="uuid != null">
-        uuid,
-      </if>
-      <if test="appName != null">
-        app_name,
-      </if>
-      <if test="appDesc != null">
-        app_desc,
-      </if>
-      <if test="isConnected != null">
-        is_connected,
-      </if>
-      <if test="isChange != null">
-        is_change,
-      </if>
-      <if test="isPushConf != null">
-        is_push_conf,
-      </if>
-      <if test="privateKey != null">
-        private_key,
-      </if>
-      <if test="publicKey != null">
-        public_key,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="uuid != null">
-        #{uuid,jdbcType=VARCHAR},
-      </if>
-      <if test="appName != null">
-        #{appName,jdbcType=VARCHAR},
-      </if>
-      <if test="appDesc != null">
-        #{appDesc,jdbcType=VARCHAR},
-      </if>
-      <if test="isConnected != null">
-        #{isConnected,jdbcType=BIT},
-      </if>
-      <if test="isChange != null">
-        #{isChange,jdbcType=BIT},
-      </if>
-      <if test="isPushConf != null">
-        #{isPushConf,jdbcType=BIT},
-      </if>
-      <if test="privateKey != null">
-        #{privateKey,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="publicKey != null">
-        #{publicKey,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.lightconf.admin.model.dataobj.AppExample" resultType="java.lang.Long">
-    select count(*) from light_conf_app
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update light_conf_app
-    <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.uuid != null">
+    <delete id="deleteByExample" parameterType="com.lightconf.admin.model.dataobj.AppExample">
+        delete from light_conf_app
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.lightconf.admin.model.dataobj.AppWithBLOBs">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into light_conf_app (uuid, app_name, app_desc,
+        is_connected, is_change, is_push_conf,
+        private_key, public_key)
+        values (#{uuid,jdbcType=VARCHAR}, #{appName,jdbcType=VARCHAR}, #{appDesc,jdbcType=VARCHAR},
+        #{isConnected,jdbcType=BIT}, #{isChange,jdbcType=BIT}, #{isPushConf,jdbcType=BIT},
+        #{privateKey,jdbcType=LONGVARCHAR}, #{publicKey,jdbcType=LONGVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.lightconf.admin.model.dataobj.AppWithBLOBs">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into light_conf_app
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uuid != null">
+                uuid,
+            </if>
+            <if test="appName != null">
+                app_name,
+            </if>
+            <if test="appDesc != null">
+                app_desc,
+            </if>
+            <if test="isConnected != null">
+                is_connected,
+            </if>
+            <if test="isChange != null">
+                is_change,
+            </if>
+            <if test="isPushConf != null">
+                is_push_conf,
+            </if>
+            <if test="privateKey != null">
+                private_key,
+            </if>
+            <if test="publicKey != null">
+                public_key,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uuid != null">
+                #{uuid,jdbcType=VARCHAR},
+            </if>
+            <if test="appName != null">
+                #{appName,jdbcType=VARCHAR},
+            </if>
+            <if test="appDesc != null">
+                #{appDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="isConnected != null">
+                #{isConnected,jdbcType=BIT},
+            </if>
+            <if test="isChange != null">
+                #{isChange,jdbcType=BIT},
+            </if>
+            <if test="isPushConf != null">
+                #{isPushConf,jdbcType=BIT},
+            </if>
+            <if test="privateKey != null">
+                #{privateKey,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="publicKey != null">
+                #{publicKey,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.lightconf.admin.model.dataobj.AppExample"
+            resultType="java.lang.Long">
+        select count(*) from light_conf_app
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update light_conf_app
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.uuid != null">
+                uuid = #{record.uuid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.appName != null">
+                app_name = #{record.appName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.appDesc != null">
+                app_desc = #{record.appDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.isConnected != null">
+                is_connected = #{record.isConnected,jdbcType=BIT},
+            </if>
+            <if test="record.isChange != null">
+                is_change = #{record.isChange,jdbcType=BIT},
+            </if>
+            <if test="record.isPushConf != null">
+                is_push_conf = #{record.isPushConf,jdbcType=BIT},
+            </if>
+            <if test="record.privateKey != null">
+                private_key = #{record.privateKey,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.publicKey != null">
+                public_key = #{record.publicKey,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExampleWithBLOBs" parameterType="map">
+        update light_conf_app
+        set id = #{record.id,jdbcType=INTEGER},
         uuid = #{record.uuid,jdbcType=VARCHAR},
-      </if>
-      <if test="record.appName != null">
         app_name = #{record.appName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.appDesc != null">
         app_desc = #{record.appDesc,jdbcType=VARCHAR},
-      </if>
-      <if test="record.isConnected != null">
         is_connected = #{record.isConnected,jdbcType=BIT},
-      </if>
-      <if test="record.isChange != null">
         is_change = #{record.isChange,jdbcType=BIT},
-      </if>
-      <if test="record.isPushConf != null">
         is_push_conf = #{record.isPushConf,jdbcType=BIT},
-      </if>
-      <if test="record.privateKey != null">
         private_key = #{record.privateKey,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="record.publicKey != null">
-        public_key = #{record.publicKey,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update light_conf_app
-    set id = #{record.id,jdbcType=INTEGER},
-      uuid = #{record.uuid,jdbcType=VARCHAR},
-      app_name = #{record.appName,jdbcType=VARCHAR},
-      app_desc = #{record.appDesc,jdbcType=VARCHAR},
-      is_connected = #{record.isConnected,jdbcType=BIT},
-      is_change = #{record.isChange,jdbcType=BIT},
-      is_push_conf = #{record.isPushConf,jdbcType=BIT},
-      private_key = #{record.privateKey,jdbcType=LONGVARCHAR},
-      public_key = #{record.publicKey,jdbcType=LONGVARCHAR}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update light_conf_app
-    set id = #{record.id,jdbcType=INTEGER},
-      uuid = #{record.uuid,jdbcType=VARCHAR},
-      app_name = #{record.appName,jdbcType=VARCHAR},
-      app_desc = #{record.appDesc,jdbcType=VARCHAR},
-      is_connected = #{record.isConnected,jdbcType=BIT},
-      is_change = #{record.isChange,jdbcType=BIT},
-      is_push_conf = #{record.isPushConf,jdbcType=BIT}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.lightconf.admin.model.dataobj.AppWithBLOBs">
-    update light_conf_app
-    <set>
-      <if test="uuid != null">
-        uuid = #{uuid,jdbcType=VARCHAR},
-      </if>
-      <if test="appName != null">
-        app_name = #{appName,jdbcType=VARCHAR},
-      </if>
-      <if test="appDesc != null">
-        app_desc = #{appDesc,jdbcType=VARCHAR},
-      </if>
-      <if test="isConnected != null">
-        is_connected = #{isConnected,jdbcType=BIT},
-      </if>
-      <if test="isChange != null">
-        is_change = #{isChange,jdbcType=BIT},
-      </if>
-      <if test="isPushConf != null">
-        is_push_conf = #{isPushConf,jdbcType=BIT},
-      </if>
-      <if test="privateKey != null">
-        private_key = #{privateKey,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="publicKey != null">
-        public_key = #{publicKey,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lightconf.admin.model.dataobj.AppWithBLOBs">
+        public_key = #{record.publicKey,jdbcType=LONGVARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update light_conf_app
+        set id = #{record.id,jdbcType=INTEGER},
+        uuid = #{record.uuid,jdbcType=VARCHAR},
+        app_name = #{record.appName,jdbcType=VARCHAR},
+        app_desc = #{record.appDesc,jdbcType=VARCHAR},
+        is_connected = #{record.isConnected,jdbcType=BIT},
+        is_change = #{record.isChange,jdbcType=BIT},
+        is_push_conf = #{record.isPushConf,jdbcType=BIT}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.lightconf.admin.model.dataobj.AppWithBLOBs">
+        update light_conf_app
+        <set>
+            <if test="uuid != null">
+                uuid = #{uuid,jdbcType=VARCHAR},
+            </if>
+            <if test="appName != null">
+                app_name = #{appName,jdbcType=VARCHAR},
+            </if>
+            <if test="appDesc != null">
+                app_desc = #{appDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="isConnected != null">
+                is_connected = #{isConnected,jdbcType=BIT},
+            </if>
+            <if test="isChange != null">
+                is_change = #{isChange,jdbcType=BIT},
+            </if>
+            <if test="isPushConf != null">
+                is_push_conf = #{isPushConf,jdbcType=BIT},
+            </if>
+            <if test="privateKey != null">
+                private_key = #{privateKey,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="publicKey != null">
+                public_key = #{publicKey,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lightconf.admin.model.dataobj.AppWithBLOBs">
     update light_conf_app
     set uuid = #{uuid,jdbcType=VARCHAR},
       app_name = #{appName,jdbcType=VARCHAR},
@@ -309,7 +313,7 @@
       public_key = #{publicKey,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.lightconf.admin.model.dataobj.App">
+    <update id="updateByPrimaryKey" parameterType="com.lightconf.admin.model.dataobj.App">
     update light_conf_app
     set uuid = #{uuid,jdbcType=VARCHAR},
       app_name = #{appName,jdbcType=VARCHAR},
@@ -319,12 +323,12 @@
       is_push_conf = #{isPushConf,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectForUpdate" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from light_conf_app
-    where id = #{id,jdbcType=INTEGER} for update
-  </select>
+    <select id="selectForUpdate" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from light_conf_app
+        where id = #{id,jdbcType=INTEGER} for update
+    </select>
 </mapper>

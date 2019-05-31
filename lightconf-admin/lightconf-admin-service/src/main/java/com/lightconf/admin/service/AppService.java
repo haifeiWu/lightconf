@@ -15,6 +15,7 @@ public interface AppService {
 
     /**
      * 添加app信息.
+     *
      * @param app
      * @return
      */
@@ -22,6 +23,7 @@ public interface AppService {
 
     /**
      * 修改应用配置信息.
+     *
      * @param app
      * @return
      */
@@ -31,6 +33,7 @@ public interface AppService {
 
     /**
      * 获取应用列表.
+     *
      * @param pageSize
      * @param pageNum
      * @return
@@ -41,6 +44,7 @@ public interface AppService {
 
     /**
      * 获取应用的配置信息.
+     *
      * @param appId appId.
      * @return
      */
@@ -48,9 +52,10 @@ public interface AppService {
 
     /**
      * 获取应用的配置信息，分页显示。
-     * @param start start
-     * @param length length
-     * @param appId appId
+     *
+     * @param start   start
+     * @param length  length
+     * @param appId   appId
      * @param confKey
      * @return
      */
@@ -58,6 +63,7 @@ public interface AppService {
 
     /**
      * 根据uuid查询应用信息！
+     *
      * @param appUUid
      * @return
      */

@@ -6,7 +6,7 @@
 
 // 通用提示
 var ComAlert = {
-    html:function(){
+    html: function () {
         var html =
             '<div class="modal fade" id="ComAlert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
             '<div class="modal-dialog">' +
@@ -23,9 +23,9 @@ var ComAlert = {
             '</div>';
         return html;
     },
-    show:function(type, msg, callback){
+    show: function (type, msg, callback) {
         // dom init
-        if ($('#ComAlert').length == 0){
+        if ($('#ComAlert').length == 0) {
             $('body').append(ComAlert.html());
         }
 
@@ -38,9 +38,9 @@ var ComAlert = {
         $('#ComAlert .alert').html(msg);
         $('#ComAlert').modal('show');
 
-        $('#ComAlert .ok').click(function(){
+        $('#ComAlert .ok').click(function () {
             $('#ComAlert').modal('hide');
-            if(typeof callback == 'function') {
+            if (typeof callback == 'function') {
                 callback();
             }
         });
@@ -51,7 +51,7 @@ var ComAlert = {
 
 // 通用确认弹框
 var ComConfirm = {
-    html:function(){
+    html: function () {
         var html =
             '<div class="modal fade" id="ComConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
             '<div class="modal-dialog">' +
@@ -68,9 +68,9 @@ var ComConfirm = {
             '</div>';
         return html;
     },
-    show:function(msg, callback){
+    show: function (msg, callback) {
         // dom init
-        if ($('#ComConfirm').length == 0){
+        if ($('#ComConfirm').length == 0) {
             $("body").append(ComConfirm.html());
         }
 
@@ -80,15 +80,15 @@ var ComConfirm = {
         $('#ComConfirm').modal('show');
 
         $('#ComConfirm .ok').unbind("click");	// 解绑陈旧事件
-        $('#ComConfirm .ok').click(function(){
+        $('#ComConfirm .ok').click(function () {
             $('#ComConfirm').modal('hide');
-            if(typeof callback == 'function') {
+            if (typeof callback == 'function') {
                 callback();
                 return;
             }
         });
 
-        $('#ComConfirm .cancel').click(function(){
+        $('#ComConfirm .cancel').click(function () {
             $('#ComConfirm').modal('hide');
             return;
         });
@@ -96,7 +96,7 @@ var ComConfirm = {
 };
 // 提示-科技主题
 var ComAlertTec = {
-    html:function(){
+    html: function () {
         var html =
             '<div class="modal fade" id="ComAlertTec" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
             '<div class="modal-dialog">' +
@@ -112,9 +112,9 @@ var ComAlertTec = {
             '</div>';
         return html;
     },
-    show:function(msg, callback){
+    show: function (msg, callback) {
         // dom init
-        if ($('#ComAlertTec').length == 0){
+        if ($('#ComAlertTec').length == 0) {
             $('body').append(ComAlertTec.html());
         }
 
@@ -122,9 +122,9 @@ var ComAlertTec = {
         $('#ComAlertTec .alert').html(msg);
         $('#ComAlertTec').modal('show');
 
-        $('#ComAlertTec .ok').click(function(){
+        $('#ComAlertTec .ok').click(function () {
             $('#ComAlertTec').modal('hide');
-            if(typeof callback == 'function') {
+            if (typeof callback == 'function') {
                 callback();
             }
         });

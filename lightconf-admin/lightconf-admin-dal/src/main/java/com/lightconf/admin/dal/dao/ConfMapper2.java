@@ -9,6 +9,7 @@ public interface ConfMapper2 {
 
     /**
      * 获取应用的配置信息。
+     *
      * @param appId
      * @return
      */
@@ -16,6 +17,7 @@ public interface ConfMapper2 {
 
     /**
      * 获取应用的配置信息，分页实现
+     *
      * @param start
      * @param length
      * @param appId
@@ -23,10 +25,11 @@ public interface ConfMapper2 {
      * @return
      */
     List<Conf> getAppConfByPage(@Param("start") int start, @Param("length") int length,
-            @Param("appId") Integer appId, @Param("confKey") String confKey);
+                                @Param("appId") Integer appId, @Param("confKey") String confKey);
 
     /**
      * 统计条数.
+     *
      * @param start
      * @param length
      * @param appId
@@ -34,5 +37,5 @@ public interface ConfMapper2 {
      * @return
      */
     int countAppConfByPage(@Param("start") int start, @Param("length") int length,
-            @Param("appId") Integer appId, @Param("confKey") String confKey);
+                           @Param("appId") Integer appId, @Param("confKey") String confKey);
 }

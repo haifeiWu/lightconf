@@ -2,7 +2,9 @@ package com.lightconf.admin.dal.dao;
 
 import com.lightconf.admin.model.dataobj.User;
 import com.lightconf.admin.model.dataobj.UserExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {

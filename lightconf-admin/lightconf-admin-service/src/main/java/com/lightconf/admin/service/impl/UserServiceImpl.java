@@ -38,11 +38,11 @@ public class UserServiceImpl implements UserService {
         if (userList != null && userList.size() > 0) {
             User user = userList.get(0);
             if (user.getPassword().equals(password)) {
-                return LightConfResult.build(Messages.SUCCESS_CODE,Messages.SUCCESS_MSG,userList.get(0));
+                return LightConfResult.build(Messages.SUCCESS_CODE, Messages.SUCCESS_MSG, userList.get(0));
             }
         }
 
-        return LightConfResult.build(Messages.USER_LOGIN_ERROR_CODE,Messages.USER_LOGIN_ERROR_MSG);
+        return LightConfResult.build(Messages.USER_LOGIN_ERROR_CODE, Messages.USER_LOGIN_ERROR_MSG);
     }
 
     @Override
@@ -56,12 +56,12 @@ public class UserServiceImpl implements UserService {
         ResultCode<User> resultCode = new ResultCode();
 
         // valid
-        if (StringUtils.isBlank(confUser.getUserName()) || StringUtils.isBlank(confUser.getPassword())){
+        if (StringUtils.isBlank(confUser.getUserName()) || StringUtils.isBlank(confUser.getPassword())) {
             resultCode.setCode(Messages.INPUT_ERROR_CODE);
             resultCode.setMsg(Messages.INPUT_ERROR_MSG);
             return resultCode;
         }
-        if (!(confUser.getPassword().length()>=4 && confUser.getPassword().length()<=100)) {
+        if (!(confUser.getPassword().length() >= 4 && confUser.getPassword().length() <= 100)) {
             resultCode.setCode(Messages.INPUT_ERROR_CODE);
             resultCode.setMsg(Messages.INPUT_ERROR_MSG);
             return resultCode;
@@ -97,13 +97,13 @@ public class UserServiceImpl implements UserService {
         ResultCode<User> resultCode = new ResultCode();
 
         // valid
-        if (StringUtils.isBlank(confUser.getUserName()) || StringUtils.isBlank(confUser.getPassword())){
+        if (StringUtils.isBlank(confUser.getUserName()) || StringUtils.isBlank(confUser.getPassword())) {
             resultCode.setCode(Messages.INPUT_ERROR_CODE);
             resultCode.setMsg(Messages.INPUT_ERROR_MSG);
             return resultCode;
         }
 
-        if (!(confUser.getPassword().length()>=4 && confUser.getPassword().length()<=100)) {
+        if (!(confUser.getPassword().length() >= 4 && confUser.getPassword().length() <= 100)) {
             resultCode.setCode(Messages.INPUT_ERROR_CODE);
             resultCode.setMsg(Messages.INPUT_ERROR_MSG);
             return resultCode;

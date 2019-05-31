@@ -2,7 +2,9 @@ package com.lightconf.admin.dal.dao;
 
 import com.lightconf.admin.model.dataobj.ConfLog;
 import com.lightconf.admin.model.dataobj.ConfLogExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface ConfLogMapper {

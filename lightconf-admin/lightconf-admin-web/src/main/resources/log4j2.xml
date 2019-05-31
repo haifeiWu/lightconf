@@ -3,7 +3,7 @@
     <!--变量配置-->
     <Properties>
         <!-- 定义日志存储的路径，不要配置相对路径 -->
-        <property name="FILE_PATH" value="${sys:logDir}" />
+        <property name="FILE_PATH" value="${sys:logDir}"/>
     </Properties>
     <appenders>
         <Console name="Console" target="SYSTEM_OUT">

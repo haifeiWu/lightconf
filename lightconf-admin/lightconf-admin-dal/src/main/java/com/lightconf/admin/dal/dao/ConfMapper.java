@@ -2,7 +2,9 @@ package com.lightconf.admin.dal.dao;
 
 import com.lightconf.admin.model.dataobj.Conf;
 import com.lightconf.admin.model.dataobj.ConfExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface ConfMapper {

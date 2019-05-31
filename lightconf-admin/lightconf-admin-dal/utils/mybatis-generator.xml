@@ -5,7 +5,7 @@
 
 <generatorConfiguration>
     <!--数据库驱动 -->
-    <classPathEntry location="./mysql-connector-java-5.1.26-bin.jar" />
+    <classPathEntry location="./mysql-connector-java-5.1.26-bin.jar"/>
 
     <context id="MySQLTables" targetRuntime="MyBatis3">
         <!--是否覆盖xml文件: false 覆盖 true:追加 -->
@@ -16,8 +16,8 @@
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin2"/>
 
         <commentGenerator>
-            <property name="suppressAllComments" value="true" /><!-- 是否取消注释 -->
-            <property name="suppressDate" value="false" /> <!-- 是否生成注释代时间戳 -->
+            <property name="suppressAllComments" value="true"/><!-- 是否取消注释 -->
+            <property name="suppressDate" value="false"/> <!-- 是否生成注释代时间戳 -->
         </commentGenerator>
         <!-- 数据库连接信息 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
@@ -30,56 +30,56 @@
             总长5-9生成Integer; 如果字段精确是0，总长小于5生成Short; 如果forceBigDecimals为true,统一生成BigDecimal -->
         <javaTypeResolver>
             <!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
-            <property name="forceBigDecimals" value="false" />
+            <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
 
         <!--生成 Model.java文件 -->
         <javaModelGenerator targetPackage="com.lightconf.admin.model.dataobj"
                             targetProject="../../lightconf-admin-model/src/main/java">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
-            <property name="enableSubPackages" value="false" />
+            <property name="enableSubPackages" value="false"/>
             <!-- 是否针对string类型的字段在set的时候进行trim调用 -->
-            <property name="trimStrings" value="true" />
+            <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
         <!-- 生成 Mapper.xml文件 -->
         <sqlMapGenerator targetPackage="mappings"
                          targetProject="../src/main/resources">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
-            <property name="enableSubPackages" value="false" />
+            <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
         <!-- 生成 Mapper.java文件，即dao层 -->
         <javaClientGenerator type="XMLMAPPER"
                              targetPackage="com.lightconf.admin.dal.dao"
                              targetProject="../src/main/java">
-            <property name="enableSubPackages" value="false" />
+            <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
         <!-- 待生成的数据库中的表名，生成一个表对应的Java和xml文件就需要配置这一段 -->
 
         <table tableName="light_conf_app" domainObjectName="App">
-            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+            <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
         </table>
 
         <table tableName="light_conf_app_conf" domainObjectName="AppConf">
-            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+            <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
         </table>
 
         <table tableName="light_conf_conf" domainObjectName="Conf">
-            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+            <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
         </table>
 
         <table tableName="light_conf_conf_log" domainObjectName="ConfLog">
-            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+            <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
         </table>
 
         <table tableName="light_conf_log" domainObjectName="Log">
-            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+            <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
         </table>
 
         <table tableName="light_conf_user" domainObjectName="User">
-            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+            <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
         </table>
 
     </context>

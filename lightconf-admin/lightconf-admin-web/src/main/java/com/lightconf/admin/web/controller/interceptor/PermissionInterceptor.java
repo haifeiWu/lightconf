@@ -12,32 +12,33 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 权限拦截, 简易版
+ *
  * @author xuxueli 2015-12-12 18:09:04
  */
 @Component
 public class PermissionInterceptor extends HandlerInterceptorAdapter {
 
-	@Resource
-	private LoginService loginService;
+    @Resource
+    private LoginService loginService;
 
-	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-		if (!(handler instanceof HandlerMethod)) {
-			return super.preHandle(request, response, handler);
-		}
+        if (!(handler instanceof HandlerMethod)) {
+            return super.preHandle(request, response, handler);
+        }
 
-		if (!loginService.ifLogin(request)) {
-			HandlerMethod method = (HandlerMethod)handler;
-			PermessionLimit permission = method.getMethodAnnotation(PermessionLimit.class);
-			if (permission == null || permission.limit()) {
-				response.sendRedirect(request.getContextPath() + "/toLogin");
-				//request.getRequestDispatcher("/toLogin").forward(request, response);
-				return false;
-			}
-		}
+        if (!loginService.ifLogin(request)) {
+            HandlerMethod method = (HandlerMethod) handler;
+            PermessionLimit permission = method.getMethodAnnotation(PermessionLimit.class);
+            if (permission == null || permission.limit()) {
+                response.sendRedirect(request.getContextPath() + "/toLogin");
+                //request.getRequestDispatcher("/toLogin").forward(request, response);
+                return false;
+            }
+        }
 
-		return super.preHandle(request, response, handler);
-	}
+        return super.preHandle(request, response, handler);
+    }
 
 }
