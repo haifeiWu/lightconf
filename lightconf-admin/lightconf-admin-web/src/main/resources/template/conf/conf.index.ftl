@@ -15,7 +15,7 @@
 		
 		<@netCommon.commonHeader />
 
-		<@netCommon.commonLeft />
+		<@netCommon.commonLeft "conf"/>
 
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
