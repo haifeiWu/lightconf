@@ -2,7 +2,7 @@
 <html>
 <head>
   	<title>LIGHTCONF配置管理平台</title>
-  	<#import "/common/common.macro.ftl" as netCommon>
+  	<#import "./common/common.macro.ftl" as netCommon>
 	<@netCommon.commonStyle />
 </head>
 <body class="hold-transition skin-blue sidebar-mini <#if cookieMap?exists && "off" == cookieMap["adminlte_settings"].value >sidebar-collapse</#if> ">
@@ -10,7 +10,7 @@
 	<!-- header -->
 	<@netCommon.commonHeader />
 	<!-- left -->
-	<@netCommon.commonLeft />
+	<@netCommon.commonLeft "help"/>
 	
 	<!-- Content Wrapper. Contains page content -->
 	<div class="content-wrapper">
@@ -30,7 +30,6 @@
 					<br><br>
 					<a target="_blank" href="https://github.com/haifeiWu/lightconf">官方文档</a>
                     <br><br>
-
 				</p>
 				<p></p>
             </div>
