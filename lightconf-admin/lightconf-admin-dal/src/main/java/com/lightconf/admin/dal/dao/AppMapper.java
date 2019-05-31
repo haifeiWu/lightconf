@@ -3,7 +3,9 @@ package com.lightconf.admin.dal.dao;
 import com.lightconf.admin.model.dataobj.App;
 import com.lightconf.admin.model.dataobj.AppExample;
 import com.lightconf.admin.model.dataobj.AppWithBLOBs;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface AppMapper {

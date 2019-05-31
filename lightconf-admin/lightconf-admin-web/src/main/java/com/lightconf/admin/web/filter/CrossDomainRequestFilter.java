@@ -6,6 +6,7 @@ import java.io.IOException;
 
 /**
  * 跨域请求过滤器，为每一个跨域请求添加请求头，允许任何域的请求访问服务器，存在ddos的问题。
+ *
  * @author wuhaifei
  * @date 2018/04/20
  */
@@ -26,7 +27,7 @@ public class CrossDomainRequestFilter implements Filter {
         res.setHeader("Access-Control-Max-Age", "0");
         res.setHeader("Access-Control-Allow-Headers", "Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With,userId,token");
         res.setHeader("Access-Control-Allow-Credentials", "true");
-        res.setHeader("XDomainRequestAllowed","1");
+        res.setHeader("XDomainRequestAllowed", "1");
         filterChain.doFilter(request, response);
     }
 

@@ -71,7 +71,7 @@ public class ConfExample implements Serializable {
     }
 
     public void setLimitStart(Integer limitStart) {
-        this.limitStart=limitStart;
+        this.limitStart = limitStart;
     }
 
     public Integer getLimitStart() {
@@ -79,7 +79,7 @@ public class ConfExample implements Serializable {
     }
 
     public void setLimitEnd(Integer limitEnd) {
-        this.limitEnd=limitEnd;
+        this.limitEnd = limitEnd;
     }
 
     public Integer getLimitEnd() {

@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.lightconf.admin.model.dataobj.User;
 import com.lightconf.admin.service.UserService;
 import com.lightconf.admin.web.controller.annotation.PermessionLimit;
-import com.lightconf.admin.web.loginservice.LoginService;
 import com.lightconf.common.model.Messages;
 import com.lightconf.common.util.LightConfResult;
 import com.lightconf.common.util.ResultCode;
@@ -12,14 +11,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,22 +33,22 @@ public class UserController extends BaseController {
 
     @ResponseBody
     @RequestMapping("/login")
-    public LightConfResult login(String account,String password) {
+    public LightConfResult login(String account, String password) {
         try {
-            LOGGER.info("user login,userName is : {},password is : {}",account,password);
-            LightConfResult result = userService.userLogin(account,password);
-            LOGGER.info("method login return value is : {}",result.toString());
+            LOGGER.info("user login,userName is : {},password is : {}", account, password);
+            LightConfResult result = userService.userLogin(account, password);
+            LOGGER.info("method login return value is : {}", result.toString());
             return result;
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error(e.getMessage());
-            return LightConfResult.build(Messages.SERVER_ERROR_CODE,Messages.SERVER_ERROR_MSG);
+            return LightConfResult.build(Messages.SERVER_ERROR_CODE, Messages.SERVER_ERROR_MSG);
         }
     }
 
     @RequestMapping("")
     @PermessionLimit()
-    public String index(Model model){
+    public String index(Model model) {
         LOGGER.info(">>>>>> /user/index");
         return "user/user.index";
     }
@@ -68,7 +64,7 @@ public class UserController extends BaseController {
         try {
             LOGGER.info(">>>>>> params is :{}", username);
             maps = userService.getUserList(start, length, username, permission);
-            LOGGER.info(">>>>>> method addUser return value : {}",JSON.toJSONString(maps));
+            LOGGER.info(">>>>>> method addUser return value : {}", JSON.toJSONString(maps));
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error(e.getMessage());
@@ -84,12 +80,12 @@ public class UserController extends BaseController {
     @RequestMapping("/add")
     @PermessionLimit()
     @ResponseBody
-    public ResultCode addUser(User confUser){
+    public ResultCode addUser(User confUser) {
         ResultCode<User> result = new ResultCode<>();
         try {
             LOGGER.info(">>>>>> params is :{}", JSON.toJSONString(confUser));
             result = userService.addUser(confUser);
-            LOGGER.info(">>>>>> method addUser return value : {}",JSON.toJSONString(result));
+            LOGGER.info(">>>>>> method addUser return value : {}", JSON.toJSONString(result));
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error(e.getMessage());
@@ -107,12 +103,12 @@ public class UserController extends BaseController {
     @RequestMapping("/delete")
     @PermessionLimit()
     @ResponseBody
-    public ResultCode deleteUser(HttpServletRequest request, String username){
+    public ResultCode deleteUser(HttpServletRequest request, String username) {
         ResultCode<User> result = new ResultCode<>();
         try {
             LOGGER.info(">>>>>> params is :{}", username);
             result = userService.deleteUser(username);
-            LOGGER.info(">>>>>> method addUser return value : {}",JSON.toJSONString(result));
+            LOGGER.info(">>>>>> method addUser return value : {}", JSON.toJSONString(result));
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error(e.getMessage());
@@ -130,12 +126,12 @@ public class UserController extends BaseController {
     @RequestMapping("/update")
     @PermessionLimit()
     @ResponseBody
-    public ResultCode update(HttpServletRequest request, User confUser){
+    public ResultCode update(HttpServletRequest request, User confUser) {
         ResultCode<User> result = new ResultCode<>();
         try {
             LOGGER.info(">>>>>> params is :{}", JSON.toJSONString(confUser));
             result = userService.updateUser(confUser);
-            LOGGER.info(">>>>>> method addUser return value : {}",JSON.toJSONString(result));
+            LOGGER.info(">>>>>> method addUser return value : {}", JSON.toJSONString(result));
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error(e.getMessage());
@@ -149,7 +145,7 @@ public class UserController extends BaseController {
     @ResponseBody
     public LightConfResult updatePermissionProjects(HttpServletRequest request,
                                                     String username,
-                                                    @RequestParam(required = false) String[] permissionProjects){
+                                                    @RequestParam(required = false) String[] permissionProjects) {
 
         String permissionProjectsStr = StringUtils.join(permissionProjects, ",");
 //        XxlConfUser existUser = xxlConfUserDao.load(username);

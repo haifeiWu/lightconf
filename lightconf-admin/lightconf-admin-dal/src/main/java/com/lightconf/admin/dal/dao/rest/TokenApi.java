@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 /**
  * @author wujianbo
  */
-@Repository public class TokenApi {
+@Repository
+public class TokenApi {
 
     private static Logger logger = Logger.getLogger(TokenApi.class);
 

@@ -13,11 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 应用管理接口.
@@ -36,8 +32,8 @@ public class AppController extends BaseController {
     @PermessionLimit
     public String index(Model model) {
         List<AppWithBLOBs> appList = appService.getAllApp();
-		model.addAttribute("list", appList);
-        LOGGER.info("method index return value is : {}",JSON.toJSONString(appList));
+        model.addAttribute("list", appList);
+        LOGGER.info("method index return value is : {}", JSON.toJSONString(appList));
         return "app/app.index";
     }
 
@@ -45,14 +41,14 @@ public class AppController extends BaseController {
     @ResponseBody
     public LightConfResult addApp(AppWithBLOBs app) {
         try {
-            LOGGER.info("add application , the params is : {}",JSON.toJSONString(app));
+            LOGGER.info("add application , the params is : {}", JSON.toJSONString(app));
             LightConfResult result = appService.addApp(app);
-            LOGGER.info("method addApp return value is : {}",JSON.toJSONString(result));
+            LOGGER.info("method addApp return value is : {}", JSON.toJSONString(result));
             return result;
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error(e.getMessage());
-            return LightConfResult.build(Messages.SERVER_ERROR_CODE,Messages.SERVER_ERROR_MSG);
+            return LightConfResult.build(Messages.SERVER_ERROR_CODE, Messages.SERVER_ERROR_MSG);
         }
     }
 
@@ -60,14 +56,14 @@ public class AppController extends BaseController {
     @ResponseBody
     public LightConfResult updateApp(AppWithBLOBs app) {
         try {
-            LOGGER.info("update application , the params is : {}",JSON.toJSONString(app));
+            LOGGER.info("update application , the params is : {}", JSON.toJSONString(app));
             LightConfResult result = appService.updateAppWithBLOBs(app);
-            LOGGER.info("method updateApp return value is : {}",JSON.toJSONString(result));
+            LOGGER.info("method updateApp return value is : {}", JSON.toJSONString(result));
             return result;
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error(e.getMessage());
-            return LightConfResult.build(Messages.SERVER_ERROR_CODE,Messages.SERVER_ERROR_MSG);
+            return LightConfResult.build(Messages.SERVER_ERROR_CODE, Messages.SERVER_ERROR_MSG);
         }
     }
 
@@ -75,21 +71,21 @@ public class AppController extends BaseController {
     @ResponseBody
     public LightConfResult deleteApp(String appId) {
         try {
-            LOGGER.info("delete application , the appId is : {}",appId);
+            LOGGER.info("delete application , the appId is : {}", appId);
             LightConfResult result = appService.deleteApp(appId);
-            LOGGER.info("method deleteApp return value is : {}",JSON.toJSONString(result));
+            LOGGER.info("method deleteApp return value is : {}", JSON.toJSONString(result));
             return result;
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error(e.getMessage());
-            return LightConfResult.build(Messages.SERVER_ERROR_CODE,Messages.SERVER_ERROR_MSG);
+            return LightConfResult.build(Messages.SERVER_ERROR_CODE, Messages.SERVER_ERROR_MSG);
         }
     }
 
     @RequestMapping("/get_app_conf")
     @ResponseBody
     public LightConfResult getAppConf(String appId) {
-        LOGGER.info("get app's conf , the appId is : {}",appId);
+        LOGGER.info("get app's conf , the appId is : {}", appId);
         return LightConfResult.ok();
     }
 
@@ -99,13 +95,13 @@ public class AppController extends BaseController {
                                       @RequestParam(required = false, defaultValue = "10") int pageNum) {
         try {
             LOGGER.info("delete application , the appId is : {}");
-            LightConfResult result = appService.getAppList(pageSize,pageNum);
+            LightConfResult result = appService.getAppList(pageSize, pageNum);
             LOGGER.info("getAppList return data : {}", JSON.toJSONString(result));
             return result;
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error(e.getMessage());
-            return LightConfResult.build(Messages.SERVER_ERROR_CODE,Messages.SERVER_ERROR_MSG);
+            return LightConfResult.build(Messages.SERVER_ERROR_CODE, Messages.SERVER_ERROR_MSG);
         }
     }
 }

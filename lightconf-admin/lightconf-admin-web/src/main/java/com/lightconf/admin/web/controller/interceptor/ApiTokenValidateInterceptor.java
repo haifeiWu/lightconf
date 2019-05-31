@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 验证token
+ *
  * @author wujianbo
  */
 public class ApiTokenValidateInterceptor implements HandlerInterceptor {
@@ -24,7 +25,7 @@ public class ApiTokenValidateInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String authorization = request.getHeader("Authorization");
         String authorization1 = request.getParameter("Authorization");
-        if (StringUtils.isBlank(authorization) && StringUtils.isBlank(authorization1)){
+        if (StringUtils.isBlank(authorization) && StringUtils.isBlank(authorization1)) {
             //没有token
 //            ResultCode<String> resultCode = new ResultCode<>();
 //            resultCode.setCode(Messages.API_AUTHENTICATION_FAILED_CODE);

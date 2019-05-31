@@ -5,8 +5,6 @@ import com.lightconf.admin.web.controller.annotation.PermessionLimit;
 import com.lightconf.admin.web.core.util.ReturnT;
 import com.lightconf.admin.web.loginservice.LoginService;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +31,7 @@ public class IndexController extends BaseController {
     }
 
     @RequestMapping("/toLogin")
-    @PermessionLimit(limit=false)
+    @PermessionLimit(limit = false)
     public String toLogin(Model model, HttpServletRequest request) {
         if (loginService.ifLogin(request)) {
             return "redirect:/app";
@@ -41,35 +39,35 @@ public class IndexController extends BaseController {
         return "login";
     }
 
-    @RequestMapping(value="login", method= RequestMethod.POST)
+    @RequestMapping(value = "login", method = RequestMethod.POST)
     @ResponseBody
-    @PermessionLimit(limit=false)
-    public ReturnT<String> loginDo(HttpServletRequest request, HttpServletResponse response, String userName, String password, String ifRemember){
+    @PermessionLimit(limit = false)
+    public ReturnT<String> loginDo(HttpServletRequest request, HttpServletResponse response, String userName, String password, String ifRemember) {
         // valid
         if (loginService.ifLogin(request)) {
             return ReturnT.SUCCESS;
         }
 
         // param
-        if (StringUtils.isBlank(userName) || StringUtils.isBlank(password)){
-            LOGGER.error(">>>>>> login error : {}","账号或密码为空");
+        if (StringUtils.isBlank(userName) || StringUtils.isBlank(password)) {
+            LOGGER.error(">>>>>> login error : {}", "账号或密码为空");
             return new ReturnT<String>(500, "账号或密码为空");
         }
-        boolean ifRem = (StringUtils.isNotBlank(ifRemember) && "on".equals(ifRemember))?true:false;
+        boolean ifRem = (StringUtils.isNotBlank(ifRemember) && "on".equals(ifRemember)) ? true : false;
 
         // do login
         boolean loginRet = loginService.login(response, userName, password, ifRem);
         if (!loginRet) {
-            LOGGER.error(">>>>>> login error : {}","账号或密码错误");
+            LOGGER.error(">>>>>> login error : {}", "账号或密码错误");
             return new ReturnT<String>(500, "账号或密码错误");
         }
         return ReturnT.SUCCESS;
     }
 
-    @RequestMapping(value="logout", method=RequestMethod.POST)
+    @RequestMapping(value = "logout", method = RequestMethod.POST)
     @ResponseBody
-    @PermessionLimit(limit=false)
-    public ReturnT<String> logout(HttpServletRequest request, HttpServletResponse response){
+    @PermessionLimit(limit = false)
+    public ReturnT<String> logout(HttpServletRequest request, HttpServletResponse response) {
         if (loginService.ifLogin(request)) {
             loginService.logout(request, response);
         }

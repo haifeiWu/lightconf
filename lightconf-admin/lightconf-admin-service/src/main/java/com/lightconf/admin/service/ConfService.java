@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public interface ConfService {
 
-    Map<String,Object> pageList(int start, int length, String nodeGroup, String nodeKey);
+    Map<String, Object> pageList(int start, int length, String nodeGroup, String nodeKey);
 
     LightConfResult deleteByKey(String nodeKey);
 
@@ -21,6 +21,7 @@ public interface ConfService {
 
     /**
      * 根据id删除conf信息。
+     *
      * @param confId confId
      * @param appId
      * @return

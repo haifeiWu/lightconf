@@ -2,7 +2,9 @@ package com.lightconf.admin.dal.dao;
 
 import com.lightconf.admin.model.dataobj.Log;
 import com.lightconf.admin.model.dataobj.LogExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface LogMapper {

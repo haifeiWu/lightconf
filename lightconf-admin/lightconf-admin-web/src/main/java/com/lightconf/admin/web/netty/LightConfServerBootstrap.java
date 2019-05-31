@@ -38,14 +38,14 @@ public class LightConfServerBootstrap {
                 .option(ChannelOption.TCP_NODELAY, true)
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
                 .childHandler(new ChannelInitializer<SocketChannel>() {
-            @Override
-            protected void initChannel(SocketChannel socketChannel) throws Exception {
-                ChannelPipeline p = socketChannel.pipeline();
-                p.addLast(new ObjectEncoder());
-                p.addLast(new ObjectDecoder(ClassResolvers.cacheDisabled(null)));
-                p.addLast(new ServerHandler());
-            }
-        });
+                    @Override
+                    protected void initChannel(SocketChannel socketChannel) throws Exception {
+                        ChannelPipeline p = socketChannel.pipeline();
+                        p.addLast(new ObjectEncoder());
+                        p.addLast(new ObjectDecoder(ClassResolvers.cacheDisabled(null)));
+                        p.addLast(new ServerHandler());
+                    }
+                });
 
         ChannelFuture f = bootstrap.bind(port).sync();
         if (f.isSuccess()) {

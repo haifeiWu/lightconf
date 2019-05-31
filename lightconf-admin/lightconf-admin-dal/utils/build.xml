@@ -1,5 +1,5 @@
 <project default="genfiles" basedir=".">
-    <property name="generated.source.dir" value="${basedir}" />
+    <property name="generated.source.dir" value="${basedir}"/>
 
     <path id="ant.run.lib.path">
         <pathelement location="${basedir}/mybatis-generator-core-1.3.6-3-SNAPSHOT.jar"/>
@@ -14,7 +14,7 @@
                 configfile="${basedir}/mybatis-generator.xml"
                 verbose="true">
             <propertyset>
-                <propertyref name="generated.source.dir" />
+                <propertyref name="generated.source.dir"/>
             </propertyset>
         </mbgenerator>
     </target>

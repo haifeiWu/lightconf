@@ -33,15 +33,15 @@ public class LoginService {
     @Autowired
     UserService userService;
 
-    private String makeToken(String username, String password){
-        String tokenTmp = DigestUtils.md5DigestAsHex(String.valueOf(username + "_" + password).getBytes());	// md5
-        tokenTmp = new BigInteger(1, tokenTmp.getBytes()).toString(16);	// md5-hex
+    private String makeToken(String username, String password) {
+        String tokenTmp = DigestUtils.md5DigestAsHex(String.valueOf(username + "_" + password).getBytes());    // md5
+        tokenTmp = new BigInteger(1, tokenTmp.getBytes()).toString(16);    // md5-hex
         return tokenTmp;
     }
 
-    public boolean login(HttpServletResponse response, String usernameParam, String passwordParam, boolean ifRemember){
+    public boolean login(HttpServletResponse response, String usernameParam, String passwordParam, boolean ifRemember) {
 
-        LightConfResult result = userService.userLogin(usernameParam,passwordParam);
+        LightConfResult result = userService.userLogin(usernameParam, passwordParam);
 
 //        lo
         if (result.getCode() == Messages.SUCCESS_CODE) {
@@ -60,7 +60,7 @@ public class LoginService {
 //        }
     }
 
-    public void logout(HttpServletRequest request, HttpServletResponse response){
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
         CookieUtil.remove(request, response, LOGIN_IDENTITY_KEY);
     }
 

@@ -38,7 +38,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         // 连接断开，应该将应用的连接状态重新置为未连接
         final String appUUid = NettyChannelMap.getClientId((SocketChannel) ctx.channel());
-        log.error(">>>>>> channel is in channelInactive,the appUUid is : {}",appUUid);
+        log.error(">>>>>> channel is in channelInactive,the appUUid is : {}", appUUid);
 
         // 耗时操作另起一个线程来做，提交线程池
         ThreadPoolUtils.getInstance().getThreadPool().submit(new Runnable() {
@@ -58,7 +58,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext,
-            BaseMsg baseMsg) throws Exception {
+                                BaseMsg baseMsg) throws Exception {
         if (MsgType.LOGIN.equals(baseMsg.getType())) {
             // 客户端登录
             lightConfClientLogin(channelHandlerContext, baseMsg);
@@ -141,11 +141,12 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
 
     /**
      * 客户端登录.
+     *
      * @param channelHandlerContext
      * @param baseMsg
      */
     private boolean lightConfClientLogin(ChannelHandlerContext channelHandlerContext,
-            BaseMsg baseMsg) {
+                                         BaseMsg baseMsg) {
         /**
          * 实现登录成功的逻辑.
          */
