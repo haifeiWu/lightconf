@@ -24,11 +24,11 @@ public class LoginService {
 
     public static final String LOGIN_IDENTITY_KEY = "XXL_CONF_LOGIN_IDENTITY";
 
-    @Value("${light.conf.login.username}")
-    private String username;    // can not user @Value or XML in mvc inteceptor，because inteceptor work with mvc, init before service
+//    @Value("${light.conf.login.username}")
+    private String username = "admin";    // can not user @Value or XML in mvc inteceptor，because inteceptor work with mvc, init before service
 
-    @Value("${light.conf.login.password}")
-    private String password;
+//    @Value("${light.conf.login.password}")
+    private String password = "admin";
 
     @Autowired
     UserService userService;
@@ -67,6 +67,9 @@ public class LoginService {
     }
 
     public boolean ifLogin(HttpServletRequest request) {
+
+//        String username = request.getParameter("userName");
+//        String password = request.getParameter("password");
 
         String loginTolen = makeToken(username, password);
         String paramToken = CookieUtil.getValue(request, LOGIN_IDENTITY_KEY);
