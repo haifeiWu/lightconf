@@ -3,6 +3,7 @@ package com.lightconf.admin.web.config;
 import com.lightconf.admin.web.controller.interceptor.CookieInterceptor;
 import com.lightconf.admin.web.controller.interceptor.PermissionInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
