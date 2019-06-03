@@ -27,14 +27,14 @@ public class IndexController extends BaseController {
 
     @RequestMapping("/")
     public String index(Model model, HttpServletRequest request) {
-        return "redirect:/toLogin";
+        return "redirect:/app";
     }
 
     @RequestMapping("/toLogin")
     @PermessionLimit(limit = false)
     public String toLogin(Model model, HttpServletRequest request) {
         if (loginService.ifLogin(request)) {
-            return "redirect:/app";
+            return "redirect:/";
         }
         return "login";
     }
