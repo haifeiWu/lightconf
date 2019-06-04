@@ -1,12 +1,11 @@
 package com.lightconf.admin.web.loginservice;
 
 import com.lightconf.admin.service.UserService;
-import com.lightconf.admin.web.core.util.CookieUtil;
+import com.lightconf.admin.web.util.CacheUtils;
+import com.lightconf.admin.web.util.CookieUtil;
 import com.lightconf.common.model.Messages;
 import com.lightconf.common.util.LightConfResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
 
@@ -24,18 +23,14 @@ public class LoginService {
 
     public static final String LOGIN_IDENTITY_KEY = "XXL_CONF_LOGIN_IDENTITY";
 
-//    @Value("${light.conf.login.username}")
-    private String username = "admin";    // can not user @Value or XML in mvc inteceptor，because inteceptor work with mvc, init before service
-
-//    @Value("${light.conf.login.password}")
-    private String password = "admin";
-
     @Autowired
     UserService userService;
 
     private String makeToken(String username, String password) {
-        String tokenTmp = DigestUtils.md5DigestAsHex(String.valueOf(username + "_" + password).getBytes());    // md5
-        tokenTmp = new BigInteger(1, tokenTmp.getBytes()).toString(16);    // md5-hex
+        // md5
+        String tokenTmp = DigestUtils.md5DigestAsHex(String.valueOf(username + "_" + password).getBytes());
+        // md5-hex
+        tokenTmp = new BigInteger(1, tokenTmp.getBytes()).toString(16);
         return tokenTmp;
     }
 
@@ -43,22 +38,14 @@ public class LoginService {
 
         LightConfResult result = userService.userLogin(usernameParam, passwordParam);
 
-//        lo
         if (result.getCode() == Messages.SUCCESS_CODE) {
             // do login
             String paramToken = makeToken(usernameParam, passwordParam);
             CookieUtil.set(response, LOGIN_IDENTITY_KEY, paramToken, ifRemember);
+            // 登录成功，记录用户登录状态
+            CacheUtils.LOGIN_STATUS.put(LOGIN_IDENTITY_KEY,paramToken);
             return true;
         }
-
-//        return false;
-
-//        String loginTolen = makeToken(username, password);
-//
-//        if (!loginTolen.equals(paramToken)){
-//            return false;
-//        }
-
         return false;
     }
 
@@ -67,14 +54,9 @@ public class LoginService {
     }
 
     public boolean ifLogin(HttpServletRequest request) {
-
-//        String username = request.getParameter("userName");
-//        String password = request.getParameter("password");
-
-        String loginTolen = makeToken(username, password);
+        String loginTolen = (String) CacheUtils.LOGIN_STATUS.get(LOGIN_IDENTITY_KEY);
         String paramToken = CookieUtil.getValue(request, LOGIN_IDENTITY_KEY);
-
-        if (paramToken==null || !loginTolen.equals(paramToken.trim())) {
+        if (paramToken == null || !loginTolen.equals(paramToken.trim())) {
             return false;
         }
         return true;

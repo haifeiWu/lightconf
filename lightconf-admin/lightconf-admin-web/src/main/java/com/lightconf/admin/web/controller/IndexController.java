@@ -2,7 +2,8 @@ package com.lightconf.admin.web.controller;
 
 
 import com.lightconf.admin.web.controller.annotation.PermessionLimit;
-import com.lightconf.admin.web.core.util.ReturnT;
+import com.lightconf.admin.web.util.CacheUtils;
+import com.lightconf.admin.web.util.ReturnT;
 import com.lightconf.admin.web.loginservice.LoginService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -51,7 +52,7 @@ public class IndexController extends BaseController {
         // param
         if (StringUtils.isBlank(userName) || StringUtils.isBlank(password)) {
             LOGGER.error(">>>>>> login error : {}", "账号或密码为空");
-            return new ReturnT<String>(500, "账号或密码为空");
+            return new ReturnT<>(500, "账号或密码为空");
         }
         boolean ifRem = (StringUtils.isNotBlank(ifRemember) && "on".equals(ifRemember)) ? true : false;
 
@@ -59,8 +60,9 @@ public class IndexController extends BaseController {
         boolean loginRet = loginService.login(response, userName, password, ifRem);
         if (!loginRet) {
             LOGGER.error(">>>>>> login error : {}", "账号或密码错误");
-            return new ReturnT<String>(500, "账号或密码错误");
+            return new ReturnT<>(500, "账号或密码错误");
         }
+
         return ReturnT.SUCCESS;
     }
 

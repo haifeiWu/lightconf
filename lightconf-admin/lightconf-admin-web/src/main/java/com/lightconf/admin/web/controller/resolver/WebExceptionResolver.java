@@ -1,7 +1,7 @@
 package com.lightconf.admin.web.controller.resolver;
 
-import com.lightconf.admin.web.core.util.JacksonUtil;
-import com.lightconf.admin.web.core.util.ReturnT;
+import com.lightconf.admin.web.util.JacksonUtil;
+import com.lightconf.admin.web.util.ReturnT;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseBody;
