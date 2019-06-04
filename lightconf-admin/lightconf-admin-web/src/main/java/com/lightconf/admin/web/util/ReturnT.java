@@ -1,4 +1,4 @@
-package com.lightconf.admin.web.core.util;
+package com.lightconf.admin.web.util;
 
 /**
  * common return

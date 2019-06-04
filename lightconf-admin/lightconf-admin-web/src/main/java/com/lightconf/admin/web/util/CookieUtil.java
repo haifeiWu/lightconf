@@ -1,4 +1,4 @@
-package com.lightconf.admin.web.core.util;
+package com.lightconf.admin.web.util;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
