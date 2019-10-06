@@ -32,6 +32,13 @@ public class AppController extends BaseController {
     @PermessionLimit
     public String index(Model model) {
         List<AppWithBLOBs> appList = appService.getAllApp();
+        appList.stream().forEach(app -> {
+            if (app.getIsConnected()) {
+                app.setIsConnectedStr("yes");
+            } else {
+                app.setIsConnectedStr("no");
+            }
+        });
         model.addAttribute("list", appList);
         LOGGER.info("method index return value is : {}", JSON.toJSONString(appList));
         return "app/app.index";

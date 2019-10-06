@@ -5,6 +5,7 @@ import com.lightconf.admin.web.util.CacheUtils;
 import com.lightconf.admin.web.util.CookieUtil;
 import com.lightconf.common.model.Messages;
 import com.lightconf.common.util.LightConfResult;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
@@ -56,7 +57,8 @@ public class LoginService {
     public boolean ifLogin(HttpServletRequest request) {
         String loginTolen = (String) CacheUtils.LOGIN_STATUS.get(LOGIN_IDENTITY_KEY);
         String paramToken = CookieUtil.getValue(request, LOGIN_IDENTITY_KEY);
-        if (paramToken == null || !loginTolen.equals(paramToken.trim())) {
+        if (StringUtils.isBlank(loginTolen) || StringUtils.isBlank(paramToken)
+                || !loginTolen.equals(paramToken.trim())) {
             return false;
         }
         return true;

@@ -13,6 +13,8 @@ public class App implements Serializable {
 
     private Boolean isConnected;
 
+    private String isConnectedStr;
+
     private Boolean isChange;
 
     private Boolean isPushConf;
@@ -73,5 +75,13 @@ public class App implements Serializable {
 
     public void setIsPushConf(Boolean isPushConf) {
         this.isPushConf = isPushConf;
+    }
+
+    public String getIsConnectedStr() {
+        return isConnectedStr;
+    }
+
+    public void setIsConnectedStr(String isConnectedStr) {
+        this.isConnectedStr = isConnectedStr;
     }
 }
