@@ -10,7 +10,7 @@
     <link rel="stylesheet"
           href="${request.contextPath}/static/adminlte/plugins/daterangepicker/daterangepicker-bs3.css">
 </head>
-<body class="hold-transition skin-blue sidebar-mini <#if cookieMap?exists && "off" == cookieMap["adminlte_settings"].value >sidebar-collapse</#if> ">
+<body class="hold-transition skin-blue sidebar-mini <#--<#if cookieMap?exists && "off" == cookieMap["adminlte_settings"].value >sidebar-collapse</#if>--> ">
 <div class="wrapper">
     <!-- header -->
     <@netCommon.commonHeader />
@@ -52,10 +52,10 @@
                                             <td>${app.appDesc}</td>
                                             <td>${app.uuid}</td>
                                             <td>
-                                                <#if '${app.isConnected}' == false >
+                                                <#if '${app.isConnectedStr}' == 'no' >
                                                     <span style="color: #FF0000">应用未启动</span>
                                                 </#if>
-                                                <#if '${app.isConnected}' == true >
+                                                <#if '${app.isConnectedStr}' == 'yes' >
                                                     <span style="color: #00e765">应用启动</span>
                                                 </#if>
                                             </td>
