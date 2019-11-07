@@ -1,4 +1,4 @@
-package com.lightconf.sample.web.core.constant;
+package com.lightconf.boot.web.constant;
 
 import org.springframework.beans.factory.annotation.Value;
 

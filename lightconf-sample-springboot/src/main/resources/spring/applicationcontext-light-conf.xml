@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+	<!-- ********************************* 核心配置[必须]：LIGHTCONF 配置 ********************************* -->
+	<bean id="xxlConf" class="com.lightconf.core.spring.LightConfFactory" init-method="init" destroy-method="destroy" />
+
+	<!--LightConfClientListener bean-->
+	<bean id="lightConfListener" class="com.lightconf.core.listener.LightConfClientListener"></bean>
+
+	<!-- ********************************* 测试示例（可删除） ********************************* -->
+	<!--<bean id="demoConf" class="com.lightconf.admin.web.example.core.constant.DemoConf">-->
+		<!--<property name="paramByXml" value="${default.key01}" />-->
+	<!--</bean>-->
+
+</beans>
