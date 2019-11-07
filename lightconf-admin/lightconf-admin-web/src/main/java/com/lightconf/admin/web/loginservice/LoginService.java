@@ -44,7 +44,7 @@ public class LoginService {
             String paramToken = makeToken(usernameParam, passwordParam);
             CookieUtil.set(response, LOGIN_IDENTITY_KEY, paramToken, ifRemember);
             // 登录成功，记录用户登录状态
-            CacheUtils.LOGIN_STATUS.put(LOGIN_IDENTITY_KEY,paramToken);
+            CacheUtils.LOGIN_STATUS.put(LOGIN_IDENTITY_KEY, paramToken);
             return true;
         }
         return false;

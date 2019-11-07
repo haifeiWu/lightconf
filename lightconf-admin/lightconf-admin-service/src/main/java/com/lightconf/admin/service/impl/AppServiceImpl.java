@@ -43,6 +43,9 @@ public class AppServiceImpl implements AppService {
     @Override
     public LightConfResult addApp(AppWithBLOBs app) {
         app.setUuid(UUID.randomUUID().toString());
+        app.setIsConnected(false);
+        app.setIsChange(false);
+        app.setIsPushConf(false);
         appMapper.insert(app);
         return LightConfResult.ok();
     }

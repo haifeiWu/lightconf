@@ -21,9 +21,8 @@ import java.util.Map;
  * @author xuxueli 2015-9-25 18:02:56
  */
 public class JacksonUtil {
-    private static Logger logger = LoggerFactory.getLogger(JacksonUtil.class);
-
     private final static ObjectMapper objectMapper = new ObjectMapper();
+    private static Logger logger = LoggerFactory.getLogger(JacksonUtil.class);
 
     public static ObjectMapper getInstance() {
         return objectMapper;
