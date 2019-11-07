@@ -45,6 +45,8 @@ public class ConfController extends BaseController {
                     project = item;
                 }
             }
+        } else {
+            appId = project.getUuid();
         }
         model.addAttribute("appId", appId);
         model.addAttribute("ProjectList", list);
