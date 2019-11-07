@@ -1,4 +1,4 @@
-package com.lightconf.sample.web.controller;
+package com.lightconf.boot.web.controller;
 
 import com.lightconf.core.LightConfClient;
 import com.lightconf.core.listener.LightConfListener;

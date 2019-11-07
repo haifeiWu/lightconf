@@ -15,6 +15,7 @@
 		<module>lightconf-common</module>
 		<module>lightconf-admin</module>
 		<module>lightconf-sample</module>
+		<module>lightconf-sample-springboot</module>
 	</modules>
 
 	<parent>
