@@ -15,6 +15,11 @@ public class Environment {
 	public static final String LIGHT_CONF_PROP = "light-conf.properties";
 
 	/**
+	 * default prop
+	 */
+	public static final String LIGHT_CONF = "light-conf-cache.properties";
+
+	/**
 	 * prop file location, if not empty this file will be replaced with this disk file, like "file:/data/webapps/xxl-conf.properties" or "xxl-conf02.properties"
 	 */
 	public static final String LIGHT_PROP_FILE_LOCATION = "light.conf.prop.file.location";
