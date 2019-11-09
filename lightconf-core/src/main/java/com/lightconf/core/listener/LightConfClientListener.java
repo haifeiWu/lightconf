@@ -34,6 +34,8 @@ public class LightConfClientListener implements ApplicationListener<ContextRefre
                 ClientBootstrap clientBootstrap = new ClientBootstrap(host,port,appId);
                 ThreadPoolUtils.getInstance().getThreadPool().submit(new InitClientThread(clientBootstrap));
                 LOGGER.info(">>>>>>>>>> lightconf client start at host : {} ,port ： {}",host,port);
+
+                // TODO 启动定时器，定时将缓存中的数据持久化到本地文件
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 LOGGER.error(e.getMessage());
