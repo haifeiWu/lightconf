@@ -2,12 +2,18 @@ package com.lightconf.core.listener;
 
 import com.lightconf.common.util.ThreadPoolUtils;
 import com.lightconf.core.core.LightConfPropConf;
+import com.lightconf.core.core.SyncCacheToFile;
 import com.lightconf.core.env.Environment;
 import com.lightconf.core.netty.ClientBootstrap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 初始化监听器.
@@ -36,6 +42,8 @@ public class LightConfClientListener implements ApplicationListener<ContextRefre
                 LOGGER.info(">>>>>>>>>> lightconf client start at host : {} ,port ： {}",host,port);
 
                 // TODO 启动定时器，定时将缓存中的数据持久化到本地文件
+                ScheduledExecutorService timer = Executors.newSingleThreadScheduledExecutor();
+                timer.scheduleAtFixedRate(new SyncCacheToFile(),0,5, TimeUnit.SECONDS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 LOGGER.error(e.getMessage());

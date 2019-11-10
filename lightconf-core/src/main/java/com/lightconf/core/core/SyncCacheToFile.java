@@ -9,6 +9,7 @@ public class SyncCacheToFile implements Runnable {
 
     @Override
     public void run() {
-
+        // TODO getDataFromCache()
+        // TODO writeDataToFile()
     }
 }
