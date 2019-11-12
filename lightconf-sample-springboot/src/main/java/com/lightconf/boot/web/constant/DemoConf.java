@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 /**
  *  测试示例（可删除）
  *
- *  @author xuxueli
+ *  @author wuhaifei
  */
 public class DemoConf {
 
