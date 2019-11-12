@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * @author xuxueli 2018-02-04 01:27:30
+ * @author wuhaifei 2018-02-04 01:27:30
  */
 @Controller
 public class IndexController {
