@@ -1,6 +1,7 @@
 package com.lightconf.admin.web.filter;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -10,6 +11,7 @@ import java.io.IOException;
  * @author wuhaifei
  * @date 2018/04/20
  */
+@WebFilter
 public class CrossDomainRequestFilter implements Filter {
 
     @Override
