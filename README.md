@@ -1,6 +1,6 @@
 ## 《多应用配置管理平台LIGHTCONF》
 
-[![Build Status](https://travis-ci.org/haifeiWu/lightconf.svg?branch=master)](https://travis-ci.org/haifeiWu/lightconf)
+[![CI](https://github.com/haifeiWu/lightconf/actions/workflows/ci.yml/badge.svg)](https://github.com/haifeiWu/lightconf/actions/workflows/ci.yml)
 [![GitHub release](https://img.shields.io/github/release/haifeiWu/lightconf.svg)](https://github.com/haifeiWu/lightconf/releases)
 [![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0.html)
 
@@ -35,12 +35,6 @@ LIGHTCONF 是一个基于Netty实现的一个配置管理平台，其核心设�
 - 3、不需要 (重启线上服务器) : 配置更新后, 实时推送新配置信息至项目中, 实时生效, 不需要重启线上机器; 
 - 4、配置生效 "非常及时" : 点击更新按钮, 新的配置信息将会即可推送到项目中, 瞬间生效, 非常及时。比如一些开关类型的配置, 配置变更后, 将会立刻推送至项目中并生效, 相对常规配置修改繁琐的流程, 及时性可谓天壤之别; 
 
-#### 项目在线预览地址
-配置中心预览 | 接入LIGHTCONF的Demo项目预览
---- | ---
-http://www.whforever.cn/lightconf-admin-web/ | http://www.whforever.cn/lightconf-sample/
-
-
 #### 源码仓库地址
 
 源码仓库地址 | Release Download
@@ -48,10 +42,11 @@ http://www.whforever.cn/lightconf-admin-web/ | http://www.whforever.cn/lightconf
 [https://github.com/haifeiWu/lightconf](https://github.com/haifeiWu/lightconf) | [Download](https://github.com/haifeiWu/lightconf/releases)  
  
 ### 1.5 环境
-- Maven3+
-- Jdk8+（推荐 11/17）
-- Tomcat7+
-- Mysql5.5+
+- Maven 3+
+- JDK 8+（推荐 11/17）
+- Spring Boot 2.7（内嵌 Tomcat，无需独立部署）
+- MySQL 5.5+（推荐 8.0）
+- Redis 7（可选，多实例水平扩展时用于会话存储）
 
 ## 二、快速入门
 
@@ -178,12 +173,10 @@ mvn spring-boot:run    # admin: 8080 / netty: 9998
 - UUID：每个应用拥有唯一的UUID，作为应用标示。
 - 应用名称：该应用的名称；
 
-![light-conf-app](http://img.hchstudio.cn/light-conf-app.png "light-conf-app")
 
 ### 3.2 配置管理
 进入"配置管理" 界面, 选择应用，然后可查看和操作该应用下配置数据，同时也可以通过应用管理页面的"应用配置信息"的button来进入该应用的配置信息页面，如下图所示。
 
-![light-conf-conf](http://img.hchstudio.cn/light-conf-conf.png "light-conf-conf")
 
 新增配置：点击 "新增配置" 按钮可添加配置数据，配置属性说明如下：
 
