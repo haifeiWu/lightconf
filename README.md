@@ -60,6 +60,31 @@ http://www.whforever.cn/lightconf-admin-web/ | http://www.whforever.cn/lightconf
  
     lightconf/doc/db/light-conf-0.1.1V.sql
 
+#### 本地开发环境（MySQL / Redis）
+
+数据库服务使用本机公共开发环境（位于 `~/work/dev-env`，Docker Compose 提供 MySQL 8.0 + Redis 7）：
+
+```bash
+cd ~/work/dev-env && ./start.sh      # 启动 MySQL(3306) + Redis(6379)
+```
+
+初始化 lightconf 数据库：
+
+```bash
+docker exec -i dev-mysql mysql -uroot -proot123456 \
+  < lightconf/doc/db/light-conf-0.1.1V.sql
+```
+
+启动 admin（数据库密码通过环境变量注入）：
+
+```bash
+cd lightconf-admin/lightconf-admin-web
+export DB_PASSWORD=root123456
+mvn spring-boot:run    # admin: 8080 / netty: 9998
+```
+
+存量库升级（v0.1.x → v0.2.0，app 维度）：`lightconf/doc/db/upgrade-v0.2.0-app-dimension.sql`
+
 ### 2.2 编译源码
 解压源码,按照maven格式将源码导入IDE, 使用maven进行编译即可
 
