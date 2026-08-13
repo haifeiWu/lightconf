@@ -8,8 +8,6 @@ import com.lightconf.core.env.Environment;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleStateEvent;
-import io.netty.util.ReferenceCountUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -124,8 +122,9 @@ public class ClientHandler extends SimpleChannelInboundHandler<BaseMsg> {
             case LOGIN: {
                 //向服务器发起登录
                 LoginMsg loginMsg = new LoginMsg();
-                loginMsg.setPassword("abcd");
-                loginMsg.setUserName("wuhf");
+                loginMsg.setClientId(LightConfPropConf.get(Environment.APPLICATION_UUID));
+                loginMsg.setUserName(loginMsg.getClientId());
+                loginMsg.setSecret(LightConfPropConf.get(Environment.LIGHT_CONF_SECRET));
                 channelHandlerContext.writeAndFlush(loginMsg);
             }
             break;
@@ -147,16 +146,13 @@ public class ClientHandler extends SimpleChannelInboundHandler<BaseMsg> {
             default:
                 break;
         }
-        ReferenceCountUtil.release(msgType);
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         super.exceptionCaught(ctx, cause);
-        logger.error("in client exceptionCaught.");
-        super.exceptionCaught(ctx, cause);
-        /**
-         * 出现异常时，可以发送或者记录相关日志信息，之后，直接断开该链接，并重新登录请求，建立通道.
-         */
+        logger.error("in client exceptionCaught.", cause);
+        // 出现异常时记录日志后关闭连接，由 ClientBootstrap 的重连机制重新建立通道
+        ctx.close();
     }
 }

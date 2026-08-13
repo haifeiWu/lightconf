@@ -53,8 +53,9 @@
         </dependency>
 
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>
@@ -80,7 +81,6 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
         </dependency>
 
         <!--log start-->
@@ -97,7 +97,6 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -141,6 +140,12 @@
             <groupId>com.lightconf</groupId>
             <artifactId>lightconf-common</artifactId>
             <version>${project.parent.version}</version>
+        </dependency>
+
+        <!-- password encoding (bcrypt) -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
         </dependency>
 
     </dependencies>

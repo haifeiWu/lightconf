@@ -52,10 +52,10 @@ public class IndexController {
 		System.err.println(">>>>>>注解 " + key01);
 
 		/**
-		 * 方式2: “@XxlConf”注解方式
+		 * 方式2: “@LightConf”注解方式
 		 *
-		 * 		- 参考 "IndexController.paramByAnno" 属性配置；示例代码 "@XxlConf("default.key02") public String paramByAnno;"；
-		 * 		- 用法：对象Field上加注解 ""@XxlConf("default.key02")"，支持设置默认值，支持设置是否开启动态刷新；
+		 * 		- 参考 "IndexController.paramByAnno" 属性配置；示例代码 "@LightConf("default.key02") public String paramByAnno;"；
+		 * 		- 用法：对象Field上加注解 ""@LightConf("default.key02")"，支持设置默认值，支持设置是否开启动态刷新；
 		 * 		- 优点：
 		 * 			- 配置从配置中心自动加载；
 		 * 			- 存在LocalCache，不用担心性能问题；
@@ -67,8 +67,8 @@ public class IndexController {
         /**
          * 方式3: API方式
          *
-		 * 		- 参考 "IndexController" 中 "XxlConfClient.get("key", null)" 即可；
-		 * 		- 用法：代码中直接调用API即可，示例代码 ""XxlConfClient.get("key", null)"";
+		 * 		- 参考 "IndexController" 中 "LightConfClient.get("key", null)" 即可；
+		 * 		- 用法：代码中直接调用API即可，示例代码 ""LightConfClient.get("key", null)"";
 		 * 		- 优点：
 		 * 			- 配置从配置中心自动加载；
 		 * 			- 支持动态推送更新；

@@ -49,7 +49,7 @@ http://www.whforever.cn/lightconf-admin-web/ | http://www.whforever.cn/lightconf
  
 ### 1.5 环境
 - Maven3+
-- Jdk1.7+
+- Jdk8+（推荐 11/17）
 - Tomcat7+
 - Mysql5.5+
 
@@ -75,29 +75,18 @@ http://www.whforever.cn/lightconf-admin-web/ | http://www.whforever.cn/lightconf
     
 配置文件位置：
 
+    lightconf/lightconf-admin/lightconf-admin-web/src/main/resources/application.properties
     lightconf/lightconf-admin/lightconf-admin-web/src/main/resources/light-conf.properties
-    
-配置项目说明：
-    
-    # 配置登录lightconf的用户名，密码
-    light.conf.login.username=admin
-    light.conf.login.password=123456
-    
-    # mysql database setting
-    jdbc.type=mysql
-    jdbc.driver=com.mysql.jdbc.Driver
-    
-    jdbc.url=jdbc:mysql://localhost:3306/light-conf?useUnicode=true&characterEncoding=utf-8
-    jdbc.username=root
-    jdbc.password=root_pwd
-    
-    # pool settings
-    jdbc.pool.init=2
-    jdbc.pool.minIdle=3
-    jdbc.pool.maxActive=20
-    
-    # jdbc.testSql=SELECT 'x'
-    jdbc.testSql=SELECT 'x' FROM DUAL
+
+配置项目说明（凭据通过环境变量注入，禁止将真实凭据提交到仓库）：
+
+    # mysql database setting（通过环境变量注入）
+    spring.datasource.url=jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/light-conf?useUnicode=true&characterEncoding=utf-8
+    spring.datasource.username=${DB_USERNAME:root}
+    spring.datasource.password=${DB_PASSWORD:}
+
+    # 应用共享密钥，客户端握手鉴权使用（生产环境通过环境变量 LIGHTCONF_SECRET 覆盖）
+    light.conf.secret=${LIGHTCONF_SECRET:lightconf}
     
     # 服务端启动监听端口
     netty.server.port=9998
@@ -130,6 +119,9 @@ http://www.whforever.cn/lightconf-admin-web/ | http://www.whforever.cn/lightconf
     
     ## 接入应用的uuid
     application.uuid=8705d6c8-bbe0-420c-9853-f780de4cb5ea
+    
+    ## 应用密钥，需与服务端 light.conf.secret 一致（否则连接被拒绝）
+    light.conf.secret=lightconf
  
 #### C、LIGHTCONF 配置初始化[必须]
     可参考配置文件：

@@ -5,7 +5,7 @@ import com.lightconf.admin.model.dataobj.AppWithBLOBs;
 import com.lightconf.admin.model.dataobj.Conf;
 import com.lightconf.admin.service.AppService;
 import com.lightconf.admin.service.ConfService;
-import com.lightconf.admin.web.controller.annotation.PermessionLimit;
+import com.lightconf.admin.web.controller.annotation.PermissionLimit;
 import com.lightconf.common.model.Messages;
 import com.lightconf.common.util.LightConfResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class ConfController extends BaseController {
     private ConfService confService;
 
     @RequestMapping("")
-    @PermessionLimit
+    @PermissionLimit
     public String index(Model model, String appId) {
         LOGGER.info("get app's conf , the appId is : {}", appId);
         List<AppWithBLOBs> list = appService.getAllApp();
@@ -56,7 +56,7 @@ public class ConfController extends BaseController {
 
     @RequestMapping("/pageList")
     @ResponseBody
-    @PermessionLimit
+    @PermissionLimit
     public Map<String, Object> pageList(
             @RequestParam(required = false, defaultValue = "0") int start,
             @RequestParam(required = false, defaultValue = "10") int length, String appId, String confKey) {
@@ -67,8 +67,7 @@ public class ConfController extends BaseController {
             LOGGER.info(">>>>>> pageList method return value is : {}", JSON.toJSONString(result));
             return result;
         } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return result;
         }
     }
@@ -80,7 +79,7 @@ public class ConfController extends BaseController {
      */
     @RequestMapping("/delete")
     @ResponseBody
-    @PermessionLimit
+    @PermissionLimit
     public LightConfResult delete(String confId, String appId) {
         try {
             LOGGER.info(">>>>>> delete config , the key is : {}", confId);
@@ -88,8 +87,7 @@ public class ConfController extends BaseController {
             LOGGER.info(">>>>>> delete conf method return value is : {}", JSON.toJSONString(result));
             return result;
         } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return LightConfResult.build(Messages.SERVER_ERROR_CODE, Messages.SERVER_ERROR_MSG);
         }
     }
@@ -101,7 +99,7 @@ public class ConfController extends BaseController {
      */
     @RequestMapping("/add")
     @ResponseBody
-    @PermessionLimit
+    @PermissionLimit
     public LightConfResult add(Conf conf, String appId) {
         try {
             LOGGER.info("add conf key is : {} , appId is :{}", conf.getConfKey(), appId);
@@ -109,8 +107,7 @@ public class ConfController extends BaseController {
             LOGGER.info("method add conf return value is :{}", JSON.toJSONString(result));
             return result;
         } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return LightConfResult.build(Messages.SERVER_ERROR_CODE, Messages.SERVER_ERROR_MSG);
         }
     }
@@ -122,7 +119,7 @@ public class ConfController extends BaseController {
      */
     @RequestMapping("/update")
     @ResponseBody
-    @PermessionLimit
+    @PermissionLimit
     public LightConfResult update(Conf conf, String appId) {
         try {
             LOGGER.info("update conf key is : {}", conf.getConfKey());
@@ -130,8 +127,7 @@ public class ConfController extends BaseController {
             LOGGER.info("method update conf return value is :{}", JSON.toJSONString(result));
             return result;
         } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return LightConfResult.build(Messages.SERVER_ERROR_CODE, Messages.SERVER_ERROR_MSG);
         }
     }

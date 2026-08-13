@@ -6,16 +6,16 @@ import com.lightconf.admin.model.dataobj.UserExample;
 import com.lightconf.admin.service.UserService;
 import com.lightconf.common.model.Messages;
 import com.lightconf.common.util.LightConfResult;
-import com.lightconf.common.util.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author wuhf
@@ -25,6 +25,11 @@ import java.util.Map;
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
+
+    /**
+     * BCrypt 编码器（线程安全，可静态共享）。
+     */
+    private static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     @Autowired
     UserMapper userMapper;
@@ -37,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
         if (userList != null && userList.size() > 0) {
             User user = userList.get(0);
-            if (user.getPassword().equals(password)) {
+            if (StringUtils.isNotBlank(user.getPassword()) && passwordMatches(password, user.getPassword())) {
                 return LightConfResult.build(Messages.SUCCESS_CODE, Messages.SUCCESS_MSG, userList.get(0));
             }
         }
@@ -45,78 +50,63 @@ public class UserServiceImpl implements UserService {
         return LightConfResult.build(Messages.USER_LOGIN_ERROR_CODE, Messages.USER_LOGIN_ERROR_MSG);
     }
 
-    @Override
-    public Map<String, Object> getUserList(int start, int length, String username, int permission) {
-        return null;
+    /**
+     * 密码校验：新密码为 BCrypt；兼容存量 MD5 密码。
+     */
+    private boolean passwordMatches(String rawPassword, String storedPassword) {
+        if (storedPassword.startsWith("$2")) {
+            return PASSWORD_ENCODER.matches(rawPassword, storedPassword);
+        }
+        // 存量数据兼容：MD5
+        return DigestUtils.md5DigestAsHex(rawPassword.getBytes()).equalsIgnoreCase(storedPassword);
     }
 
     @Override
-    public ResultCode<User> addUser(User confUser) {
-
-        ResultCode<User> resultCode = new ResultCode();
+    public LightConfResult addUser(User confUser) {
 
         // valid
         if (StringUtils.isBlank(confUser.getUserName()) || StringUtils.isBlank(confUser.getPassword())) {
-            resultCode.setCode(Messages.INPUT_ERROR_CODE);
-            resultCode.setMsg(Messages.INPUT_ERROR_MSG);
-            return resultCode;
+            return LightConfResult.build(Messages.INPUT_ERROR_CODE, Messages.INPUT_ERROR_MSG);
         }
         if (!(confUser.getPassword().length() >= 4 && confUser.getPassword().length() <= 100)) {
-            resultCode.setCode(Messages.INPUT_ERROR_CODE);
-            resultCode.setMsg(Messages.INPUT_ERROR_MSG);
-            return resultCode;
+            return LightConfResult.build(Messages.INPUT_ERROR_CODE, Messages.INPUT_ERROR_MSG);
         }
 
-        // passowrd md5
-        String md5Password = DigestUtils.md5DigestAsHex(confUser.getPassword().getBytes());
-        confUser.setPassword(md5Password);
+        // password bcrypt
+        confUser.setPassword(PASSWORD_ENCODER.encode(confUser.getPassword()));
         userMapper.insert(confUser);
-        resultCode.setData(confUser);
-        return resultCode;
+        return LightConfResult.ok(confUser);
     }
 
     @Override
-    public ResultCode<User> deleteUser(String username) {
-        ResultCode<User> resultCode = new ResultCode();
+    public LightConfResult deleteUser(String username) {
         if (StringUtils.isBlank(username)) {
-            resultCode.setCode(Messages.INPUT_ERROR_CODE);
-            resultCode.setMsg(Messages.INPUT_ERROR_MSG);
-            return resultCode;
+            return LightConfResult.build(Messages.INPUT_ERROR_CODE, Messages.INPUT_ERROR_MSG);
         }
 
         UserExample userExample = new UserExample();
         userExample.createCriteria().andUserNameEqualTo(username);
         userMapper.deleteByExample(userExample);
-        return resultCode;
+        return LightConfResult.ok();
     }
 
     @Override
-    public ResultCode<User> updateUser(User confUser) {
-
-
-        ResultCode<User> resultCode = new ResultCode();
+    public LightConfResult updateUser(User confUser) {
 
         // valid
         if (StringUtils.isBlank(confUser.getUserName()) || StringUtils.isBlank(confUser.getPassword())) {
-            resultCode.setCode(Messages.INPUT_ERROR_CODE);
-            resultCode.setMsg(Messages.INPUT_ERROR_MSG);
-            return resultCode;
+            return LightConfResult.build(Messages.INPUT_ERROR_CODE, Messages.INPUT_ERROR_MSG);
         }
 
         if (!(confUser.getPassword().length() >= 4 && confUser.getPassword().length() <= 100)) {
-            resultCode.setCode(Messages.INPUT_ERROR_CODE);
-            resultCode.setMsg(Messages.INPUT_ERROR_MSG);
-            return resultCode;
+            return LightConfResult.build(Messages.INPUT_ERROR_CODE, Messages.INPUT_ERROR_MSG);
         }
 
         // update password
-        // passowrd md5
         if (StringUtils.isNotBlank(confUser.getPassword())) {
-            String md5Password = DigestUtils.md5DigestAsHex(confUser.getPassword().getBytes());
-            confUser.setPassword(md5Password);
+            confUser.setPassword(PASSWORD_ENCODER.encode(confUser.getPassword()));
         }
         userMapper.updateByPrimaryKey(confUser);
-        resultCode.setData(confUser);
-        return resultCode;
+        return LightConfResult.ok(confUser);
     }
 }

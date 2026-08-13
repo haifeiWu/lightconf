@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern="lightconf-sample %d{yyyy-MM-dd HH:mm:ss} [%c]-[%t]-[%M]-[%L]-[%p] %m%n"/>
+        </Console>
+        <RollingFile name="FILE"
+                     fileName="/data/applogs/light-conf/light-conf-sample.log"
+                     filePattern="/data/applogs/light-conf/light-conf-sample-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="lightconf-sample %d{yyyy-MM-dd HH:mm:ss} [%c]-[%t]-[%M]-[%L]-[%p] %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="CONSOLE"/>
+            <AppenderRef ref="FILE"/>
+        </Root>
+    </Loggers>
+</Configuration>

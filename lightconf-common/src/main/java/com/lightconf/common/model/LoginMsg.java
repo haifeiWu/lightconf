@@ -11,6 +11,12 @@ import com.alibaba.fastjson.annotation.JSONType;
 public class LoginMsg extends BaseMsg {
     private String userName;
     private String password;
+
+    /**
+     * 应用密钥，用于客户端身份鉴权。
+     */
+    private String secret;
+
     public LoginMsg() {
         super();
         setType(MsgType.LOGIN);
@@ -30,5 +36,13 @@ public class LoginMsg extends BaseMsg {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
     }
 }

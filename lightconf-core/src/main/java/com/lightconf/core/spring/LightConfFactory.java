@@ -52,7 +52,7 @@ public class LightConfFactory extends PropertySourcesPlaceholderConfigurer {
 
 	private static String xmlKeyParse(String originKey){
 		if (xmlKeyValid(originKey)) {
-			// replace by xxl-conf
+			// replace by light-conf
 			String key = originKey.substring(placeholderPrefix.length(), originKey.length() - placeholderSuffix.length());
 			return key;
 		}
@@ -77,8 +77,9 @@ public class LightConfFactory extends PropertySourcesPlaceholderConfigurer {
 
 			// refresh field: set or field
 			if (propertyDescriptor!=null && propertyDescriptor.getWriteMethod() != null) {
-				beanWrapper.setPropertyValue(beanField.getProperty(), value);
-				logger.info(">>>>>>>>>>> xxl-conf, refreshBeanField[set] success, {}#{}:{}",
+				Object converted = convertValue(value, propertyDescriptor.getPropertyType());
+				beanWrapper.setPropertyValue(beanField.getProperty(), converted);
+				logger.info(">>>>>>>>>>> light-conf, refreshBeanField[set] success, {}#{}:{}",
 						beanField.getBeanName(), beanField.getProperty(), value);
 			} else {
 				Field[] beanFields = bean.getClass().getDeclaredFields();
@@ -87,8 +88,9 @@ public class LightConfFactory extends PropertySourcesPlaceholderConfigurer {
 						if (beanField.getProperty().equals(fieldItem.getName())) {
 							fieldItem.setAccessible(true);
 							try {
-								fieldItem.set(bean, value);
-								logger.info(">>>>>>>>>>> xxl-conf, refreshBeanField[field] success, {}#{}:{}",
+								Object converted = convertValue(value, fieldItem.getType());
+								fieldItem.set(bean, converted);
+								logger.info(">>>>>>>>>>> light-conf, refreshBeanField[field] success, {}#{}:{}",
 										beanField.getBeanName(), beanField.getProperty(), value);
 							} catch (IllegalAccessException e) {
 								throw new LightConfException(e);
@@ -98,6 +100,37 @@ public class LightConfFactory extends PropertySourcesPlaceholderConfigurer {
 				}
 			}
 		}
+	}
+
+	/**
+	 * 将配置字符串值转换为目标字段类型，避免 String 直接注入基本类型字段时抛 IllegalArgumentException。
+	 */
+	private static Object convertValue(String value, Class<?> targetType) {
+		if (value == null || targetType == null || String.class.equals(targetType)) {
+			return value;
+		}
+		if (targetType == int.class || targetType == Integer.class) {
+			return Integer.valueOf(value);
+		}
+		if (targetType == long.class || targetType == Long.class) {
+			return Long.valueOf(value);
+		}
+		if (targetType == boolean.class || targetType == Boolean.class) {
+			return Boolean.valueOf(value);
+		}
+		if (targetType == double.class || targetType == Double.class) {
+			return Double.valueOf(value);
+		}
+		if (targetType == float.class || targetType == Float.class) {
+			return Float.valueOf(value);
+		}
+		if (targetType == short.class || targetType == Short.class) {
+			return Short.valueOf(value);
+		}
+		if (targetType == byte.class || targetType == Byte.class) {
+			return Byte.valueOf(value);
+		}
+		return value;
 	}
 
 	@Override
@@ -134,7 +167,7 @@ public class LightConfFactory extends PropertySourcesPlaceholderConfigurer {
 						}
 					}
 
-					// 2、Annotation('@XxlConf')：resolves conf + watch
+					// 2、Annotation('@LightConf')：resolves conf + watch
 					if (beanDefinition.getBeanClassName() == null) {
 						continue;
 					}
@@ -142,7 +175,7 @@ public class LightConfFactory extends PropertySourcesPlaceholderConfigurer {
 					try {
 						beanClazz = Class.forName(beanDefinition.getBeanClassName());
 					} catch (ClassNotFoundException e) {
-						logger.error(">>>>>>>>>>> xxl-conf, annotation bean class invalid, error msg:{}", e.getMessage());
+						logger.error(">>>>>>>>>>> light-conf, annotation bean class invalid, error msg:{}", e.getMessage());
 					}
 					if (beanClazz == null) {
 						continue;

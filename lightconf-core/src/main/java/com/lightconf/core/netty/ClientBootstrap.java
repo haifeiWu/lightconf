@@ -27,6 +27,7 @@ public class ClientBootstrap {
     private SocketChannel socketChannel;
     private Bootstrap bootstrap;
     private NioEventLoopGroup workGroup = new NioEventLoopGroup(4);
+    private int reConnect = 0;
 
     static {
         //使用 connector name 作为客户端唯一标识
@@ -74,12 +75,11 @@ public class ClientBootstrap {
         //连接断开之后,重试连接
         future.addListener(new ChannelFutureListener() {
 
-            int reConnect = 0;
-
             @Override
             public void operationComplete(ChannelFuture futureListener) throws Exception {
 
                 if (futureListener.isSuccess()) {
+                    reConnect = 0;
                     socketChannel = (SocketChannel) futureListener.channel();
 
                     logger.info(">>>>>>>>>> lightconf client connect to server successfully! [host:" + hostConnect + ", port:" + portConnect + ", connector uuid:" + Constants.getClientId() + "]");
@@ -93,6 +93,9 @@ public class ClientBootstrap {
                             doConnect(portConnect,hostConnect,uuid);
                         }
                     }, retryDelay, TimeUnit.SECONDS);
+                } else {
+                    logger.error(">>>>>>>>>> lightconf client give up reconnecting to server after {} attempts [host:{} , port:{}]",
+                            CommonConstants.RECONNECT, hostConnect, portConnect);
                 }
             }
         });
@@ -102,11 +105,11 @@ public class ClientBootstrap {
         try {
             LoginMsg loginMsg = new LoginMsg();
             loginMsg.setClientId(uuid);
-            loginMsg.setUserName("wuhf");
-            loginMsg.setPassword("abcd");
+            loginMsg.setUserName(uuid);
+            loginMsg.setSecret(LightConfPropConf.get(Environment.LIGHT_CONF_SECRET));
             socketChannel.writeAndFlush(loginMsg);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("lightconf client login error", e);
         }
     }
 

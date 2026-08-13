@@ -18,7 +18,27 @@
 		<!--netty-->
 		<dependency>
 			<groupId>io.netty</groupId>
-			<artifactId>netty-all</artifactId>
+			<artifactId>netty-transport</artifactId>
+			<version>${netty.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-codec</artifactId>
+			<version>${netty.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-handler</artifactId>
+			<version>${netty.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-buffer</artifactId>
+			<version>${netty.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-common</artifactId>
 			<version>${netty.version}</version>
 		</dependency>
 
@@ -27,13 +47,6 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 			<version>${fastjson.version}</version>
-		</dependency>
-
-		<!-- zookeeper -->
-		<dependency>
-			<groupId>org.apache.zookeeper</groupId>
-			<artifactId>zookeeper</artifactId>
-			<version>${zookeeper.version}</version>
 		</dependency>
 
 		<!-- encache -->
@@ -54,12 +67,19 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
+			<version>${spring-framework.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.lightconf</groupId>
 			<artifactId>lightconf-common</artifactId>
 			<version>${project.parent.version}</version>
+		</dependency>
+
+		<!-- junit (test) -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
 		</dependency>
 
     </dependencies>

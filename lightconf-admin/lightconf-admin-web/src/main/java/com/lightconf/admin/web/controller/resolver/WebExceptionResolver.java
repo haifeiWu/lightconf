@@ -1,7 +1,7 @@
 package com.lightconf.admin.web.controller.resolver;
 
-import com.lightconf.admin.web.util.JacksonUtil;
-import com.lightconf.admin.web.util.ReturnT;
+import com.alibaba.fastjson.JSON;
+import com.lightconf.common.util.LightConfResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,21 +30,23 @@ public class WebExceptionResolver implements HandlerExceptionResolver {
 
         // if json
         boolean isJson = false;
-        HandlerMethod method = (HandlerMethod) handler;
-        ResponseBody responseBody = method.getMethodAnnotation(ResponseBody.class);
-        if (responseBody != null) {
-            isJson = true;
+        if (handler instanceof HandlerMethod) {
+            HandlerMethod method = (HandlerMethod) handler;
+            ResponseBody responseBody = method.getMethodAnnotation(ResponseBody.class);
+            if (responseBody != null) {
+                isJson = true;
+            }
         }
 
         // error result
-        ReturnT<String> errorResult = new ReturnT<String>(ReturnT.FAIL.getCode(), ex.toString().replaceAll("\n", "<br/>"));
+        LightConfResult errorResult = LightConfResult.build(500, ex.toString().replaceAll("\n", "<br/>"));
 
         // response
         ModelAndView mv = new ModelAndView();
         if (isJson) {
             try {
                 response.setContentType("application/json;charset=utf-8");
-                response.getWriter().print(JacksonUtil.writeValueAsString(errorResult));
+                response.getWriter().print(JSON.toJSONString(errorResult));
             } catch (IOException e) {
                 log.error(e.getMessage(), e);
             }

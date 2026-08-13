@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
  */
 public class DemoConf {
 
-//	@XxlConf("default.key02")
+//	@LightConf("default.key02")
 //	public String paramByAnno;
 //
 //	@Value("key01")

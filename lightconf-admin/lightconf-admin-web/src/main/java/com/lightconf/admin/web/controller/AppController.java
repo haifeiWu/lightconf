@@ -3,7 +3,7 @@ package com.lightconf.admin.web.controller;
 import com.alibaba.fastjson.JSON;
 import com.lightconf.admin.model.dataobj.AppWithBLOBs;
 import com.lightconf.admin.service.AppService;
-import com.lightconf.admin.web.controller.annotation.PermessionLimit;
+import com.lightconf.admin.web.controller.annotation.PermissionLimit;
 import com.lightconf.common.model.Messages;
 import com.lightconf.common.util.LightConfResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class AppController extends BaseController {
     AppService appService;
 
     @RequestMapping("")
-    @PermessionLimit
+    @PermissionLimit
     public String index(Model model) {
         List<AppWithBLOBs> appList = appService.getAllApp();
         appList.stream().forEach(app -> {
@@ -53,8 +53,7 @@ public class AppController extends BaseController {
             LOGGER.info("method addApp return value is : {}", JSON.toJSONString(result));
             return result;
         } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return LightConfResult.build(Messages.SERVER_ERROR_CODE, Messages.SERVER_ERROR_MSG);
         }
     }
@@ -68,8 +67,7 @@ public class AppController extends BaseController {
             LOGGER.info("method updateApp return value is : {}", JSON.toJSONString(result));
             return result;
         } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return LightConfResult.build(Messages.SERVER_ERROR_CODE, Messages.SERVER_ERROR_MSG);
         }
     }
@@ -83,31 +81,7 @@ public class AppController extends BaseController {
             LOGGER.info("method deleteApp return value is : {}", JSON.toJSONString(result));
             return result;
         } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.error(e.getMessage());
-            return LightConfResult.build(Messages.SERVER_ERROR_CODE, Messages.SERVER_ERROR_MSG);
-        }
-    }
-
-    @RequestMapping("/get_app_conf")
-    @ResponseBody
-    public LightConfResult getAppConf(String appId) {
-        LOGGER.info("get app's conf , the appId is : {}", appId);
-        return LightConfResult.ok();
-    }
-
-    @RequestMapping("/get_app_list")
-    @ResponseBody
-    public LightConfResult getAppList(@RequestParam(required = false, defaultValue = "0") int pageSize,
-                                      @RequestParam(required = false, defaultValue = "10") int pageNum) {
-        try {
-            LOGGER.info("delete application , the appId is : {}");
-            LightConfResult result = appService.getAppList(pageSize, pageNum);
-            LOGGER.info("getAppList return data : {}", JSON.toJSONString(result));
-            return result;
-        } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return LightConfResult.build(Messages.SERVER_ERROR_CODE, Messages.SERVER_ERROR_MSG);
         }
     }

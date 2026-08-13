@@ -31,15 +31,6 @@ public interface AppService {
 
     LightConfResult deleteApp(String appId);
 
-    /**
-     * 获取应用列表.
-     *
-     * @param pageSize
-     * @param pageNum
-     * @return
-     */
-    LightConfResult getAppList(int pageSize, int pageNum);
-
     List<AppWithBLOBs> getAllApp();
 
     /**

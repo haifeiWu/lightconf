@@ -20,10 +20,8 @@ public class ClientInitializer  extends ChannelInitializer {
         //IdleStateHandler检测心跳.
         ChannelPipeline p = channel.pipeline();
         p.addLast(new IdleStateHandler(20, 10, 0));
-//        p.addLast(new MessageDecoder());
-//        p.addLast(new MessageEncoder());
-        p.addLast(new ObjectDecoder(ClassResolvers.cacheDisabled(getClass().getClassLoader())));
-        p.addLast(new ObjectEncoder());
+        p.addLast(new MessageDecoder());
+        p.addLast(new MessageEncoder());
         p.addLast(new ClientHandler());
     }
 }

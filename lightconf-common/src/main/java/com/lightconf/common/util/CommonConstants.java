@@ -9,6 +9,10 @@ package com.lightconf.common.util;
 public class CommonConstants {
 
     public static final int HEAD_LENGTH = 4;
+    /**
+     * 单帧消息体最大长度（10MB），防止恶意客户端声明超长帧拖垮服务。
+     */
+    public static final int MAX_FRAME_LENGTH = 10 * 1024 * 1024;
     public static final int RECONNECT = 3;
 
     /**

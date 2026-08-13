@@ -9,7 +9,7 @@ import java.util.List;
  * @author whfstudio@163.com
  * @date 2018/04/08
  */
-@JSONType(typeName = "loginMsg")
+@JSONType(typeName = "pushMsg")
 public class PushMsg extends BaseMsg {
 
     private String key;

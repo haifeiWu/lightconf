@@ -43,16 +43,6 @@ public class ConfServiceImpl implements ConfService {
     AppConfMapper appConfMapper;
 
     @Override
-    public Map<String, Object> pageList(int start, int length, String nodeGroup, String nodeKey) {
-        return null;
-    }
-
-    @Override
-    public LightConfResult deleteByKey(String nodeKey) {
-        return null;
-    }
-
-    @Override
     public LightConfResult add(Conf conf, String appId) {
 
         if (StringUtils.isBlank(appId)) {

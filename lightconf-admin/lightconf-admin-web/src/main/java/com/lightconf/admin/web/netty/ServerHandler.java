@@ -6,18 +6,20 @@ import com.lightconf.admin.model.dataobj.AppWithBLOBs;
 import com.lightconf.admin.model.dataobj.Conf;
 import com.lightconf.admin.service.AppService;
 import com.lightconf.admin.service.ConfService;
-import com.lightconf.admin.service.impl.SpringContextHolder;
 import com.lightconf.common.model.*;
 import com.lightconf.common.util.CommonConstants;
 import com.lightconf.common.util.LightConfResult;
 import com.lightconf.common.util.NettyChannelMap;
 import com.lightconf.common.util.ThreadPoolUtils;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.util.ReferenceCountUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +29,22 @@ import java.util.List;
  * @date 2018/02/09
  */
 @Slf4j
+@Component
+@Sharable
 public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
 
+    private final AppService appService;
 
-    private AppService appService = SpringContextHolder.getBean(AppService.class);
+    private final ConfService confService;
 
-    private ConfService confService = SpringContextHolder.getBean(ConfService.class);
+    private final ServerAuthConfig authConfig;
+
+    @Autowired
+    public ServerHandler(AppService appService, ConfService confService, ServerAuthConfig authConfig) {
+        this.appService = appService;
+        this.confService = confService;
+        this.authConfig = authConfig;
+    }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
@@ -44,11 +56,13 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
         ThreadPoolUtils.getInstance().getThreadPool().submit(new Runnable() {
             @Override
             public void run() {
-                App app = appService.getAppByUUID(appUUid);
-                if (null != app) {
-                    app.setIsConnected(false);
-                    appService.updateApp(app);
-                    log.error(">>>>>> update app connection status : {}", JSON.toJSONString(app));
+                if (StringUtils.isNotBlank(appUUid)) {
+                    App app = appService.getAppByUUID(appUUid);
+                    if (null != app) {
+                        app.setIsConnected(false);
+                        appService.updateApp(app);
+                        log.error(">>>>>> update app connection status : {}", JSON.toJSONString(app));
+                    }
                 }
             }
         });
@@ -59,12 +73,12 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext,
                                 BaseMsg baseMsg) throws Exception {
-        if (MsgType.LOGIN.equals(baseMsg.getType())) {
-            // 客户端登录
-            lightConfClientLogin(channelHandlerContext, baseMsg);
-        }
-
         switch (baseMsg.getType()) {
+
+            case LOGIN:
+                // 客户端登录
+                lightConfClientLogin(channelHandlerContext, baseMsg);
+                break;
 
             case PUSH_CONF:
                 log.info("do nothing");
@@ -89,25 +103,29 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
                     @Override
                     public void run() {
                         App app = appService.getAppByUUID(appUUID);
-                        LightConfResult result = null;
                         if (null != app) {
+                            LightConfResult result = null;
                             for (Conf conf : confList) {
                                 result = confService.add(conf, String.valueOf(app.getId()));
                             }
-                        }
-                        if (result.getCode() == Messages.SUCCESS_CODE) {
-                            app.setIsPushConf(true);
-                            appService.updateApp(app);
+                            if (result != null && result.getCode() == Messages.SUCCESS_CODE) {
+                                app.setIsPushConf(true);
+                                appService.updateApp(app);
+                            }
+                        } else {
+                            log.error(">>>>>> upload conf failed, app not found, uuid : {}", appUUID);
                         }
                     }
                 });
-
             }
             break;
             case PING: {
                 PingMsg pingMsg = (PingMsg) baseMsg;
                 PingMsg replyPing = new PingMsg();
-                NettyChannelMap.get(pingMsg.getClientId()).writeAndFlush(replyPing);
+                Channel channel = NettyChannelMap.get(pingMsg.getClientId());
+                if (channel != null) {
+                    channel.writeAndFlush(replyPing);
+                }
             }
             break;
             case ASK: {
@@ -128,15 +146,13 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
                 log.info("receive util msg: " + clientBody.getClientInfo());
             }
             break;
-            case LOGIN:
-                break;
             default: {
+                log.warn(">>>>>> unknown msg type : {}", baseMsg.getType());
                 NettyChannelMap.remove((SocketChannel) channelHandlerContext.channel());
                 channelHandlerContext.disconnect();
             }
             break;
         }
-        ReferenceCountUtil.release(baseMsg);
     }
 
     /**
@@ -147,14 +163,22 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
      */
     private boolean lightConfClientLogin(ChannelHandlerContext channelHandlerContext,
                                          BaseMsg baseMsg) {
-        /**
-         * 实现登录成功的逻辑.
-         */
         LoginMsg loginMsg = (LoginMsg) baseMsg;
         String appUUid = loginMsg.getClientId();
         if (StringUtils.isBlank(appUUid)) {
-            ReferenceCountUtil.release("应用的uuid配置有误，请检查配置！");
+            log.error(">>>>>> 应用的uuid配置有误，请检查配置！");
+            channelHandlerContext.close();
+            return false;
         }
+
+        // 鉴权：校验应用共享密钥（服务端配置为空时跳过校验，保持向后兼容）
+        String secret = authConfig.getSecret();
+        if (StringUtils.isNotBlank(secret) && !StringUtils.equals(loginMsg.getSecret(), secret)) {
+            log.error(">>>>>> 应用 {} 鉴权失败，secret 不匹配，拒绝连接", appUUid);
+            channelHandlerContext.close();
+            return false;
+        }
+
         AppWithBLOBs app = appService.getAppByUUID(appUUid);
         if (null != app) {
             app.setIsConnected(true);
@@ -162,7 +186,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
             // 登录成功,把channel存到服务端的map中.
             SocketChannel socketChannel = (SocketChannel) channelHandlerContext.channel();
             NettyChannelMap.add(loginMsg.getClientId(), socketChannel);
-            log.info("client" + loginMsg.getClientId() + " 登录成功");
+            log.info("client {} 登录成功", loginMsg.getClientId());
 
             if (app.getIsPushConf()) {
                 // 配置信息已经上报
@@ -196,24 +220,17 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
             }
             return true;
         } else {
-            if (NettyChannelMap.get(baseMsg.getClientId()) == null) {
-                // 说明未登录，或者连接断了，服务器向客户端发起登录请求，让客户端重新登录.
-                ReferenceCountUtil.release("应用的uuid配置有误，请检查配置！");
-                log.error(">>>>>>应用的uuid配置有误，请检查配置！");
-                return false;
-            }
+            log.error(">>>>>> 应用 {} 不存在，拒绝连接", appUUid);
+            channelHandlerContext.close();
+            return false;
         }
-        return false;
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
             throws Exception {
-        super.exceptionCaught(ctx, cause);
+        log.error(">>>>>> channel is exception over. channel={}", ctx.channel(), cause);
         NettyChannelMap.remove((SocketChannel) ctx.channel());
-
-        //终止线程池
-        ThreadPoolUtils.getInstance().getThreadPool().shutdown();
-        log.error(">>>>>> channel is exception over. (SocketChannel)ctx.channel()=" + ctx.channel());
+        ctx.close();
     }
 }

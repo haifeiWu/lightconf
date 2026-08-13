@@ -14,24 +14,23 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>${spring.version}</version>
+			<version>${spring-framework.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
-			<version>${spring.version}</version>
+			<version>${spring-framework.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
+			<version>${spring-framework.version}</version>
 		</dependency>
 		<!-- springframe end -->
 		<!-- jackson (support spring json) -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>${jackson.version}</version>
 		</dependency>
 
 		<!-- servlet -->
@@ -52,11 +51,16 @@
 			<version>${freemarker.version}</version>
 		</dependency>
 
-		<!-- slf4j -->
+		<!-- slf4j + log4j2 -->
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>${slf4j-api.version}</version>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<version>${log4j2.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

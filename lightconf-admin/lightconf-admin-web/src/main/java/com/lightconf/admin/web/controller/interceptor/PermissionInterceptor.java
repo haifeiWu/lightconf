@@ -1,6 +1,6 @@
 package com.lightconf.admin.web.controller.interceptor;
 
-import com.lightconf.admin.web.controller.annotation.PermessionLimit;
+import com.lightconf.admin.web.controller.annotation.PermissionLimit;
 import com.lightconf.admin.web.loginservice.LoginService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -30,7 +30,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 
         if (!loginService.ifLogin(request)) {
             HandlerMethod method = (HandlerMethod) handler;
-            PermessionLimit permission = method.getMethodAnnotation(PermessionLimit.class);
+            PermissionLimit permission = method.getMethodAnnotation(PermissionLimit.class);
             if (permission == null || permission.limit()) {
                 response.sendRedirect(request.getContextPath() + "/toLogin");
                 //request.getRequestDispatcher("/toLogin").forward(request, response);

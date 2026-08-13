@@ -69,7 +69,7 @@ public class AppServiceImpl implements AppService {
         // 应用配置信息
 
         List<Conf> confList = confMapper2.getAppConf(id);
-        if (confList.size() > 0 && confList != null) {
+        if (confList != null && confList.size() > 0) {
             for (Conf conf : confList) {
                 confMapper.deleteByPrimaryKey(conf.getId());
             }
@@ -80,11 +80,6 @@ public class AppServiceImpl implements AppService {
         appConfExample.createCriteria().andAppIdEqualTo(appId);
         appConfMapper.deleteByExample(appConfExample);
         return LightConfResult.ok();
-    }
-
-    @Override
-    public LightConfResult getAppList(int pageSize, int pageNum) {
-        return null;
     }
 
     @Override
@@ -137,7 +132,7 @@ public class AppServiceImpl implements AppService {
         AppExample appExample = new AppExample();
         appExample.createCriteria().andUuidEqualTo(appUUid);
         List<AppWithBLOBs> appList = appMapper.selectByExampleWithBLOBs(appExample);
-        if (appList.size() > 0 && null != appList) {
+        if (appList != null && appList.size() > 0) {
             return appList.get(0);
         }
         return null;

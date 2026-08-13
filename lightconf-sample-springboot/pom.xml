@@ -37,21 +37,18 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>${jackson.version}</version>
 		</dependency>
 
 		<!-- freemarker -->
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
-			<version>${freemarker.version}</version>
 		</dependency>
 
-		<!-- slf4j -->
+		<!-- log4j2 -->
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>${slf4j-api.version}</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

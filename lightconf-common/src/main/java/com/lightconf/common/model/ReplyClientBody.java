@@ -1,9 +1,12 @@
 package com.lightconf.common.model;
 
+import com.alibaba.fastjson.annotation.JSONType;
+
 /**
  * @author whfstudio@163.com
  * @date 2017/11/20
  */
+@JSONType(typeName = "replyClientBody")
 public class ReplyClientBody extends ReplyBody {
     private String clientInfo;
 
