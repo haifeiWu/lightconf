@@ -5,6 +5,8 @@ import java.io.Serializable;
 public class Conf implements Serializable {
     private Integer id;
 
+    private Integer appId;
+
     private String confKey;
 
     private String confValue;
@@ -19,6 +21,14 @@ public class Conf implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getAppId() {
+        return appId;
+    }
+
+    public void setAppId(Integer appId) {
+        this.appId = appId;
     }
 
     public String getConfKey() {

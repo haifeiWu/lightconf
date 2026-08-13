@@ -28,6 +28,8 @@ public class LightConfClientListener implements ApplicationListener<ContextRefre
 
     private static volatile ScheduledExecutorService syncTimer;
 
+    private volatile ClientBootstrap clientBootstrap;
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
 
@@ -45,7 +47,7 @@ public class LightConfClientListener implements ApplicationListener<ContextRefre
         String appId = LightConfPropConf.get(Environment.APPLICATION_UUID);
         ThreadPoolUtils.getInstance().getThreadPool().submit(() -> {
             try {
-                new ClientBootstrap(host, port, appId);
+                clientBootstrap = new ClientBootstrap(host, port, appId);
             } catch (InterruptedException e) {
                 LOGGER.error(">>>>>>>>>> lightconf client start error", e);
             }
@@ -65,8 +67,15 @@ public class LightConfClientListener implements ApplicationListener<ContextRefre
 
     @Override
     public void destroy() {
+        // 关闭 netty 客户端连接与 EventLoopGroup
+        if (clientBootstrap != null) {
+            clientBootstrap.shutdown();
+        }
+        // 停止本地缓存持久化定时器
         if (syncTimer != null) {
             syncTimer.shutdownNow();
         }
+        // 关闭全局线程池
+        ThreadPoolUtils.getInstance().shutdown();
     }
 }

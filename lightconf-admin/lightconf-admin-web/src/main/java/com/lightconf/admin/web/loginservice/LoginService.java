@@ -1,8 +1,8 @@
 package com.lightconf.admin.web.loginservice;
 
 import com.lightconf.admin.service.UserService;
-import com.lightconf.admin.web.util.CacheUtils;
 import com.lightconf.admin.web.util.CookieUtil;
+import com.lightconf.admin.web.util.SessionStore;
 import com.lightconf.common.model.Messages;
 import com.lightconf.common.util.LightConfResult;
 import org.apache.commons.lang3.StringUtils;
@@ -25,13 +25,16 @@ public class LoginService {
     @Autowired
     UserService userService;
 
+    @Autowired
+    private SessionStore sessionStore;
+
     public boolean login(HttpServletResponse response, String usernameParam, String passwordParam, boolean ifRemember) {
 
         LightConfResult result = userService.userLogin(usernameParam, passwordParam);
 
         if (result.getCode() == Messages.SUCCESS_CODE) {
             // 生成随机 token 作为登录凭证
-            String paramToken = CacheUtils.createToken();
+            String paramToken = sessionStore.createToken();
             CookieUtil.set(response, LOGIN_IDENTITY_KEY, paramToken, ifRemember);
             return true;
         }
@@ -41,14 +44,14 @@ public class LoginService {
     public void logout(HttpServletRequest request, HttpServletResponse response) {
         String token = CookieUtil.getValue(request, LOGIN_IDENTITY_KEY);
         if (StringUtils.isNotBlank(token)) {
-            CacheUtils.remove(token);
+            sessionStore.remove(token);
         }
         CookieUtil.remove(request, response, LOGIN_IDENTITY_KEY);
     }
 
     public boolean ifLogin(HttpServletRequest request) {
         String paramToken = CookieUtil.getValue(request, LOGIN_IDENTITY_KEY);
-        return StringUtils.isNotBlank(paramToken) && CacheUtils.isValid(paramToken);
+        return StringUtils.isNotBlank(paramToken) && sessionStore.isValid(paramToken);
     }
 
 }

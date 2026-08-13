@@ -1,7 +1,6 @@
 /*
-SQLyog Ultimate v10.00 Beta1
-MySQL - 5.6.17 : Database - light-conf
-*********************************************************************
+LIGHTCONF - MySQL 初始化脚本
+MySQL - 5.6.17+
 */
 
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`light-conf` /*!40100 DEFAULT CHARACTER SET utf8 */;
@@ -20,14 +19,17 @@ CREATE TABLE `light_conf_app` (
   `private_key` longtext,
   `public_key` longtext,
   `is_connected` tinyint(1) DEFAULT '0',
+  `is_change` tinyint(1) DEFAULT '0' COMMENT '配置是否更新过',
+  `is_push_conf` tinyint(1) DEFAULT '0' COMMENT '配置是否上传',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 /*Data for the table `light_conf_app` */
 
-insert  into `light_conf_app`(`id`,`uuid`,`app_name`,`app_desc`,`private_key`,`public_key`,`is_connected`) values (10,'b3144bcc-491f-464b-a862-08640cdd0d76','test3','测试应用add',NULL,NULL,0),(11,'8d9eb3aa-e80a-4b81-b219-e41296964422','test4','测试应用add',NULL,NULL,0),(14,'7ad410af-1106-420d-b893-9b38ec1801af','test','哈哈',NULL,NULL,0),(15,'8705d6c8-bbe0-420c-9853-f780de4cb5ea','testSample','测试sample',NULL,NULL,0);
+insert  into `light_conf_app`(`id`,`uuid`,`app_name`,`app_desc`,`private_key`,`public_key`,`is_connected`,`is_change`,`is_push_conf`) values (10,'b3144bcc-491f-464b-a862-08640cdd0d76','test3','测试应用add',NULL,NULL,0,0,0),(11,'8d9eb3aa-e80a-4b81-b219-e41296964422','test4','测试应用add',NULL,NULL,0,0,0),(14,'7ad410af-1106-420d-b893-9b38ec1801af','test','哈哈',NULL,NULL,0,0,0),(15,'8705d6c8-bbe0-420c-9853-f780de4cb5ea','testSample','测试sample',NULL,NULL,0,0,0);
 
 /*Table structure for table `light_conf_app_conf` */
+/* 历史兼容：app 与 conf 的关联表（v0.2.0 起 conf 表自带 app_id，不再写入该表） */
 
 DROP TABLE IF EXISTS `light_conf_app_conf`;
 
@@ -43,32 +45,41 @@ CREATE TABLE `light_conf_app_conf` (
 insert  into `light_conf_app_conf`(`id`,`app_id`,`conf_id`) values (2,'10','2'),(3,'10','3'),(5,'11','5'),(13,'15','13'),(14,'15','14'),(19,'15','19'),(26,'15','26');
 
 /*Table structure for table `light_conf_conf` */
+/* v0.2.0 起：conf 按 (app_id, conf_key) 维度唯一，不同应用可拥有同名 key */
 
 DROP TABLE IF EXISTS `light_conf_conf`;
 
 CREATE TABLE `light_conf_conf` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `app_id` int(11) DEFAULT NULL COMMENT '所属应用id',
   `conf_key` varchar(255) DEFAULT NULL,
   `conf_value` varchar(255) DEFAULT NULL,
   `conf_desc` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_app_conf_key` (`app_id`,`conf_key`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 /*Data for the table `light_conf_conf` */
 
-insert  into `light_conf_conf`(`id`,`conf_key`,`conf_value`,`conf_desc`) values (2,'dbsize','1234','测试'),(3,'key1','1234','test'),(5,'dbsize','890','890'),(13,'default.key01','请问而退','测试'),(14,'key1','去玩儿体育欧派','测试'),(19,'key02','sdfgjkl12345','测试'),(26,'key01','微软微软','234');
+insert  into `light_conf_conf`(`id`,`app_id`,`conf_key`,`conf_value`,`conf_desc`) values (2,10,'dbsize','1234','测试'),(3,10,'key1','1234','test'),(5,11,'dbsize','890','890'),(13,15,'default.key01','请问而退','测试'),(14,15,'key1','去玩儿体育欧派','测试'),(19,15,'key02','sdfgjkl12345','测试'),(26,15,'key01','微软微软','234');
 
 /*light-conf v0.1.x end */
 
 /*light-conf v0.2.0 start */
+
+DROP TABLE IF EXISTS `light_conf_user`;
+
 CREATE TABLE `light_conf_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(100) NOT NULL COMMENT '账号',
   `password` varchar(100) NOT NULL COMMENT '密码',
   `permission` tinyint(4) NOT NULL DEFAULT '0' COMMENT '权限：0-普通用户、1-管理员',
   `permission_projects` varchar(1000) DEFAULT NULL COMMENT '权限项目列表，多个逗号分隔',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_user_name` (`user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `light_conf_log`;
 
 CREATE TABLE `light_conf_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -80,6 +91,8 @@ CREATE TABLE `light_conf_log` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `light_conf_conf_log`;
+
 CREATE TABLE `light_conf_conf_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `log_id` int(11) DEFAULT NULL COMMENT 'log表的id',
@@ -87,7 +100,4 @@ CREATE TABLE `light_conf_conf_log` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
-ALTER TABLE `light_conf_user` ADD UNIQUE(`user_name`);
-
-ADD COLUMN `is_change` TINYINT(1) DEFAULT 0  NULL  COMMENT '配置是否更新过',
-ADD COLUMN `is_push_conf` TINYINT(1) DEFAULT 0  NULL  COMMENT '配置是否上传';
+/*light-conf v0.2.0 end */

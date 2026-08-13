@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.lightconf.admin.model.dataobj.User;
 import com.lightconf.admin.service.UserService;
 import com.lightconf.admin.web.controller.annotation.PermissionLimit;
-import com.lightconf.common.model.Messages;
 import com.lightconf.common.util.LightConfResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,15 +31,10 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping("/login")
     public LightConfResult login(String account, String password) {
-        try {
-            LOGGER.info("user login,userName is : {}", account);
-            LightConfResult result = userService.userLogin(account, password);
-            LOGGER.info("method login return value is : {}", result.toString());
-            return result;
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            return LightConfResult.build(Messages.SERVER_ERROR_CODE, Messages.SERVER_ERROR_MSG);
-        }
+        LOGGER.info("user login,userName is : {}", account);
+        LightConfResult result = userService.userLogin(account, password);
+        LOGGER.info("method login return value is : {}", result.toString());
+        return result;
     }
 
     @RequestMapping("")
@@ -59,13 +53,8 @@ public class UserController extends BaseController {
     @PermissionLimit()
     @ResponseBody
     public LightConfResult addUser(User confUser) {
-        try {
-            LOGGER.info(">>>>>> params is :{}", JSON.toJSONString(confUser));
-            return userService.addUser(confUser);
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            return LightConfResult.build(Messages.API_ERROR_CODE, Messages.API_ERROR_MSG);
-        }
+        LOGGER.info(">>>>>> params is :{}", JSON.toJSONString(confUser));
+        return userService.addUser(confUser);
     }
 
     /**
@@ -77,13 +66,8 @@ public class UserController extends BaseController {
     @PermissionLimit()
     @ResponseBody
     public LightConfResult deleteUser(HttpServletRequest request, String username) {
-        try {
-            LOGGER.info(">>>>>> params is :{}", username);
-            return userService.deleteUser(username);
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            return LightConfResult.build(Messages.API_ERROR_CODE, Messages.API_ERROR_MSG);
-        }
+        LOGGER.info(">>>>>> params is :{}", username);
+        return userService.deleteUser(username);
     }
 
     /**
@@ -95,12 +79,7 @@ public class UserController extends BaseController {
     @PermissionLimit()
     @ResponseBody
     public LightConfResult update(HttpServletRequest request, User confUser) {
-        try {
-            LOGGER.info(">>>>>> params is :{}", JSON.toJSONString(confUser));
-            return userService.updateUser(confUser);
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            return LightConfResult.build(Messages.API_ERROR_CODE, Messages.API_ERROR_MSG);
-        }
+        LOGGER.info(">>>>>> params is :{}", JSON.toJSONString(confUser));
+        return userService.updateUser(confUser);
     }
 }

@@ -53,15 +53,14 @@ public class ConfServiceImpl implements ConfService {
         App app = appMapper.selectByPrimaryKey(Integer.valueOf(appId));
         if (null != app) {
 
-            Conf dbConf = getConfByKey(conf.getConfKey());
+            // 按 (app_id, conf_key) 维度查重，不同应用可拥有同名 key
+            Conf dbConf = getConfByAppAndKey(app.getId(), conf.getConfKey());
             if (dbConf != null) {
                 return LightConfResult.build(Messages.CONF_ALREADY_EXISTS_CODE, Messages.CONF_ALREADY_EXISTS_MSG);
             }
+
+            conf.setAppId(app.getId());
             confMapper.insert(conf);
-            AppConf appConf = new AppConf();
-            appConf.setAppId(String.valueOf(app.getId()));
-            appConf.setConfId(String.valueOf(conf.getId()));
-            appConfMapper.insert(appConf);
 
             // 若应用与admin连接，则更新配置到客户端.
             if (app.getIsConnected()) {
@@ -75,9 +74,14 @@ public class ConfServiceImpl implements ConfService {
         }
     }
 
-    private Conf getConfByKey(String confKey) {
+    /**
+     * 按 (app_id, conf_key) 查询配置。
+     */
+    private Conf getConfByAppAndKey(Integer appId, String confKey) {
         ConfExample confExample = new ConfExample();
-        confExample.createCriteria().andConfKeyEqualTo(confKey);
+        confExample.createCriteria()
+                .andAppIdEqualTo(appId)
+                .andConfKeyEqualTo(confKey);
         List<Conf> confList = confMapper.selectByExample(confExample);
         if (confList != null && confList.size() > 0) {
             return confList.get(0);
@@ -88,13 +92,22 @@ public class ConfServiceImpl implements ConfService {
     @Override
     public LightConfResult update(Conf conf, String appId) {
 
-        if (StringUtils.isBlank(appId)) {
-            LOGGER.error("appUuid is not allow be null");
+        if (StringUtils.isBlank(appId) || conf == null || conf.getId() == null) {
+            LOGGER.error("appUuid or conf id is not allow be null");
             return LightConfResult.build(Messages.MISSING_INPUT_CODE, Messages.MISSING_INPUT_MSG);
         }
 
         App app = appMapper.selectByPrimaryKey(Integer.valueOf(appId));
         if (null != app) {
+            // 校验该配置确属当前应用，防止跨应用更新
+            Conf dbConf = confMapper.selectByPrimaryKey(conf.getId());
+            if (dbConf == null || !app.getId().equals(dbConf.getAppId())) {
+                LOGGER.error(">>>>>> conf not found or not belong to app, confId : {}, appId : {}",
+                        conf.getId(), appId);
+                return LightConfResult.build(Messages.MISSING_INPUT_CODE, Messages.MISSING_INPUT_MSG);
+            }
+
+            conf.setAppId(app.getId());
             confMapper.updateByPrimaryKeySelective(conf);
 
             // 下发配置到应用
@@ -127,8 +140,8 @@ public class ConfServiceImpl implements ConfService {
 
     @Override
     public LightConfResult deleteById(String confId, String appId) {
-        if (StringUtils.isBlank(confId)) {
-            LOGGER.error("confId is not allow be null");
+        if (StringUtils.isBlank(confId) || StringUtils.isBlank(appId)) {
+            LOGGER.error("confId or appId is not allow be null");
             return LightConfResult.build(Messages.MISSING_INPUT_CODE, Messages.MISSING_INPUT_MSG);
         }
 
@@ -139,11 +152,15 @@ public class ConfServiceImpl implements ConfService {
 
             // 获取要删除的配置信息.
             Conf conf = confMapper.selectByPrimaryKey(id);
+            if (conf == null || !app.getId().equals(conf.getAppId())) {
+                LOGGER.error(">>>>>> conf not found or not belong to app, confId : {}, appId : {}", confId, appId);
+                return LightConfResult.build(Messages.MISSING_INPUT_CODE, Messages.MISSING_INPUT_MSG);
+            }
 
             // 删除配置信息。
             confMapper.deleteByPrimaryKey(id);
 
-            // 删除关系表数据。
+            // 清理历史关系表数据（新数据不再写入该表）。
             AppConfExample appConfExample = new AppConfExample();
             appConfExample.createCriteria().andConfIdEqualTo(confId);
             appConfMapper.deleteByExample(appConfExample);

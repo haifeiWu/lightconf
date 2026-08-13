@@ -31,4 +31,13 @@ public class ThreadPoolUtils {
         return executorService;
     }
 
+    /**
+     * 优雅关闭全局线程池（幂等）。应用退出时应调用以释放线程资源。
+     */
+    public synchronized void shutdown() {
+        if (executorService != null && !executorService.isShutdown()) {
+            executorService.shutdown();
+        }
+    }
+
 }

@@ -90,6 +90,15 @@ http://www.whforever.cn/lightconf-admin-web/ | http://www.whforever.cn/lightconf
     
     # 服务端启动监听端口
     netty.server.port=9998
+    
+    # 登录会话存储（可选）：默认内存实现，多实例水平扩展时取消注释并配置 Redis
+    # light.conf.session.store=redis
+    # spring.redis.host=${REDIS_HOST:localhost}
+    # spring.redis.port=${REDIS_PORT:6379}
+    # spring.redis.password=${REDIS_PASSWORD:}
+
+配置维度说明：v0.2.0 起配置以 (app_id, conf_key) 为维度唯一，不同应用可拥有同名配置 key。
+存量库升级请执行：doc/db/upgrade-v0.2.0-app-dimension.sql
 
 ### 2.4 “接入LIGHTCONF的示例项目” 项目配置
 

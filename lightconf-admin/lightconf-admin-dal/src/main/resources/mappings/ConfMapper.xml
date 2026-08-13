@@ -3,6 +3,7 @@
 <mapper namespace="com.lightconf.admin.dal.dao.ConfMapper">
     <resultMap id="BaseResultMap" type="com.lightconf.admin.model.dataobj.Conf">
         <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="app_id" jdbcType="INTEGER" property="appId"/>
         <result column="conf_key" jdbcType="VARCHAR" property="confKey"/>
         <result column="conf_value" jdbcType="VARCHAR" property="confValue"/>
         <result column="conf_desc" jdbcType="VARCHAR" property="confDesc"/>
@@ -68,7 +69,7 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-    id, conf_key, conf_value, conf_desc
+    id, app_id, conf_key, conf_value, conf_desc
   </sql>
     <select id="selectByExample" parameterType="com.lightconf.admin.model.dataobj.ConfExample"
             resultMap="BaseResultMap">
@@ -108,9 +109,9 @@
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into light_conf_conf (conf_key, conf_value, conf_desc
+        insert into light_conf_conf (app_id, conf_key, conf_value, conf_desc
         )
-        values (#{confKey,jdbcType=VARCHAR}, #{confValue,jdbcType=VARCHAR}, #{confDesc,jdbcType=VARCHAR}
+        values (#{appId,jdbcType=INTEGER}, #{confKey,jdbcType=VARCHAR}, #{confValue,jdbcType=VARCHAR}, #{confDesc,jdbcType=VARCHAR}
         )
     </insert>
     <insert id="insertSelective" parameterType="com.lightconf.admin.model.dataobj.Conf">
@@ -119,6 +120,9 @@
         </selectKey>
         insert into light_conf_conf
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="appId != null">
+                app_id,
+            </if>
             <if test="confKey != null">
                 conf_key,
             </if>
@@ -130,6 +134,9 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="appId != null">
+                #{appId,jdbcType=INTEGER},
+            </if>
             <if test="confKey != null">
                 #{confKey,jdbcType=VARCHAR},
             </if>
@@ -154,6 +161,9 @@
             <if test="record.id != null">
                 id = #{record.id,jdbcType=INTEGER},
             </if>
+            <if test="record.appId != null">
+                app_id = #{record.appId,jdbcType=INTEGER},
+            </if>
             <if test="record.confKey != null">
                 conf_key = #{record.confKey,jdbcType=VARCHAR},
             </if>
@@ -171,6 +181,7 @@
     <update id="updateByExample" parameterType="map">
         update light_conf_conf
         set id = #{record.id,jdbcType=INTEGER},
+        app_id = #{record.appId,jdbcType=INTEGER},
         conf_key = #{record.confKey,jdbcType=VARCHAR},
         conf_value = #{record.confValue,jdbcType=VARCHAR},
         conf_desc = #{record.confDesc,jdbcType=VARCHAR}
@@ -181,6 +192,9 @@
     <update id="updateByPrimaryKeySelective" parameterType="com.lightconf.admin.model.dataobj.Conf">
         update light_conf_conf
         <set>
+            <if test="appId != null">
+                app_id = #{appId,jdbcType=INTEGER},
+            </if>
             <if test="confKey != null">
                 conf_key = #{confKey,jdbcType=VARCHAR},
             </if>
@@ -195,7 +209,8 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.lightconf.admin.model.dataobj.Conf">
     update light_conf_conf
-    set conf_key = #{confKey,jdbcType=VARCHAR},
+    set app_id = #{appId,jdbcType=INTEGER},
+      conf_key = #{confKey,jdbcType=VARCHAR},
       conf_value = #{confValue,jdbcType=VARCHAR},
       conf_desc = #{confDesc,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

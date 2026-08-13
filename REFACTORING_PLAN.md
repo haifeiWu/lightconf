@@ -169,9 +169,30 @@
 - 新增测试：`MessageCodecTest`（9 个：多态往返 + 恶意帧拒绝）、`LightConfClientTest`（3 个）；`mvn clean package` 全绿（12 tests）
 - README 更新：环境要求、配置项（环境变量注入 + secret）
 
+### ✅ 遗留项修复（2026-08-13 第二批）
+
+**1. conf 增加 app 维度 —— (app_id, conf_key) 唯一 ✓**
+- `light_conf_conf` 表新增 `app_id` 列 + 唯一索引 `uk_app_conf_key(app_id, conf_key)`；不同应用可拥有同名 key
+- 数据层：`Conf`/`ConfExample` 增加 appId；`ConfMapper.xml` 全量 SQL 带 app_id；`ConfMapper2.xml` 改为按 `conf.app_id` 直接查询（移除 join 关联表）
+- 服务层：`add` 按 (app_id, conf_key) 查重；`update/deleteById` 校验配置归属当前 app，防止跨应用更新/删除；不再写入 `light_conf_app_conf` 关联表（保留表以兼容历史数据）
+- `ServerHandler` UPLOAD_CONF：配置已存在视为上传成功（幂等上传）
+- 脚本：`doc/db/light-conf-0.1.1V.sql` 重建（修复 app 表缺 is_change/is_push_conf 列、v0.2.0 段语法错误）；新增 `doc/db/upgrade-v0.2.0-app-dimension.sql` 存量升级脚本（回填 app_id → 清理重复/无归属数据 → 唯一索引）
+
+**2. 登录态多实例共享 —— 可插拔 SessionStore ✓**
+- `SessionStore` 接口 + `InMemorySessionStore`（默认，@ConditionalOnMissingBean）+ `RedisSessionStore`（`light.conf.session.store=redis` 启用，StringRedisTemplate + 2h TTL）
+- `CacheUtils` 静态类删除；`LoginService` 构造注入 SessionStore；admin-web 引入 `spring-boot-starter-data-redis`（不配置 Redis 时不影响启动）
+
+**3. 线程生命周期 ✓**
+- `ThreadPoolUtils.shutdown()`（幂等）；`ClientBootstrap.shutdown()`（停止重连 + 关闭 EventLoopGroup）；`LightConfClientListener.destroy()` 依次关闭客户端连接、同步定时器、全局线程池
+
+**4. sample-springboot 补齐 ✓**
+- 新增 `light-conf.properties`（host/port/uuid/secret）；xml bean id 清理为 `lightConf`
+
+**5. 全局异常处理器 ✓**
+- `WebExceptionResolver` 重构为 `@RestControllerAdvice`：统一返回 `LightConfResult`，内部异常细节不再泄漏给前端
+- `AppController/ConfController/UserController` 去除 try/catch 样板（约 12 处）
+
 ### ⚠️ 遗留项（需单独验证，本轮未做）
-1. **数据模型 app 维度**：`conf` 表 key 全局唯一，不同应用不能同名 key。需 schema 变更（conf 增加 app_id 或 (app_id, conf_key) 唯一约束）+ mapper/service 调整，且需数据库迁移与回归测试环境，建议作为独立迭代。
-2. **登录态多实例共享**：`CacheUtils` 仍为进程内存储，水平扩展需迁移 Redis。
-3. **`ThreadPoolUtils` 全局线程池**：进程级静态单例，多实例/优雅停机时无统一关闭；`ClientBootstrap.workGroup` 无显式 shutdown（应用退出时由 JVM 回收）。
-4. **sample-springboot 示例不完整**：缺 `light-conf.properties`，运行需自行补齐。
-5. **Web 层控制器仍用 `e.printStackTrace` 风格 try/catch 包裹**：已改为 `LOGGER.error(msg, e)`，建议后续统一为全局异常处理器精简。
+1. **运行时验证**：本机无 MySQL/Redis 环境，admin 模块的启动、DB 迁移脚本、Redis 会话切换未做集成验证（构建与单测全绿）。建议在部署环境执行 `doc/db/upgrade-v0.2.0-app-dimension.sql` 后做一次端到端冒烟。
+2. **ASK 分支遗留 demo 逻辑**：`ServerHandler` ASK 分支仍是 xxl-conf 示例（authToken 回复），未实际使用，可后续删除。
+3. **`ThreadPoolUtils` 仍为静态单例**：多实例部署下各实例独立，属正常预期；若需进程内动态管理可改为 Spring bean。

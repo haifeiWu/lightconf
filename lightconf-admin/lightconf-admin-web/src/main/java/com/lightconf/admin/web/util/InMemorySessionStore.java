@@ -1,19 +1,24 @@
 package com.lightconf.admin.web.util;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.stereotype.Component;
+
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 登录态缓存：随机 token + 过期时间。
+ * 进程内登录态存储（默认实现）。
  *
- * <p>注意：当前为进程内存储，多实例部署时各实例不共享登录态，
- * 如需水平扩展应替换为 Redis 等共享存储。</p>
+ * <p>仅单实例部署可用；多实例水平扩展时设置
+ * <code>light.conf.session.store=redis</code> 以启用 {@link RedisSessionStore}。</p>
  *
- * @author wuhaifei 2019-06-04
+ * @author whfstudio
  */
-public class CacheUtils {
+@Component
+@ConditionalOnMissingBean(SessionStore.class)
+public class InMemorySessionStore implements SessionStore {
 
     /** token -> 过期时间戳(ms) */
     private static final Map<String, Long> LOGIN_STATUS = new ConcurrentHashMap<>();
@@ -23,13 +28,8 @@ public class CacheUtils {
 
     private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
-    private CacheUtils() {
-    }
-
-    /**
-     * 创建随机登录 token。
-     */
-    public static String createToken() {
+    @Override
+    public String createToken() {
         byte[] bytes = new byte[32];
         SECURE_RANDOM.nextBytes(bytes);
         String token = new BigInteger(1, bytes).toString(16);
@@ -37,10 +37,8 @@ public class CacheUtils {
         return token;
     }
 
-    /**
-     * 校验 token 是否有效且未过期。
-     */
-    public static boolean isValid(String token) {
+    @Override
+    public boolean isValid(String token) {
         if (token == null) {
             return false;
         }
@@ -48,10 +46,8 @@ public class CacheUtils {
         return expireAt != null && expireAt > System.currentTimeMillis();
     }
 
-    /**
-     * 使 token 失效。
-     */
-    public static void remove(String token) {
+    @Override
+    public void remove(String token) {
         if (token != null) {
             LOGIN_STATUS.remove(token);
         }

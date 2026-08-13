@@ -108,7 +108,10 @@ public class ServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
                             for (Conf conf : confList) {
                                 result = confService.add(conf, String.valueOf(app.getId()));
                             }
-                            if (result != null && result.getCode() == Messages.SUCCESS_CODE) {
+                            // 配置已存在视为上传成功（幂等上传）
+                            if (result != null
+                                    && (result.getCode() == Messages.SUCCESS_CODE
+                                    || result.getCode() == Messages.CONF_ALREADY_EXISTS_CODE)) {
                                 app.setIsPushConf(true);
                                 appService.updateApp(app);
                             }

@@ -6,7 +6,7 @@
 
 
 	<!-- ********************************* 核心配置[必须]：LIGHTCONF 配置 ********************************* -->
-	<bean id="xxlConf" class="com.lightconf.core.spring.LightConfFactory" init-method="init" destroy-method="destroy" />
+	<bean id="lightConf" class="com.lightconf.core.spring.LightConfFactory" init-method="init" destroy-method="destroy" />
 
 	<!--LightConfClientListener bean-->
 	<bean id="lightConfListener" class="com.lightconf.core.listener.LightConfClientListener"></bean>

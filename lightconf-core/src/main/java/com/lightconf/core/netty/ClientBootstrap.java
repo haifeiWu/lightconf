@@ -28,6 +28,7 @@ public class ClientBootstrap {
     private Bootstrap bootstrap;
     private NioEventLoopGroup workGroup = new NioEventLoopGroup(4);
     private int reConnect = 0;
+    private volatile boolean closed = false;
 
     static {
         //使用 connector name 作为客户端唯一标识
@@ -61,6 +62,10 @@ public class ClientBootstrap {
      * @throws InterruptedException InterruptedException.
      */
     public void doConnect(int port, String host ,String applicationUuid) {
+
+        if (closed) {
+            return;
+        }
 
         if (socketChannel != null && socketChannel.isActive()) {
             return;
@@ -110,6 +115,19 @@ public class ClientBootstrap {
             socketChannel.writeAndFlush(loginMsg);
         } catch (Exception e) {
             logger.error("lightconf client login error", e);
+        }
+    }
+
+    /**
+     * 关闭客户端：停止重连并释放 EventLoopGroup 线程资源（幂等）。
+     */
+    public void shutdown() {
+        closed = true;
+        if (socketChannel != null) {
+            socketChannel.close();
+        }
+        if (workGroup != null && !workGroup.isShutdown()) {
+            workGroup.shutdownGracefully();
         }
     }
 
