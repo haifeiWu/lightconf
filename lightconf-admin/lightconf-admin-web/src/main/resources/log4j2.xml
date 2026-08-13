@@ -2,8 +2,8 @@
 <configuration status="WARN">
     <!--变量配置-->
     <Properties>
-        <!-- 定义日志存储的路径，不要配置相对路径 -->
-        <property name="FILE_PATH" value="${sys:logDir}"/>
+        <!-- 定义日志存储的路径，不要配置相对路径；未指定 -DlogDir 时默认 /tmp/lightconf-logs -->
+        <property name="FILE_PATH" value="${sys:logDir:-/tmp/lightconf-logs}"/>
     </Properties>
     <appenders>
         <Console name="Console" target="SYSTEM_OUT">

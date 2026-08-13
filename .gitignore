@@ -36,3 +36,4 @@ nbdist/
 ###
 
 **/resources/application.properties
+**/light-conf-cache.properties

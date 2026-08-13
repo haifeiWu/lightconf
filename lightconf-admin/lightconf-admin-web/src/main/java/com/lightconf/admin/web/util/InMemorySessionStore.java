@@ -1,6 +1,6 @@
 package com.lightconf.admin.web.util;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author whfstudio
  */
 @Component
-@ConditionalOnMissingBean(SessionStore.class)
+@ConditionalOnProperty(prefix = "light.conf.session", name = "store", havingValue = "memory", matchIfMissing = true)
 public class InMemorySessionStore implements SessionStore {
 
     /** token -> 过期时间戳(ms) */

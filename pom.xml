@@ -33,7 +33,7 @@
 		<jackson.version>2.9.3</jackson.version>
 		<aspectjweaver.version>1.8.13</aspectjweaver.version>
 		<slf4j-api.version>1.7.25</slf4j-api.version>
-		<freemarker.version>2.3.23</freemarker.version>
+		<freemarker.version>2.3.32</freemarker.version>
 		<junit.version>4.12</junit.version>
 		<commons-collections4.version>4.1</commons-collections4.version>
 		<commons-lang3.version>3.7</commons-lang3.version>

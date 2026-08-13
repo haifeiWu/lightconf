@@ -31,7 +31,7 @@ public class IndexController {
 		});
 	}
 
-	@RequestMapping("")
+	@RequestMapping("/")
 	public String index(Model model){
 
         /**

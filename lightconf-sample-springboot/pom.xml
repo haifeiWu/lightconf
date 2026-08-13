@@ -9,6 +9,15 @@
 	<artifactId>lightconf-sample-springboot</artifactId>
 	<packaging>war</packaging>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
 	<dependencies>
 		<!-- springframe start -->
         <dependency>
